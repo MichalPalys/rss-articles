@@ -58,6 +58,9 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
     {
         // Create the logger
         $logger = new Logger('my_logger');
+        // Now add some handlers
+        $logger->pushHandler(new StreamHandler(__DIR__.'/my_app.log', Logger::DEBUG));
+        $logger->pushHandler(new FirePHPHandler());
 
         $rssLinkArray = [
             'http://www.rmf24.pl/sport/feed',
