@@ -136,6 +136,9 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
                 // actually executes the queries (i.e. the INSERT query)
                 $entityManager->flush();
 
+                // logowanie zakończenia skryptu
+                $logger->info('Rozpoczęcie skryptu sprawdzania linków RSS');
+
             } catch (PicoFeedException $e) {
                 echo "it should not happen";
             }
