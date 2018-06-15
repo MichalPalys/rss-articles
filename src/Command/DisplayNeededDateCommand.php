@@ -137,7 +137,7 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
                 $entityManager->flush();
 
                 // logowanie zakończenia skryptu
-                $logger->info('Rozpoczęcie skryptu sprawdzania linków RSS');
+                $logger->info('Zańczenie skryptu sprawdzania linków RSS');
 
             } catch (PicoFeedException $e) {
                 echo "it should not happen";
