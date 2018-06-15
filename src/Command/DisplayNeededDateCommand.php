@@ -119,6 +119,9 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
                         $article = new Article();
 
+                        //logowanie dodania pojedyńczego artykułu
+                        $logger->info('Dodanie pojedyńczego artykułu o id: ' . $feed->items[$key]->getId());
+
                         $article->setExternalId($feed->items[$key]->getId());
                         $article->setTitle($feed->items[$key]->getTitle());
                         $article->setPubDate($feed->items[$key]->getPublishedDate());
