@@ -23,6 +23,9 @@ use PicoFeed\Reader\Reader;
 use PicoFeed\PicoFeedException;
 use App\Entity\Article;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\FirePHPHandler;
 
 class DisplayNeededDateCommand extends ContainerAwareCommand
 {
@@ -43,7 +46,6 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        //$rssmodel = new RssModel();
         $output->writeln($this->printRss());
     }
 
@@ -54,27 +56,42 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
     public function printRss()
     {
-        try {
+        // Create the logger
+        $logger = new Logger('my_logger');
+        // Now add some handlers
+        $logger->pushHandler(new StreamHandler(__DIR__.'/my_app.log', Logger::DEBUG));
+        $logger->pushHandler(new FirePHPHandler());
 
-            $reader = new Reader;
+        // You can now use your logger
+        $logger->info('Rozpoczęcie skryptu sprawdzania linków RSS');
 
-            // Return a resource
-            $resource = $reader->download('http://www.rmf24.pl/sport/feed');
+        $rssLinkArray = [
+            'http://www.rmf24.pl/sport/feed',
+            'http://www.komputerswiat.pl/rss-feeds/komputer-swiat-feed.aspx',
+            'http://xmoon.pl/rss/rss.xml',
+        ];
 
-            // Return the right parser instance according to the feed format
-            $parser = $reader->getParser(
-                $resource->getUrl(),
-                $resource->getContent(),
-                $resource->getEncoding()
-            );
+        foreach ($rssLinkArray as $rssLinkArrayValue) {
 
-            // Return a Feed object
-            $feed = $parser->execute();
+            try {
 
-            // Print the feed properties with the magic method __toString()
-            //$numberOfItems = count($feed->items);
+                $reader = new Reader;
 
-            $entityManager = $this->getContainer()->get('doctrine')->getEntityManager();
+                // Return a resource
+                $resource = $reader->download($rssLinkArrayValue);
+
+                // Return the right parser instance according to the feed format
+                $parser = $reader->getParser(
+                    $resource->getUrl(),
+                    $resource->getContent(),
+                    $resource->getEncoding()
+                );
+
+                // Return a Feed object
+                $feed = $parser->execute();
+
+
+                $entityManager = $this->getContainer()->get('doctrine')->getEntityManager();
 
 //            foreach ($feed->items as $key=>$val) {
 //
@@ -93,32 +110,38 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 //            echo var_dump($etag) . "\n";
 //            echo var_dump($last_modified) . "\n";
 
-            foreach ($feed->items as $key=>$val) {
+                foreach ($feed->items as $key => $val) {
 
-                $externalId = $feed->items[$key]->getId();
-                $itemArticleFlag = $this->getContainer()->get('doctrine')->getRepository(Article::class)->findOneBy(['externalId' => $externalId]);
+                    $externalId = $feed->items[$key]->getId();
+                    $itemArticleFlag = $this->getContainer()->get('doctrine')->getRepository(Article::class)->findOneBy(['externalId' => $externalId]);
 
-                if(!$itemArticleFlag) {
+                    if (!$itemArticleFlag) {
 
-                    $article = new Article();
+                        $article = new Article();
 
-                    $article->setExternalId($feed->items[$key]->getId());
-                    $article->setTitle($feed->items[$key]->getTitle());
-                    $article->setPubDate($feed->items[$key]->getPublishedDate());
-                    $article->setInsertDate($feed->items[$key]->getUpdatedDate());
-                    $article->setContent($feed->items[$key]->getContent());
+                        //logowanie dodania pojedyńczego artykułu
+                        $logger->info('Dodanie pojedyńczego artykułu o id: ' . $feed->items[$key]->getId());
 
-                    // tell Doctrine you want to (eventually) save the $article (no queries yet)
-                    $entityManager->persist($article);
+                        $article->setExternalId($feed->items[$key]->getId());
+                        $article->setTitle($feed->items[$key]->getTitle());
+                        $article->setPubDate($feed->items[$key]->getPublishedDate());
+                        $article->setInsertDate($feed->items[$key]->getUpdatedDate());
+                        $article->setContent($feed->items[$key]->getContent());
+
+                        // tell Doctrine you want to (eventually) save the $article (no queries yet)
+                        $entityManager->persist($article);
+                    }
                 }
+
+                // actually executes the queries (i.e. the INSERT query)
+                $entityManager->flush();
+
+                // logowanie zakończenia skryptu
+                $logger->info('Zańczenie skryptu sprawdzania linków RSS');
+
+            } catch (PicoFeedException $e) {
+                echo "it should not happen";
             }
-
-            // actually executes the queries (i.e. the INSERT query)
-              $entityManager->flush();
-
-        }
-        catch (PicoFeedException $e) {
-            echo "it should not happen";
         }
     }
 }
