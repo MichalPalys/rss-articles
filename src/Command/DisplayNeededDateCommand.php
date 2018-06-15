@@ -23,6 +23,9 @@ use PicoFeed\Reader\Reader;
 use PicoFeed\PicoFeedException;
 use App\Entity\Article;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\FirePHPHandler;
 
 class DisplayNeededDateCommand extends ContainerAwareCommand
 {
@@ -53,6 +56,9 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
     public function printRss()
     {
+        // Create the logger
+        $logger = new Logger('my_logger');
+
         $rssLinkArray = [
             'http://www.rmf24.pl/sport/feed',
             'http://www.komputerswiat.pl/rss-feeds/komputer-swiat-feed.aspx',
