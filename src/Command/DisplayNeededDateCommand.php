@@ -63,7 +63,7 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
         $logger->pushHandler(new FirePHPHandler());
 
         // You can now use your logger
-        $logger->info('My logger is now ready');
+        $logger->info('Rozpoczęcie skryptu sprawdzania linków RSS');
 
         $rssLinkArray = [
             'http://www.rmf24.pl/sport/feed',
