@@ -43,7 +43,6 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        //$rssmodel = new RssModel();
         $output->writeln($this->printRss());
     }
 
@@ -79,8 +78,6 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
                 // Return a Feed object
                 $feed = $parser->execute();
 
-                // Print the feed properties with the magic method __toString()
-                //$numberOfItems = count($feed->items);
 
                 $entityManager = $this->getContainer()->get('doctrine')->getEntityManager();
 
