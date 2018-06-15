@@ -88,10 +88,10 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 //            }
 
 
-            $etag = $resource->getEtag();
-            $last_modified = $resource->getLastModified();
-            echo var_dump($etag) . "\n";
-            echo var_dump($last_modified) . "\n";
+//            $etag = $resource->getEtag();
+//            $last_modified = $resource->getLastModified();
+//            echo var_dump($etag) . "\n";
+//            echo var_dump($last_modified) . "\n";
 
             foreach ($feed->items as $key=>$val) {
 
