@@ -54,27 +54,35 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
     public function printRss()
     {
-        try {
+        $rssLinkArray = [
+            'http://www.rmf24.pl/sport/feed',
+            'http://www.komputerswiat.pl/rss-feeds/komputer-swiat-feed.aspx',
+            'http://xmoon.pl/rss/rss.xml',
+        ];
 
-            $reader = new Reader;
+        foreach ($rssLinkArray as $rssLinkArrayValue) {
 
-            // Return a resource
-            $resource = $reader->download('http://www.rmf24.pl/sport/feed');
+            try {
 
-            // Return the right parser instance according to the feed format
-            $parser = $reader->getParser(
-                $resource->getUrl(),
-                $resource->getContent(),
-                $resource->getEncoding()
-            );
+                $reader = new Reader;
 
-            // Return a Feed object
-            $feed = $parser->execute();
+                // Return a resource
+                $resource = $reader->download($rssLinkArrayValue);
 
-            // Print the feed properties with the magic method __toString()
-            //$numberOfItems = count($feed->items);
+                // Return the right parser instance according to the feed format
+                $parser = $reader->getParser(
+                    $resource->getUrl(),
+                    $resource->getContent(),
+                    $resource->getEncoding()
+                );
 
-            $entityManager = $this->getContainer()->get('doctrine')->getEntityManager();
+                // Return a Feed object
+                $feed = $parser->execute();
+
+                // Print the feed properties with the magic method __toString()
+                //$numberOfItems = count($feed->items);
+
+                $entityManager = $this->getContainer()->get('doctrine')->getEntityManager();
 
 //            foreach ($feed->items as $key=>$val) {
 //
@@ -93,32 +101,32 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 //            echo var_dump($etag) . "\n";
 //            echo var_dump($last_modified) . "\n";
 
-            foreach ($feed->items as $key=>$val) {
+                foreach ($feed->items as $key => $val) {
 
-                $externalId = $feed->items[$key]->getId();
-                $itemArticleFlag = $this->getContainer()->get('doctrine')->getRepository(Article::class)->findOneBy(['externalId' => $externalId]);
+                    $externalId = $feed->items[$key]->getId();
+                    $itemArticleFlag = $this->getContainer()->get('doctrine')->getRepository(Article::class)->findOneBy(['externalId' => $externalId]);
 
-                if(!$itemArticleFlag) {
+                    if (!$itemArticleFlag) {
 
-                    $article = new Article();
+                        $article = new Article();
 
-                    $article->setExternalId($feed->items[$key]->getId());
-                    $article->setTitle($feed->items[$key]->getTitle());
-                    $article->setPubDate($feed->items[$key]->getPublishedDate());
-                    $article->setInsertDate($feed->items[$key]->getUpdatedDate());
-                    $article->setContent($feed->items[$key]->getContent());
+                        $article->setExternalId($feed->items[$key]->getId());
+                        $article->setTitle($feed->items[$key]->getTitle());
+                        $article->setPubDate($feed->items[$key]->getPublishedDate());
+                        $article->setInsertDate($feed->items[$key]->getUpdatedDate());
+                        $article->setContent($feed->items[$key]->getContent());
 
-                    // tell Doctrine you want to (eventually) save the $article (no queries yet)
-                    $entityManager->persist($article);
+                        // tell Doctrine you want to (eventually) save the $article (no queries yet)
+                        $entityManager->persist($article);
+                    }
                 }
+
+                // actually executes the queries (i.e. the INSERT query)
+                $entityManager->flush();
+
+            } catch (PicoFeedException $e) {
+                echo "it should not happen";
             }
-
-            // actually executes the queries (i.e. the INSERT query)
-              $entityManager->flush();
-
-        }
-        catch (PicoFeedException $e) {
-            echo "it should not happen";
         }
     }
 }
