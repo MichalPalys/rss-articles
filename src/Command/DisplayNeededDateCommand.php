@@ -66,7 +66,7 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
         $logger->info('Rozpoczęcie skryptu sprawdzania linków RSS');
 
         $rssLinkArray = [
-            'http://www.rmf24.pl/sport/feed',
+            'http://www.rmf24.pl/sport/fee',
             'http://www.komputerswiat.pl/rss-feeds/komputer-swiat-feed.aspx',
             'http://xmoon.pl/rss/rss.xml',
         ];
@@ -138,7 +138,7 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
 
             } catch (PicoFeedException $e) {
-                echo "it should not happen";
+                echo $e->getMessage();
             }
         }
 
