@@ -20,10 +20,11 @@ namespace App\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PicoFeed\Reader\Reader;
-use PicoFeed\PicoFeedException;
+//use PicoFeed\PicoFeedException;
 use App\Entity\Article;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Psr\Log\LoggerInterface;
+use PicoFeed\Client\ClientException;
 
 class DisplayNeededDateCommand extends ContainerAwareCommand
 {
@@ -141,8 +142,9 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
                 $entityManager->flush();
 
 
-            } catch (PicoFeedException $e) {
-                echo $e->getMessage();
+            } catch (ClientException $e) {
+                //echo $e->getMessage();
+                $this->logger->info($e->getMessage() . $e->getCode());
             }
         }
 
