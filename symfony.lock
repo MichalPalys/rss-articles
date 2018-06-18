@@ -62,9 +62,6 @@
     "miniflux/picofeed": {
         "version": "v0.1.37"
     },
-    "monolog/monolog": {
-        "version": "1.23.0"
-    },
     "nikic/php-parser": {
         "version": "v4.0.2"
     },
