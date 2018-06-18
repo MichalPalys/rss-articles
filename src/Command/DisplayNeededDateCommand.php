@@ -20,15 +20,21 @@ namespace App\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PicoFeed\Reader\Reader;
-use PicoFeed\PicoFeedException;
+//use PicoFeed\PicoFeedException;
 use App\Entity\Article;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-use Monolog\Handler\FirePHPHandler;
+use Psr\Log\LoggerInterface;
+use PicoFeed\Client\ClientException;
 
 class DisplayNeededDateCommand extends ContainerAwareCommand
 {
+    private $logger;
+
+    public function __construct(LoggerInterface $logger) {
+        parent::__construct();
+        $this->logger = $logger;
+    }
+
     protected function configure()
     {
         $this
@@ -56,14 +62,12 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
     public function printRss()
     {
-        // Create the logger
-        $logger = new Logger('my_logger');
-        // Now add some handlers
-        $logger->pushHandler(new StreamHandler(__DIR__.'/my_app.log', Logger::DEBUG));
-        $logger->pushHandler(new FirePHPHandler());
+
+        //Create the logger
+
 
         // You can now use your logger
-        $logger->info('Rozpoczęcie skryptu sprawdzania linków RSS');
+        $this->logger->info('Rozpoczęcie wykonywania skryptu.');
 
         $rssLinkArray = [
             'http://www.rmf24.pl/sport/feed',
@@ -120,7 +124,8 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
                         $article = new Article();
 
                         //logowanie dodania pojedyńczego artykułu
-                        $logger->info('Dodanie pojedyńczego artykułu o id: ' . $feed->items[$key]->getId());
+                        $this->logger->info('Dodanie atrykułu z id: ' . $feed->items[$key]->getId());
+
 
                         $article->setExternalId($feed->items[$key]->getId());
                         $article->setTitle($feed->items[$key]->getTitle());
@@ -136,12 +141,16 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
                 // actually executes the queries (i.e. the INSERT query)
                 $entityManager->flush();
 
-                // logowanie zakończenia skryptu
-                $logger->info('Zańczenie skryptu sprawdzania linków RSS');
 
-            } catch (PicoFeedException $e) {
-                echo "it should not happen";
+            } catch (ClientException $e) {
+                //echo $e->getMessage();
+                $this->logger->info($e->getMessage() . $e->getCode());
             }
         }
+
+        // logowanie zakończenia skryptu
+        $this->logger->info('Zakończenie wykonywania skryptu.');
+
+
     }
 }
