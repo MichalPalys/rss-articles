@@ -23,9 +23,17 @@ use PicoFeed\Reader\Reader;
 use PicoFeed\PicoFeedException;
 use App\Entity\Article;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Psr\Log\LoggerInterface;
 
 class DisplayNeededDateCommand extends ContainerAwareCommand
 {
+    private $logger;
+
+    public function __construct(LoggerInterface $logger) {
+        parent::__construct();
+        $this->logger = $logger;
+    }
+
     protected function configure()
     {
         $this
@@ -58,7 +66,7 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
 
         // You can now use your logger
-
+        $this->logger->info('Rozpoczęcie wykonywania skryptu.');
 
         $rssLinkArray = [
             'http://www.rmf24.pl/sport/feed',
@@ -115,6 +123,7 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
                         $article = new Article();
 
                         //logowanie dodania pojedyńczego artykułu
+                        $this->logger->info('Dodanie atrykułu z id: ' . $feed->items[$key]->getId());
 
 
                         $article->setExternalId($feed->items[$key]->getId());
@@ -138,6 +147,7 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
         }
 
         // logowanie zakończenia skryptu
+        $this->logger->info('Zakończenie wykonywania skryptu.');
 
 
     }
