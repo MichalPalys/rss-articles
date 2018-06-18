@@ -23,9 +23,6 @@ use PicoFeed\Reader\Reader;
 use PicoFeed\PicoFeedException;
 use App\Entity\Article;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-use Monolog\Handler\FirePHPHandler;
 
 class DisplayNeededDateCommand extends ContainerAwareCommand
 {
@@ -56,17 +53,15 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
     public function printRss()
     {
-        // Create the logger
-        $logger = new Logger('my_logger');
-        // Now add some handlers
-        $logger->pushHandler(new StreamHandler(__DIR__.'/my_app.log', Logger::DEBUG));
-        $logger->pushHandler(new FirePHPHandler());
+
+        //Create the logger
+
 
         // You can now use your logger
-        $logger->info('Rozpoczęcie skryptu sprawdzania linków RSS');
+
 
         $rssLinkArray = [
-            'http://www.rmf24.pl/sport/fee',
+            'http://www.rmf24.pl/sport/feed',
             'http://www.komputerswiat.pl/rss-feeds/komputer-swiat-feed.aspx',
             'http://xmoon.pl/rss/rss.xml',
         ];
@@ -120,7 +115,7 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
                         $article = new Article();
 
                         //logowanie dodania pojedyńczego artykułu
-                        $logger->info('Dodanie pojedyńczego artykułu o id: ' . $feed->items[$key]->getId());
+
 
                         $article->setExternalId($feed->items[$key]->getId());
                         $article->setTitle($feed->items[$key]->getTitle());
@@ -143,6 +138,7 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
         }
 
         // logowanie zakończenia skryptu
-        $logger->info('Zakończenie skryptu sprawdzania linków RSS');
+
+
     }
 }
