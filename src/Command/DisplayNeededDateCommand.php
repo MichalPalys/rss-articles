@@ -61,10 +61,6 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
     public function printRss()
     {
-
-        //Create the logger
-
-
         // You can now use your logger
         $this->logger->info('Rozpoczęcie wykonywania skryptu.');
 
@@ -109,23 +105,6 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
                 $entityManager = $this->getContainer()->get('doctrine')->getEntityManager();
 
-//            foreach ($feed->items as $key=>$val) {
-//
-//                $externalId = $feed->items[$key]->getId();
-////                $title = $feed->items[$key]->getTitle();
-////                echo $externalId . "\n";
-////                echo $title . "\n";
-//                $itemArticle = $this->getContainer()->get('doctrine')->getRepository(Article::class)->findOneBy(['externalId' => $externalId]);
-//
-//                echo var_dump($itemArticle) . "\n";
-//            }
-
-
-//            $etag = $resource->getEtag();
-//            $last_modified = $resource->getLastModified();
-//            echo var_dump($etag) . "\n";
-//            echo var_dump($last_modified) . "\n";
-
                 foreach ($feed->items as $key => $val) {
 
                     $externalId = $feed->items[$key]->getId();
@@ -155,14 +134,11 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
 
             } catch (PicoFeedException $e) {
-                //echo $e->getMessage();
-                //$this->logger->info('Zakończenie wykonywania skryptu.');
+                echo $e->getMessage();
             }
         }
 
         // logowanie zakończenia skryptu
         $this->logger->info('Zakończenie wykonywania skryptu.');
-
-
     }
 }
