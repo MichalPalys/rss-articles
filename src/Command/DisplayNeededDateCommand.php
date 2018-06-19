@@ -55,10 +55,10 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
         $output->writeln($this->printRss());
     }
 
-    public function HttpResponseCode(string $rssUrl): int
+    public function getResponseCodeFromFeed(string $feedLink): int
     {
         //checking answer from server
-        $ch = curl_init($rssUrl);
+        $ch = curl_init($feedLink);
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
@@ -86,7 +86,7 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
             try {
 
-                $responseCode = $this->HttpResponseCode($rssLinkArrayValue);
+                $responseCode = $this->getResponseCodeFromFeed($rssLinkArrayValue);
 
                 if ($responseCode != 200) {
                     throw new Exception("HTTP Code = " . $responseCode);
