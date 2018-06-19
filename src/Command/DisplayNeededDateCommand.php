@@ -78,7 +78,7 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
         $rssLinkArray = [
             'http://www.rmf24.pl/sport/feed',
-            'http://www.komputerswiat.pl/rss-feeds/komputer-swiat-feed.asp',
+            'http://www.komputerswiat.pl/rss-feeds/komputer-swiat-feed.aspx',
             'http://xmoon.pl/rss/rss.xml',
         ];
 
@@ -88,7 +88,9 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
                 $responseCode = $this->HttpResponseCode($rssLinkArrayValue);
 
-                if ($responseCode != 200) throw new Exception("HTTP Code = " . $responseCode);
+                if ($responseCode != 200) {
+                    throw new Exception("HTTP Code = " . $responseCode);
+                }
 
                 $this->logger->info('Strona odpowiada. Kod odpowiedzi serwera: ' . $responseCode . ' dla URL ' . $rssLinkArrayValue . "\n");
 
