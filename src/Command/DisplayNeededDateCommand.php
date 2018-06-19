@@ -24,6 +24,7 @@ use PicoFeed\PicoFeedException;
 use App\Entity\Article;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 class DisplayNeededDateCommand extends ContainerAwareCommand
 {
@@ -76,9 +77,9 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
         $this->logger->info('Rozpoczęcie wykonywania skryptu.');
 
         $rssLinkArray = [
-            'http://www.rmf24.pl/sport/fee',
+            'http://www.rmf24.pl/sport/feed',
             'http://www.komputerswiat.pl/rss-feeds/komputer-swiat-feed.asp',
-            'http://xmoon.pl/rss/rss.xm',
+            'http://xmoon.pl/rss/rss.xml',
         ];
 
         foreach ($rssLinkArray as $rssLinkArrayValue) {
@@ -87,7 +88,9 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
                 $responseCode = $this->HttpResponseCode($rssLinkArrayValue);
 
-                $this->logger->info('Kod odpowiedzi serwera: ' . $responseCode . ' dla URL ' . $rssLinkArrayValue . "\n");
+                if ($responseCode != 200) throw new Exception("HTTP Code = " . $responseCode);
+
+                $this->logger->info('Strona odpowiada. Kod odpowiedzi serwera: ' . $responseCode . ' dla URL ' . $rssLinkArrayValue . "\n");
 
                 $reader = new Reader;
 
@@ -135,8 +138,8 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
                 $entityManager->flush();
 
 
-            } catch (PicoFeedException $e) {
-                echo $e->getMessage();
+            } catch (\Exception $e) {
+                $this->logger->info('Kod błędu odpowiedzi serwera: ' . $responseCode . ' dla URL ' . $rssLinkArrayValue . "\n");
             }
         }
 
