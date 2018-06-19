@@ -81,11 +81,11 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-                curl_exec($ch);
+                $execCurl = curl_exec($ch);
 
-                $info = curl_getinfo($ch);
+                $info = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-                $this->logger->info('Kod odpowiedzi serwera: ' . $info['http_code'] . ' dla URL' . $info['url'] . "\n");
+                $this->logger->info('Kod odpowiedzi serwera: ' . $info . ' dla URL ' . $rssLinkArrayValue . "\n");
 
                 curl_close($ch);
 
