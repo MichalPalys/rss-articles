@@ -20,11 +20,11 @@ namespace App\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PicoFeed\Reader\Reader;
-//use PicoFeed\PicoFeedException;
+use PicoFeed\PicoFeedException;
 use App\Entity\Article;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Psr\Log\LoggerInterface;
-use PicoFeed\Client\ClientException;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 class DisplayNeededDateCommand extends ContainerAwareCommand
 {
@@ -55,17 +55,24 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
         $output->writeln($this->printRss());
     }
 
-    public function outOfDateArticle(): void
+    public function getResponseCodeFromFeed(string $feedLink): int
     {
+        //checking answer from server
+        $ch = curl_init($feedLink);
 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $execCurl = curl_exec($ch);
+
+        $info = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        curl_close($ch);
+
+        return $info;
     }
 
     public function printRss()
     {
-
-        //Create the logger
-
-
         // You can now use your logger
         $this->logger->info('Rozpoczęcie wykonywania skryptu.');
 
@@ -78,6 +85,14 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
         foreach ($rssLinkArray as $rssLinkArrayValue) {
 
             try {
+
+                $responseCode = $this->getResponseCodeFromFeed($rssLinkArrayValue);
+
+                if ($responseCode != 200) {
+                    throw new Exception("HTTP Code = " . $responseCode);
+                }
+
+                $this->logger->info('Strona odpowiada. Kod odpowiedzi serwera: ' . $responseCode . ' dla URL ' . $rssLinkArrayValue . "\n");
 
                 $reader = new Reader;
 
@@ -96,23 +111,6 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
 
                 $entityManager = $this->getContainer()->get('doctrine')->getEntityManager();
-
-//            foreach ($feed->items as $key=>$val) {
-//
-//                $externalId = $feed->items[$key]->getId();
-////                $title = $feed->items[$key]->getTitle();
-////                echo $externalId . "\n";
-////                echo $title . "\n";
-//                $itemArticle = $this->getContainer()->get('doctrine')->getRepository(Article::class)->findOneBy(['externalId' => $externalId]);
-//
-//                echo var_dump($itemArticle) . "\n";
-//            }
-
-
-//            $etag = $resource->getEtag();
-//            $last_modified = $resource->getLastModified();
-//            echo var_dump($etag) . "\n";
-//            echo var_dump($last_modified) . "\n";
 
                 foreach ($feed->items as $key => $val) {
 
@@ -142,15 +140,12 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
                 $entityManager->flush();
 
 
-            } catch (ClientException $e) {
-                //echo $e->getMessage();
-                $this->logger->info($e->getMessage() . $e->getCode());
+            } catch (\Exception $e) {
+                $this->logger->info('Kod błędu odpowiedzi serwera: ' . $responseCode . ' dla URL ' . $rssLinkArrayValue . "\n");
             }
         }
 
         // logowanie zakończenia skryptu
         $this->logger->info('Zakończenie wykonywania skryptu.');
-
-
     }
 }
