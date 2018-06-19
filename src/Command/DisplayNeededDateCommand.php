@@ -54,9 +54,20 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
         $output->writeln($this->printRss());
     }
 
-    public function outOfDateArticle(): void
+    public function HttpResponseCode(string $rssUrl): int
     {
+        //checking answer from server
+        $ch = curl_init($rssUrl);
 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $execCurl = curl_exec($ch);
+
+        $info = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        curl_close($ch);
+
+        return $info;
     }
 
     public function printRss()
@@ -65,29 +76,20 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
         $this->logger->info('Rozpoczęcie wykonywania skryptu.');
 
         $rssLinkArray = [
-            'http://www.rmf24.pl/sport/feed',
-            'http://www.komputerswiat.pl/rss-feeds/komputer-swiat-feed.aspx',
-            'http://xmoon.pl/rss/rss.xml',
+            'http://www.rmf24.pl/sport/fee',
+            'http://www.komputerswiat.pl/rss-feeds/komputer-swiat-feed.asp',
+            'http://xmoon.pl/rss/rss.xm',
         ];
 
         foreach ($rssLinkArray as $rssLinkArrayValue) {
 
             try {
 
+                $responseCode = $this->HttpResponseCode($rssLinkArrayValue);
+
+                $this->logger->info('Kod odpowiedzi serwera: ' . $responseCode . ' dla URL ' . $rssLinkArrayValue . "\n");
+
                 $reader = new Reader;
-
-                //checking answer from server
-                $ch = curl_init($rssLinkArrayValue);
-
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-                $execCurl = curl_exec($ch);
-
-                $info = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-                $this->logger->info('Kod odpowiedzi serwera: ' . $info . ' dla URL ' . $rssLinkArrayValue . "\n");
-
-                curl_close($ch);
 
                 // Return a resource
                 $resource = $reader->download($rssLinkArrayValue);
