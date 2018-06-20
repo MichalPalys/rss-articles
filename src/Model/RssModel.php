@@ -3,19 +3,16 @@
 namespace App\Model;
 
 //use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use PicoFeed\Reader\Reader;
-use PicoFeed\PicoFeedException;
 use App\Entity\Article;
 use Doctrine\ORM\EntityManagerInterface;
-
-
+use PicoFeed\PicoFeedException;
+use PicoFeed\Reader\Reader;
 
 class RssModel
 {
     public function printAllRss(EntityManagerInterface $entityManager)
     {
         try {
-
             $reader = new Reader;
 
             // Return a resource
@@ -39,12 +36,12 @@ class RssModel
 
             $article = new Article();
 
-            foreach ($feed->items as $key=>$val) {
-                $article->setExternalId( $feed->items[$key]->getId() );
-                $article->setTitle( $feed->items[$key]->getTitle() );
-                $article->setPubDate( $feed->items[$key]->getPublishedDate() );
-                $article->setInsertDate( $feed->items[$key]->getUpdatedDate() );
-                $article->setContent( $feed->items[$key]->getContent() );
+            foreach ($feed->items as $key => $val) {
+                $article->setExternalId($feed->items[$key]->getId());
+                $article->setTitle($feed->items[$key]->getTitle());
+                $article->setPubDate($feed->items[$key]->getPublishedDate());
+                $article->setInsertDate($feed->items[$key]->getUpdatedDate());
+                $article->setContent($feed->items[$key]->getContent());
 
                 $entityManager = $managerRegistry->getManagerForClass(get_class($article));
 
@@ -54,9 +51,7 @@ class RssModel
                 // actually executes the queries (i.e. the INSERT query)
                 $entityManager->flush();
             }
-
-        }
-        catch (PicoFeedException $e) {
+        } catch (PicoFeedException $e) {
             echo "it should not happen";
         }
     }

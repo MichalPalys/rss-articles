@@ -9,13 +9,11 @@
 
 namespace App\Command;
 
+use PicoFeed\PicoFeedException;
+use PicoFeed\Reader\Reader;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use PicoFeed\Reader\Reader;
-use PicoFeed\PicoFeedException;
-
-
 
 class DisplayEntireRssFileCommand extends Command
 {
@@ -42,7 +40,6 @@ class DisplayEntireRssFileCommand extends Command
     public function printRss()
     {
         try {
-
             $reader = new Reader;
 
             // Return a resource
@@ -60,8 +57,7 @@ class DisplayEntireRssFileCommand extends Command
 
             // Print the feed properties with the magic method __toString()
             echo $feed;
-        }
-        catch (PicoFeedException $e) {
+        } catch (PicoFeedException $e) {
             echo "it should not happen";
         }
     }
