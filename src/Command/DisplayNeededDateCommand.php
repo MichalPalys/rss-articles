@@ -23,15 +23,19 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use App\Service\ResponseCodeFromFeedService;
 
 class DisplayNeededDateCommand extends ContainerAwareCommand
 {
     private $logger;
 
-    public function __construct(LoggerInterface $logger)
+    private $respCodeFromFeed;
+
+    public function __construct(LoggerInterface $logger, ResponseCodeFromFeedService $respCodeFromFeed)
     {
         parent::__construct();
         $this->logger = $logger;
+        $this->respCodeFromFeed = $respCodeFromFeed;
     }
 
     protected function configure()
@@ -54,21 +58,21 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
         $output->writeln($this->printRss());
     }
 
-    public function getResponseCodeFromFeed(string $feedLink): int
-    {
-        //checking answer from server
-        $ch = curl_init($feedLink);
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-        $execCurl = curl_exec($ch);
-
-        $info = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-        curl_close($ch);
-
-        return $info;
-    }
+//    public function getResponseCodeFromFeed(string $feedLink): int
+//    {
+//        //checking answer from server
+//        $ch = curl_init($feedLink);
+//
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//
+//        $execCurl = curl_exec($ch);
+//
+//        $info = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+//
+//        curl_close($ch);
+//
+//        return $info;
+//    }
 
     public function printRss()
     {
@@ -83,13 +87,13 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
         foreach ($rssLinkArray as $rssLinkArrayValue) {
             try {
-                $responseCode = $this->getResponseCodeFromFeed($rssLinkArrayValue);
+                $respCode = $this->respCodeFromFeed->getResponseCodeFromFeed($rssLinkArrayValue);
 
-                if ($responseCode != 200) {
-                    throw new Exception("HTTP Code = " . $responseCode);
+                if ($respCode != 200) {
+                    throw new Exception("HTTP Code = " . $respCode);
                 }
 
-                $this->logger->info('Strona odpowiada. Kod odpowiedzi serwera: ' . $responseCode . ' dla URL ' . $rssLinkArrayValue . "\n");
+                $this->logger->info('Strona odpowiada. Kod odpowiedzi serwera: ' . $respCode . ' dla URL ' . $rssLinkArrayValue . "\n");
 
                 $reader = new Reader;
 
@@ -134,7 +138,7 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
                 // actually executes the queries (i.e. the INSERT query)
                 $entityManager->flush();
             } catch (\Exception $e) {
-                $this->logger->info('Kod błędu odpowiedzi serwera: ' . $responseCode . ' dla URL ' . $rssLinkArrayValue . "\n");
+                $this->logger->info('Kod błędu odpowiedzi serwera: ' . $respCode . ' dla URL ' . $rssLinkArrayValue . "\n");
             }
         }
 
