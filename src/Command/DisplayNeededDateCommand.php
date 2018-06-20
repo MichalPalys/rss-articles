@@ -62,22 +62,6 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
         $output->writeln($this->printRss());
     }
 
-//    public function getResponseCodeFromFeed(string $feedLink): int
-//    {
-//        //checking answer from server
-//        $ch = curl_init($feedLink);
-//
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-//
-//        $execCurl = curl_exec($ch);
-//
-//        $info = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-//
-//        curl_close($ch);
-//
-//        return $info;
-//    }
-
     public function printRss()
     {
         // You can now use your logger
@@ -114,12 +98,8 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
                 // Return a Feed object
                 $feed = $parser->execute();
 
-
-//                $entityManager = $this->getContainer()->get('doctrine')->getEntityManager();
-
                 foreach ($feed->items as $key => $val) {
                     $externalId = $feed->items[$key]->getId();
-//                    $itemArticleFlag = $this->getContainer()->get('doctrine')->getRepository(Article::class)->findOneBy(['externalId' => $externalId]);
                     $itemArticleFlag = $this->em->getRepository(Article::class)->findOneBy(['externalId' => $externalId]);
 
                     if (!$itemArticleFlag) {
@@ -127,7 +107,6 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
                         //logowanie dodania pojedyńczego artykułu
                         $this->logger->info('Dodanie atrykułu z id: ' . $feed->items[$key]->getId());
-
 
                         $article->setExternalId($feed->items[$key]->getId());
                         $article->setTitle($feed->items[$key]->getTitle());
