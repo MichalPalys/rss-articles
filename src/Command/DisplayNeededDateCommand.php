@@ -24,6 +24,7 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use App\Service\ResponseCodeFromFeedService;
+use Doctrine\ORM\EntityManagerInterface;
 
 class DisplayNeededDateCommand extends ContainerAwareCommand
 {
@@ -31,11 +32,14 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
     private $respCodeFromFeed;
 
-    public function __construct(LoggerInterface $logger, ResponseCodeFromFeedService $respCodeFromFeed)
+    private $em;
+
+    public function __construct(LoggerInterface $logger, ResponseCodeFromFeedService $respCodeFromFeed, EntityManagerInterface $entityManager)
     {
         parent::__construct();
         $this->logger = $logger;
         $this->respCodeFromFeed = $respCodeFromFeed;
+        $this->em = $entityManager;
     }
 
     protected function configure()
@@ -111,11 +115,12 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
                 $feed = $parser->execute();
 
 
-                $entityManager = $this->getContainer()->get('doctrine')->getEntityManager();
+//                $entityManager = $this->getContainer()->get('doctrine')->getEntityManager();
 
                 foreach ($feed->items as $key => $val) {
                     $externalId = $feed->items[$key]->getId();
-                    $itemArticleFlag = $this->getContainer()->get('doctrine')->getRepository(Article::class)->findOneBy(['externalId' => $externalId]);
+//                    $itemArticleFlag = $this->getContainer()->get('doctrine')->getRepository(Article::class)->findOneBy(['externalId' => $externalId]);
+                    $itemArticleFlag = $this->em->getRepository(Article::class)->findOneBy(['externalId' => $externalId]);
 
                     if (!$itemArticleFlag) {
                         $article = new Article();
@@ -131,12 +136,12 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
                         $article->setContent($feed->items[$key]->getContent());
 
                         // tell Doctrine you want to (eventually) save the $article (no queries yet)
-                        $entityManager->persist($article);
+                        $this->em->persist($article);
                     }
                 }
 
                 // actually executes the queries (i.e. the INSERT query)
-                $entityManager->flush();
+                $this->em->flush();
             } catch (\Exception $e) {
                 $this->logger->info('Kod błędu odpowiedzi serwera: ' . $respCode . ' dla URL ' . $rssLinkArrayValue . "\n");
             }
