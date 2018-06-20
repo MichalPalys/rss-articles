@@ -17,20 +17,20 @@
 namespace App\Command;
 
 //use Symfony\Component\Console\Command\Command;
+use App\Entity\Article;
+use PicoFeed\Reader\Reader;
+use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use PicoFeed\Reader\Reader;
-use PicoFeed\PicoFeedException;
-use App\Entity\Article;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Config\Definition\Exception\Exception;
 
 class DisplayNeededDateCommand extends ContainerAwareCommand
 {
     private $logger;
 
-    public function __construct(LoggerInterface $logger) {
+    public function __construct(LoggerInterface $logger)
+    {
         parent::__construct();
         $this->logger = $logger;
     }
@@ -83,9 +83,7 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
         ];
 
         foreach ($rssLinkArray as $rssLinkArrayValue) {
-
             try {
-
                 $responseCode = $this->getResponseCodeFromFeed($rssLinkArrayValue);
 
                 if ($responseCode != 200) {
@@ -113,12 +111,10 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
                 $entityManager = $this->getContainer()->get('doctrine')->getEntityManager();
 
                 foreach ($feed->items as $key => $val) {
-
                     $externalId = $feed->items[$key]->getId();
                     $itemArticleFlag = $this->getContainer()->get('doctrine')->getRepository(Article::class)->findOneBy(['externalId' => $externalId]);
 
                     if (!$itemArticleFlag) {
-
                         $article = new Article();
 
                         //logowanie dodania pojedyńczego artykułu
@@ -138,8 +134,6 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
                 // actually executes the queries (i.e. the INSERT query)
                 $entityManager->flush();
-
-
             } catch (\Exception $e) {
                 $this->logger->info('Kod błędu odpowiedzi serwera: ' . $responseCode . ' dla URL ' . $rssLinkArrayValue . "\n");
             }
