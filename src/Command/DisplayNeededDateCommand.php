@@ -16,7 +16,6 @@
 
 namespace App\Command;
 
-//use Symfony\Component\Console\Command\Command;
 use App\Entity\Article;
 use PicoFeed\Reader\Reader;
 use Psr\Log\LoggerInterface;
