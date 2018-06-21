@@ -5,13 +5,6 @@
  * Date: 14.06.18
  * Time: 08:54
  */
-
-/**
- * Created by PhpStorm.
- * User: michalpalys
- * Date: 13.06.18
- * Time: 13:39
- */
 // src/Command/DisplayEntireRssFileCommand.php
 
 namespace App\Command;
