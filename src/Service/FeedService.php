@@ -21,6 +21,12 @@ class FeedService
 
     private $articleRepository;
 
+    private $rssLinkArray = [
+        'http://www.rmf24.pl/sport/feed',
+        'http://www.komputerswiat.pl/rss-feeds/komputer-swiat-feed.aspx',
+        'http://xmoon.pl/rss/rss.xml',
+    ];
+
     public function __construct(LoggerInterface $logger, ResponseCodeFromFeedService $respCodeFromFeed, ArticleRepository $articleRepository)
     {
         $this->logger = $logger;
@@ -33,13 +39,7 @@ class FeedService
         // You can now use your logger
         $this->logger->info('Rozpoczęcie wykonywania skryptu.');
 
-        $rssLinkArray = [
-            'http://www.rmf24.pl/sport/feed',
-            'http://www.komputerswiat.pl/rss-feeds/komputer-swiat-feed.aspx',
-            'http://xmoon.pl/rss/rss.xml',
-        ];
-
-        foreach ($rssLinkArray as $rssLinkArrayValue) {
+        foreach ($this->rssLinkArray as $rssLinkArrayValue) {
             try {
                 $respCode = $this->respCodeFromFeed->getResponseCodeFromFeed($rssLinkArrayValue);
 
