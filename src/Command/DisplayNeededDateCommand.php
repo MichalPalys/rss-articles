@@ -24,7 +24,6 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use App\Service\ResponseCodeFromFeedService;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ArticleRepository;
 
 class DisplayNeededDateCommand extends ContainerAwareCommand
@@ -33,16 +32,13 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
     private $respCodeFromFeed;
 
-    private $em;
-
     private $articleRepository;
 
-    public function __construct(LoggerInterface $logger, ResponseCodeFromFeedService $respCodeFromFeed, EntityManagerInterface $entityManager, ArticleRepository $articleRepository)
+    public function __construct(LoggerInterface $logger, ResponseCodeFromFeedService $respCodeFromFeed, ArticleRepository $articleRepository)
     {
         parent::__construct();
         $this->logger = $logger;
         $this->respCodeFromFeed = $respCodeFromFeed;
-        $this->em = $entityManager;
         $this->articleRepository = $articleRepository;
     }
 
@@ -104,7 +100,6 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
 
                 foreach ($feed->items as $key => $val) {
                     $externalId = $feed->items[$key]->getId();
-//                    $itemArticleFlag = $this->em->getRepository(Article::class)->findOneBy(['externalId' => $externalId]);
                     $itemArticleFlag = $this->articleRepository->findOneBy(['externalId' => $externalId]);
 
                     if (!$itemArticleFlag) {
@@ -120,13 +115,11 @@ class DisplayNeededDateCommand extends ContainerAwareCommand
                         $article->setContent($feed->items[$key]->getContent());
 
                         // tell Doctrine you want to (eventually) save the $article (no queries yet)
-//                        $this->em->persist($article);
                         $this->articleRepository->save($article);
                     }
                 }
 
                 // actually executes the queries (i.e. the INSERT query)
-//                $this->em->flush();
                 $this->articleRepository->execQuery();
             } catch (\Exception $e) {
                 $this->logger->info('Kod błędu odpowiedzi serwera: ' . $respCode . ' dla URL ' . $rssLinkArrayValue . "\n");
