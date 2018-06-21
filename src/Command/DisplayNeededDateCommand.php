@@ -17,14 +17,14 @@
 namespace App\Command;
 
 use App\Entity\Article;
+use App\Repository\ArticleRepository;
+use App\Service\ResponseCodeFromFeedService;
 use PicoFeed\Reader\Reader;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use App\Service\ResponseCodeFromFeedService;
-use App\Repository\ArticleRepository;
 
 class DisplayNeededDateCommand extends ContainerAwareCommand
 {

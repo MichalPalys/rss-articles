@@ -5,7 +5,6 @@
  * Date: 20.06.18
  * Time: 13:45
  */
-
 namespace App\Service;
 
 class ResponseCodeFromFeedService
