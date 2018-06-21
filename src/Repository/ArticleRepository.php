@@ -19,6 +19,16 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+    public function save(Article $article)
+    {
+        $this->_em->persist($article);
+    }
+
+    public function execQuery()
+    {
+        $this->_em->flush();
+    }
+
 //    /**
 //     * @return Article[] Returns an array of Article objects
 //     */
