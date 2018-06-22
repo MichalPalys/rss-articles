@@ -11,15 +11,22 @@ use PicoFeed\Reader\Reader;
 
 class FeedReader
 {
+    private $reader;
+
+    public function __construct()
+    {
+        $this->reader = new Reader();
+    }
+
     public function setFeedReader(string $feedUrl): \PicoFeed\Parser\Feed
     {
-        $reader = new Reader;
+//        $reader = new Reader;
 
         // Return a resource
-        $resource = $reader->download($feedUrl);
+        $resource = $this->reader->download($feedUrl);
 
         // Return the right parser instance according to the feed format
-        $parser = $reader->getParser(
+        $parser = $this->reader->getParser(
             $resource->getUrl(),
             $resource->getContent(),
             $resource->getEncoding()
