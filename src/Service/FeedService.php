@@ -21,17 +21,25 @@ class FeedService
 
     private $articleRepository;
 
+    private $feedReader;
+
     private $rssLinkArray = [
         'http://www.rmf24.pl/sport/feed',
         'http://www.komputerswiat.pl/rss-feeds/komputer-swiat-feed.aspx',
         'http://xmoon.pl/rss/rss.xml',
     ];
 
-    public function __construct(LoggerInterface $logger, ResponseCodeFromFeedService $respCodeFromFeed, ArticleRepository $articleRepository)
+    public function __construct(
+        LoggerInterface $logger,
+        ResponseCodeFromFeedService $respCodeFromFeed,
+        ArticleRepository $articleRepository,
+        FeedReader $feedReader
+    )
     {
         $this->logger = $logger;
         $this->respCodeFromFeed = $respCodeFromFeed;
         $this->articleRepository = $articleRepository;
+        $this->feedReader = $feedReader;
     }
 
     public function setFeedToDataBase()
@@ -49,20 +57,22 @@ class FeedService
 
                 $this->logger->info('Strona odpowiada. Kod odpowiedzi serwera: ' . $respCode . ' dla URL ' . $rssLinkArrayValue . "\n");
 
-                $reader = new Reader;
+//                $reader = new Reader;
+//
+//                // Return a resource
+//                $resource = $reader->download($rssLinkArrayValue);
+//
+//                // Return the right parser instance according to the feed format
+//                $parser = $reader->getParser(
+//                    $resource->getUrl(),
+//                    $resource->getContent(),
+//                    $resource->getEncoding()
+//                );
+//
+//                // Return a Feed object
+//                $feed = $parser->execute();
 
-                // Return a resource
-                $resource = $reader->download($rssLinkArrayValue);
-
-                // Return the right parser instance according to the feed format
-                $parser = $reader->getParser(
-                    $resource->getUrl(),
-                    $resource->getContent(),
-                    $resource->getEncoding()
-                );
-
-                // Return a Feed object
-                $feed = $parser->execute();
+                $feed = $this->feedReader->setFeedReader($rssLinkArrayValue);
 
                 foreach ($feed->items as $key => $val) {
                     $externalId = $feed->items[$key]->getId();
