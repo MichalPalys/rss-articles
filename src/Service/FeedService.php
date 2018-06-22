@@ -33,8 +33,7 @@ class FeedService
         ResponseCodeFromFeedService $respCodeFromFeed,
         ArticleRepository $articleRepository,
         FeedReader $feedReader
-    )
-    {
+    ) {
         $this->logger = $logger;
         $this->respCodeFromFeed = $respCodeFromFeed;
         $this->articleRepository = $articleRepository;

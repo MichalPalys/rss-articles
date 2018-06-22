@@ -5,7 +5,6 @@
  * Date: 22.06.18
  * Time: 08:32
  */
-
 namespace App\Service;
 
 use PicoFeed\Reader\Reader;
