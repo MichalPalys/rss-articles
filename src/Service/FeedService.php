@@ -9,7 +9,6 @@ namespace App\Service;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
-use PicoFeed\Reader\Reader;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
@@ -56,21 +55,6 @@ class FeedService
                 }
 
                 $this->logger->info('Strona odpowiada. Kod odpowiedzi serwera: ' . $respCode . ' dla URL ' . $rssLinkArrayValue . "\n");
-
-//                $reader = new Reader;
-//
-//                // Return a resource
-//                $resource = $reader->download($rssLinkArrayValue);
-//
-//                // Return the right parser instance according to the feed format
-//                $parser = $reader->getParser(
-//                    $resource->getUrl(),
-//                    $resource->getContent(),
-//                    $resource->getEncoding()
-//                );
-//
-//                // Return a Feed object
-//                $feed = $parser->execute();
 
                 $feed = $this->feedReader->setFeedReader($rssLinkArrayValue);
 
