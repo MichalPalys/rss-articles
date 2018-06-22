@@ -12,7 +12,7 @@ use PicoFeed\Reader\Reader;
 
 class FeedReader
 {
-    public function setFeedReader(string $feedUrl)
+    public function setFeedReader(string $feedUrl): \PicoFeed\Parser\Feed
     {
         $reader = new Reader;
 
