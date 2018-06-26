@@ -22,22 +22,20 @@ class FeedService
 
     private $feedReader;
 
-    private $rssLinkArray = [
-        'http://www.rmf24.pl/sport/feed',
-        'http://www.komputerswiat.pl/rss-feeds/komputer-swiat-feed.aspx',
-        'http://xmoon.pl/rss/rss.xml',
-    ];
+    private $rssLinkArray;
 
     public function __construct(
         LoggerInterface $logger,
         ResponseCodeFromFeedService $respCodeFromFeed,
         ArticleRepository $articleRepository,
-        FeedReader $feedReader
+        FeedReader $feedReader,
+        $rssLinkArray
     ) {
         $this->logger = $logger;
         $this->respCodeFromFeed = $respCodeFromFeed;
         $this->articleRepository = $articleRepository;
         $this->feedReader = $feedReader;
+        $this->rssLinkArray = $rssLinkArray;
     }
 
     public function setFeedToDataBase()
