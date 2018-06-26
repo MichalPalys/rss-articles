@@ -55,21 +55,21 @@ class FeedService
 
                 $feed = $this->feedReader->setFeedReader($rssLinkArrayValue);
 
-                foreach ($feed->items as $key => $val) {
-                    $externalId = $feed->items[$key]->getId();
+                foreach ($feed->items as $item) {
+                    $externalId = $item->getId();
                     $itemArticleFlag = $this->articleRepository->findOneBy(['externalId' => $externalId]);
 
                     if (!$itemArticleFlag) {
                         $article = new Article();
 
                         //logowanie dodania pojedyńczego artykułu
-                        $this->logger->info('Dodanie atrykułu z id: ' . $feed->items[$key]->getId());
+                        $this->logger->info('Dodanie atrykułu z id: ' . $item->getId());
 
-                        $article->setExternalId($feed->items[$key]->getId());
-                        $article->setTitle($feed->items[$key]->getTitle());
-                        $article->setPubDate($feed->items[$key]->getPublishedDate());
-                        $article->setInsertDate($feed->items[$key]->getUpdatedDate());
-                        $article->setContent($feed->items[$key]->getContent());
+                        $article->setExternalId($item->getId());
+                        $article->setTitle($item->getTitle());
+                        $article->setPubDate($item->getPublishedDate());
+                        $article->setInsertDate($item->getUpdatedDate());
+                        $article->setContent($item->getContent());
 
                         // tell Doctrine you want to (eventually) save the $article (no queries yet)
                         $this->articleRepository->save($article);
