@@ -1,27 +1,23 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: michalpalys
- * Date: 22.06.18
- * Time: 08:32
- */
+
 namespace App\Service;
 
 use PicoFeed\Reader\Reader;
 
 class FeedReader
 {
+    /**
+     * @var Reader
+     */
     private $reader;
 
-    public function __construct()
+    public function __construct(Reader $reader)
     {
-        $this->reader = new Reader();
+        $this->reader = $reader;
     }
 
     public function setFeedReader(string $feedUrl): \PicoFeed\Parser\Feed
     {
-//        $reader = new Reader;
-
         // Return a resource
         $resource = $this->reader->download($feedUrl);
 

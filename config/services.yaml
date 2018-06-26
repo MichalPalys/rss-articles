@@ -28,3 +28,5 @@ services:
     App\Service\FeedService:
         arguments:
             $logger: '@monolog.logger.rss'
+
+    PicoFeed\Reader\Reader: ~
