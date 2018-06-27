@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use PicoFeed\Parser\Item;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
@@ -51,7 +52,7 @@ class FeedService
                 $feed = $this->feedReader->setFeedReader($rssLinkArrayValue);
 
                 foreach ($feed->items as $item) {
-                    $this->getArticleToPersist($item);
+                    $article = $this->getArticleToPersist($item, Article);
                 }
 
                 // actually executes the queries (i.e. the INSERT query)
@@ -65,7 +66,7 @@ class FeedService
         $this->logger->info('Zakończenie wykonywania skryptu.');
     }
 
-    public function getArticleToPersist(\PicoFeed\Parser\Item $item): Article
+    public function getArticleToPersist(Item $item, Article $article): Article
     {
         $externalId = $item->getId();
         $existingArticle = $this->articleRepository->findOneBy(['externalId' => $externalId]);
@@ -87,7 +88,7 @@ class FeedService
         }
         //bez poniższego zapisu rzuca błąd
         //Return value of App\Service\FeedService::getArticleToPersist() must be an instance of App\Entity\Article, null returned
-        $article = $article;
+        //$article = $article;
 
         return $article;
     }
