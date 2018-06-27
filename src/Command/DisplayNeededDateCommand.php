@@ -1,7 +1,5 @@
 <?php
 
-// src/Command/DisplayEntireRssFileCommand.php
-
 namespace App\Command;
 
 use App\Service\FeedService;
