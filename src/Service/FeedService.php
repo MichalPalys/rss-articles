@@ -65,7 +65,7 @@ class FeedService
         $this->logger->info('Zakończenie wykonywania skryptu.');
     }
 
-    public function getArticleToPersist($item)
+    public function getArticleToPersist(\PicoFeed\Parser\Item $item): Article
     {
         $externalId = $item->getId();
         $itemArticleFlag = $this->articleRepository->findOneBy(['externalId' => $externalId]);
@@ -85,5 +85,10 @@ class FeedService
             // tell Doctrine you want to (eventually) save the $article (no queries yet)
             $this->articleRepository->save($article);
         }
+        //bez poniższego zapisu rzuca błąd
+        //Return value of App\Service\FeedService::getArticleToPersist() must be an instance of App\Entity\Article, null returned
+        $article = $article;
+
+        return $article;
     }
 }
