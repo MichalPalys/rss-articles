@@ -56,24 +56,25 @@ class FeedService
                 $feed = $this->feedReader->setFeedReader($rssLinkArrayValue);
 
                 foreach ($feed->items as $item) {
-                    $externalId = $item->getId();
-                    $itemArticleFlag = $this->articleRepository->findOneBy(['externalId' => $externalId]);
-
-                    if (!$itemArticleFlag) {
-                        $article = new Article();
-
-                        //logowanie dodania pojedyńczego artykułu
-                        $this->logger->info('Dodanie atrykułu z id: ' . $item->getId());
-
-                        $article->setExternalId($item->getId());
-                        $article->setTitle($item->getTitle());
-                        $article->setPubDate($item->getPublishedDate());
-                        $article->setInsertDate($item->getUpdatedDate());
-                        $article->setContent($item->getContent());
-
-                        // tell Doctrine you want to (eventually) save the $article (no queries yet)
-                        $this->articleRepository->save($article);
-                    }
+                    $this->getArticleToPersist($item);
+//                    $externalId = $item->getId();
+//                    $itemArticleFlag = $this->articleRepository->findOneBy(['externalId' => $externalId]);
+//
+//                    if (!$itemArticleFlag) {
+//                        $article = new Article();
+//
+//                        //logowanie dodania pojedyńczego artykułu
+//                        $this->logger->info('Dodanie atrykułu z id: ' . $item->getId());
+//
+//                        $article->setExternalId($item->getId());
+//                        $article->setTitle($item->getTitle());
+//                        $article->setPubDate($item->getPublishedDate());
+//                        $article->setInsertDate($item->getUpdatedDate());
+//                        $article->setContent($item->getContent());
+//
+//                        // tell Doctrine you want to (eventually) save the $article (no queries yet)
+//                        $this->articleRepository->save($article);
+//                    }
                 }
 
                 // actually executes the queries (i.e. the INSERT query)
@@ -85,5 +86,27 @@ class FeedService
 
         // logowanie zakończenia skryptu
         $this->logger->info('Zakończenie wykonywania skryptu.');
+    }
+
+    public function getArticleToPersist($item)
+    {
+        $externalId = $item->getId();
+        $itemArticleFlag = $this->articleRepository->findOneBy(['externalId' => $externalId]);
+
+        if (!$itemArticleFlag) {
+            $article = new Article();
+
+            //logowanie dodania pojedyńczego artykułu
+            $this->logger->info('Dodanie atrykułu z id: ' . $item->getId());
+
+            $article->setExternalId($item->getId());
+            $article->setTitle($item->getTitle());
+            $article->setPubDate($item->getPublishedDate());
+            $article->setInsertDate($item->getUpdatedDate());
+            $article->setContent($item->getContent());
+
+            // tell Doctrine you want to (eventually) save the $article (no queries yet)
+            $this->articleRepository->save($article);
+        }
     }
 }
