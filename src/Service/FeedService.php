@@ -56,12 +56,12 @@ class FeedService
 
                     if ($article) {
                         // tell Doctrine you want to (eventually) save the $article (no queries yet)
-                        $this->articleRepository->save($article);
+                        $this->articleRepository->persist($article);
                     }
                 }
 
                 // actually executes the queries (i.e. the INSERT query)
-                $this->articleRepository->execQuery();
+                $this->articleRepository->flush();
             } catch (\Exception $e) {
                 $this->logger->info('Kod błędu odpowiedzi serwera: ' . $respCode . ' dla URL ' . $rssLinkArrayValue . "\n");
             }
