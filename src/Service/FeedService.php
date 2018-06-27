@@ -1,14 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: michalpalys
- * Date: 20.06.18
- * Time: 13:45
- */
+
 namespace App\Service;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use PicoFeed\Parser\Item;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
@@ -22,22 +18,20 @@ class FeedService
 
     private $feedReader;
 
-    private $rssLinkArray = [
-        'http://www.rmf24.pl/sport/feed',
-        'http://www.komputerswiat.pl/rss-feeds/komputer-swiat-feed.aspx',
-        'http://xmoon.pl/rss/rss.xml',
-    ];
+    private $rssLinkArray;
 
     public function __construct(
         LoggerInterface $logger,
         ResponseCodeFromFeedService $respCodeFromFeed,
         ArticleRepository $articleRepository,
-        FeedReader $feedReader
+        FeedReader $feedReader,
+        array $rssLinkArray
     ) {
         $this->logger = $logger;
         $this->respCodeFromFeed = $respCodeFromFeed;
         $this->articleRepository = $articleRepository;
         $this->feedReader = $feedReader;
+        $this->rssLinkArray = $rssLinkArray;
     }
 
     public function setFeedToDataBase()
@@ -49,7 +43,7 @@ class FeedService
             try {
                 $respCode = $this->respCodeFromFeed->getResponseCodeFromFeed($rssLinkArrayValue);
 
-                if ($respCode != 200) {
+                if ($respCode !== 200) {
                     throw new Exception("HTTP Code = " . $respCode);
                 }
 
@@ -57,29 +51,17 @@ class FeedService
 
                 $feed = $this->feedReader->setFeedReader($rssLinkArrayValue);
 
-                foreach ($feed->items as $key => $val) {
-                    $externalId = $feed->items[$key]->getId();
-                    $itemArticleFlag = $this->articleRepository->findOneBy(['externalId' => $externalId]);
+                foreach ($feed->items as $item) {
+                    $article = $this->getArticleToPersist($item);
 
-                    if (!$itemArticleFlag) {
-                        $article = new Article();
-
-                        //logowanie dodania pojedyńczego artykułu
-                        $this->logger->info('Dodanie atrykułu z id: ' . $feed->items[$key]->getId());
-
-                        $article->setExternalId($feed->items[$key]->getId());
-                        $article->setTitle($feed->items[$key]->getTitle());
-                        $article->setPubDate($feed->items[$key]->getPublishedDate());
-                        $article->setInsertDate($feed->items[$key]->getUpdatedDate());
-                        $article->setContent($feed->items[$key]->getContent());
-
+                    if ($article) {
                         // tell Doctrine you want to (eventually) save the $article (no queries yet)
-                        $this->articleRepository->save($article);
+                        $this->articleRepository->persist($article);
                     }
                 }
 
                 // actually executes the queries (i.e. the INSERT query)
-                $this->articleRepository->execQuery();
+                $this->articleRepository->flush();
             } catch (\Exception $e) {
                 $this->logger->info('Kod błędu odpowiedzi serwera: ' . $respCode . ' dla URL ' . $rssLinkArrayValue . "\n");
             }
@@ -87,5 +69,28 @@ class FeedService
 
         // logowanie zakończenia skryptu
         $this->logger->info('Zakończenie wykonywania skryptu.');
+    }
+
+    public function getArticleToPersist(Item $item): ?Article
+    {
+        $article = NULL;
+        $externalId = $item->getId();
+
+        $existingArticle = $this->articleRepository->findOneBy(['externalId' => $externalId]);
+
+        if (!$existingArticle) {
+            $article = new Article();
+
+            //logowanie dodania pojedyńczego artykułu
+            $this->logger->info('Dodanie atrykułu z id: ' . $item->getId());
+
+            $article->setExternalId($item->getId());
+            $article->setTitle($item->getTitle());
+            $article->setPubDate($item->getPublishedDate());
+            $article->setInsertDate($item->getUpdatedDate());
+            $article->setContent($item->getContent());
+        }
+
+        return $article;
     }
 }

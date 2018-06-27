@@ -1,7 +1,10 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-
+    rss_link_array:
+        - http://www.rmf24.pl/sport/feed
+        - http://www.komputerswiat.pl/rss-feeds/komputer-swiat-feed.aspx
+        - http://xmoon.pl/rss/rss.xml
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -28,5 +31,6 @@ services:
     App\Service\FeedService:
         arguments:
             $logger: '@monolog.logger.rss'
+            $rssLinkArray: '%rss_link_array%'
 
     PicoFeed\Reader\Reader: ~
