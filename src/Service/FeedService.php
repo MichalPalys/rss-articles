@@ -68,9 +68,9 @@ class FeedService
     public function getArticleToPersist(\PicoFeed\Parser\Item $item): Article
     {
         $externalId = $item->getId();
-        $itemArticleFlag = $this->articleRepository->findOneBy(['externalId' => $externalId]);
+        $existingArticle = $this->articleRepository->findOneBy(['externalId' => $externalId]);
 
-        if (!$itemArticleFlag) {
+        if (!$existingArticle) {
             $article = new Article();
 
             //logowanie dodania pojedyńczego artykułu
