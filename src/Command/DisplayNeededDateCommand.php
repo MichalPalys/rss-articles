@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: michalpalys
- * Date: 14.06.18
- * Time: 08:54
- */
+
 // src/Command/DisplayEntireRssFileCommand.php
 
 namespace App\Command;
