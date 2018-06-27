@@ -43,7 +43,7 @@ class FeedService
             try {
                 $respCode = $this->respCodeFromFeed->getResponseCodeFromFeed($rssLinkArrayValue);
 
-                if ($respCode != 200) {
+                if ($respCode !== 200) {
                     throw new Exception("HTTP Code = " . $respCode);
                 }
 
@@ -53,6 +53,11 @@ class FeedService
 
                 foreach ($feed->items as $item) {
                     $article = $this->getArticleToPersist($item);
+
+                    if ($article) {
+                        // tell Doctrine you want to (eventually) save the $article (no queries yet)
+                        $this->articleRepository->save($article);
+                    }
                 }
 
                 // actually executes the queries (i.e. the INSERT query)
@@ -68,7 +73,9 @@ class FeedService
 
     public function getArticleToPersist(Item $item): ?Article
     {
+        $article = NULL;
         $externalId = $item->getId();
+
         $existingArticle = $this->articleRepository->findOneBy(['externalId' => $externalId]);
 
         if (!$existingArticle) {
@@ -82,9 +89,6 @@ class FeedService
             $article->setPubDate($item->getPublishedDate());
             $article->setInsertDate($item->getUpdatedDate());
             $article->setContent($item->getContent());
-
-            // tell Doctrine you want to (eventually) save the $article (no queries yet)
-            $this->articleRepository->save($article);
         }
 
         return $article;
