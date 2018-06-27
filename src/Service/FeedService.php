@@ -66,7 +66,7 @@ class FeedService
         $this->logger->info('Zakończenie wykonywania skryptu.');
     }
 
-    public function getArticleToPersist(Item $item, Article $article): Article
+    public function getArticleToPersist(Item $item): ?Article
     {
         $externalId = $item->getId();
         $existingArticle = $this->articleRepository->findOneBy(['externalId' => $externalId]);
