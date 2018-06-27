@@ -52,7 +52,7 @@ class FeedService
                 $feed = $this->feedReader->setFeedReader($rssLinkArrayValue);
 
                 foreach ($feed->items as $item) {
-                    $article = $this->getArticleToPersist($item, Article);
+                    $article = $this->getArticleToPersist($item);
                 }
 
                 // actually executes the queries (i.e. the INSERT query)
