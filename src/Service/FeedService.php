@@ -25,7 +25,7 @@ class FeedService
         ResponseCodeFromFeedService $respCodeFromFeed,
         ArticleRepository $articleRepository,
         FeedReader $feedReader,
-        $rssLinkArray
+        array $rssLinkArray
     ) {
         $this->logger = $logger;
         $this->respCodeFromFeed = $respCodeFromFeed;
