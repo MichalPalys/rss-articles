@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "miniflux/picofeed": "@stable",
         "symfony/console": "^4.1",
+        "symfony/debug-pack": "^1.0",
         "symfony/flex": "^1.0",
         "symfony/framework-bundle": "^4.1",
         "symfony/lts": "^4@dev",
