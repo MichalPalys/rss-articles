@@ -39,4 +39,12 @@ class MainController extends Controller
             'my_pager' => $pagerfanta,
         ]);
     }
+
+    /**
+     * @Route("/article/{externalId}", name="displayOneArticle")
+     */
+    public function displayOneArticle(string $externalId)
+    {
+
+    }
 }
