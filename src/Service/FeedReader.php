@@ -25,7 +25,8 @@ class FeedReader
         $parser = $this->reader->getParser(
             $resource->getUrl(),
             $resource->getContent(),
-            $resource->getEncoding()
+            $resource->getEncoding(),
+            $resource->getEnclosureUrl()
         );
 
         // Return a Feed object
