@@ -21,7 +21,12 @@
         {% for item in my_pager.currentPageResults %}
             <ul>
                 <li><a href="">{{ item.title }}</a></li>
-                <li>{{ item.content | striptags }}</li>
+                <li>
+                    {% with { lng : 200 } %}
+                        {% set text = item.content | striptags %}
+                        {{ text|length > lng ? text|slice(0, lng)|raw ~ ' ...' : text|raw }}
+                    {% endwith %}
+                </li>
                 <li>{{ item.pubDate|date("l jS \of F Y G:i:s") }}</li>
                 <li><img src="{{ item.enclosureUrl | default('no_image.png')}}"/></li>
             </br>
