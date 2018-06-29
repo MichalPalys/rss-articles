@@ -89,6 +89,7 @@ class FeedService
             $article->setPubDate($item->getPublishedDate());
             $article->setInsertDate($item->getUpdatedDate());
             $article->setContent($item->getContent());
+            $article->setEnclosureUrl($item->getEnclosureUrl());
         }
 
         return $article;
