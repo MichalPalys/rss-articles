@@ -17,12 +17,14 @@
         {#<li>Your template at <code><a href="{{ 'templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></code></li>#}
     {#</ul>#}
     <div class="pagerfanta">
+        {{ pagerfanta(my_pager, 'twitter_bootstrap4', { 'omitFirstPage': true}) }}
         {% for item in my_pager.currentPageResults %}
             <ul>
                 <li><a href="">{{ item.title }}</a></li>
-                <li>{{ item.content | raw }}</li>
+                <li>{{ item.content | striptags }}</li>
                 <li>{{ item.pubDate|date("l jS \of F Y G:i:s") }}</li>
                 <li><img src="{{ item.enclosureUrl | default('no_image.png')}}"/></li>
+            </br>
             </ul>
         {% endfor %}
         {{ pagerfanta(my_pager, 'twitter_bootstrap4', { 'omitFirstPage': true}) }}
