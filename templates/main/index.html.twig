@@ -20,9 +20,9 @@
         {% for item in my_pager.currentPageResults %}
             <ul>
                 <li><a href="">{{ item.title }}</a></li>
-                <li><a href="">{{ item.content | raw }}</a></li>
-                <li><a href="">{{ item.id }}</a></li>
-                <li><a href="">{{ item.id }}</a></li>
+                <li>{{ item.content | raw }}</li>
+                <li>{{ item.id }}</li>
+                <li><img src="{{ item.enclosureUrl | default('no_image.png')}}"/></li>
             </ul>
         {% endfor %}
         {{ pagerfanta(my_pager, 'twitter_bootstrap4', { 'omitFirstPage': true}) }}
