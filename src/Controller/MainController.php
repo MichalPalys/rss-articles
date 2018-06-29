@@ -2,14 +2,13 @@
 
 namespace App\Controller;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends Controller
 {
@@ -45,6 +44,5 @@ class MainController extends Controller
      */
     public function displayOneArticle(string $externalId)
     {
-
     }
 }

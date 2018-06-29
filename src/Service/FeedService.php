@@ -73,7 +73,7 @@ class FeedService
 
     public function getArticleToPersist(Item $item): ?Article
     {
-        $article = NULL;
+        $article = null;
         $externalId = $item->getId();
 
         $existingArticle = $this->articleRepository->findOneBy(['externalId' => $externalId]);
