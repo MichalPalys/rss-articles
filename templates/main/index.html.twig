@@ -21,7 +21,7 @@
             <ul>
                 <li><a href="">{{ item.title }}</a></li>
                 <li>{{ item.content | raw }}</li>
-                <li>{{ item.id }}</li>
+                <li>{{ item.pubDate|date("l jS \of F Y G:i:s") }}</li>
                 <li><img src="{{ item.enclosureUrl | default('no_image.png')}}"/></li>
             </ul>
         {% endfor %}
