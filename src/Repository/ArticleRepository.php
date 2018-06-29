@@ -29,6 +29,11 @@ class ArticleRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
+    public function findAllQueryBuilder()
+    {
+        return $this->createQueryBuilder('article');
+    }
+
 //    /**
 //     * @return Article[] Returns an array of Article objects
 //     */
