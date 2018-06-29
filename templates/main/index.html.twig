@@ -9,14 +9,22 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    {#<h1>Hello {{ controller_name }}! ✅</h1>#}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></code></li>
-    </ul>
+    {#This friendly message is coming from:#}
+    {#<ul>#}
+        {#<li>Your controller at <code><a href="{{ 'src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></code></li>#}
+        {#<li>Your template at <code><a href="{{ 'templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></code></li>#}
+    {#</ul>#}
     <div class="pagerfanta">
+        {% for item in my_pager.currentPageResults %}
+            <ul>
+                <li><a href="">{{ item.title }}</a></li>
+                <li><a href="">{{ item.content | raw }}</a></li>
+                <li><a href="">{{ item.id }}</a></li>
+                <li><a href="">{{ item.id }}</a></li>
+            </ul>
+        {% endfor %}
         {{ pagerfanta(my_pager, 'twitter_bootstrap4', { 'omitFirstPage': true}) }}
     </div>
 </div>
