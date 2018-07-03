@@ -35,3 +35,5 @@ services:
             $rssLinkArray: '%rss_link_array%'
 
     PicoFeed\Reader\Reader: ~
+
+    Cocur\Slugify\Slugify: ~
