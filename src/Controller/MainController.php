@@ -44,7 +44,7 @@ class MainController extends Controller
      */
     public function displayOneArticles(string $slug, int $id)
     {
-        $singleArticle = $this->articleRepository->findOneBy(['slug' => $slug], ['id' => $id]);
+        $singleArticle = $this->articleRepository->findOneBy(['slug' => $slug, 'id' => $id]);
 
         return $this->render('main/article.html.twig', [
             'singleArticle' => $singleArticle,
