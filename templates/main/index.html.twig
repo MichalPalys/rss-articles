@@ -19,7 +19,6 @@
                 </li>
                 <li>{{ item.pubDate|date("l jS \of F Y G:i:s") }}</li>
                 <li><img src="{{ item.enclosureUrl | default('no_image.png')}}"/></li>
-            </br>
             </ul>
         {% endfor %}
         {{ pagerfanta(my_pager, 'twitter_bootstrap4', { 'omitFirstPage': true}) }}
