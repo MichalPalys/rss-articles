@@ -22,7 +22,7 @@
             </tr>
             <tr>
                 <th scope="col">Opis</th>
-                <td scope="row">{{ singleArticle.content | striptags }}</td>
+                <td scope="row">{{ singleArticle.content | striptags | raw }}</td>
             </tr>
             <tr>
                 <th scope="col">Data dodania</th>

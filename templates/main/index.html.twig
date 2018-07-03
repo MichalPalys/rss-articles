@@ -15,10 +15,7 @@
             <ul>
                 <li><a href="{{ path('displayOneArticle', {'slug': item.slug, 'id': item.id}) }}">{{ item.title }}</a></li>
                 <li>
-                    {% with { lng : 200 } %}
-                        {% set text = item.content | striptags %}
-                        {{ text|length > lng ? text|slice(0, lng)|raw ~ ' ...' : text|raw }}
-                    {% endwith %}
+                        {{ item.content | striptags | raw }}
                 </li>
                 <li>{{ item.pubDate|date("l jS \of F Y G:i:s") }}</li>
                 <li><img src="{{ item.enclosureUrl | default('no_image.png')}}"/></li>
