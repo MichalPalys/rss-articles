@@ -15,7 +15,7 @@
             <ul>
                 <li><a href="{{ path('displayOneArticle', {'slug': item.slug, 'id': item.id}) }}">{{ item.title }}</a></li>
                 <li>
-                        {{ item.content | striptags | raw }}
+                    {{ item.content | striptags | raw |truncate(50, true) }}
                 </li>
                 <li>{{ item.pubDate|date("l jS \of F Y G:i:s") }}</li>
                 <li><img src="{{ item.enclosureUrl | default('no_image.png')}}"/></li>
