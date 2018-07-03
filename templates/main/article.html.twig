@@ -9,7 +9,7 @@
     </style>
 
     <div class="example-wrapper">
-        <h2 class="page-header">Szczegóły wybranego ogłoszenia</h2>
+        <h2 class="page-header">Szczegóły artykułu</h2>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -18,19 +18,19 @@
             <tbody>
             <tr>
                 <th scope="col">Tytuł</th>
-                <td scope="row">{{  }}</td>
+                <td scope="row">{{ singleArticle.title }}</td>
             </tr>
             <tr>
                 <th scope="col">Opis</th>
-                <td scope="row">{{  }}</td>
+                <td scope="row">{{ singleArticle.content | striptags }}</td>
             </tr>
             <tr>
                 <th scope="col">Data dodania</th>
-                <td scope="row">{{  }}</td>
+                <td scope="row">{{ singleArticle.pubDate|date("l jS \of F Y G:i:s") }}</td>
             </tr>
             <tr>
                 <th scope="col">zdjęcie</th>
-                <td scope="row">{{  }}</td>
+                <td scope="row"><img src="{{ singleArticle.enclosureUrl | default('no_image.png') }}"/>></td>
             </tr>
             </tbody>
         </table>

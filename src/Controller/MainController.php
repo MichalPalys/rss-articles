@@ -44,5 +44,10 @@ class MainController extends Controller
      */
     public function displayOneArticle(string $externalId)
     {
+        $singleArticle = $this->articleRepository->findOneBy(['externalId' => $externalId]);
+
+        return $this->render('main/article.html.twig', [
+            'singleArticle' => $singleArticle,
+        ]);
     }
 }
