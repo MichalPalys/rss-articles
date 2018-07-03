@@ -40,7 +40,7 @@ class MainController extends Controller
     }
 
     /**
-     * @Route("/article/{slug-id}", name="displayOneArticle")
+     * @Route("/article/{slug}/{id}", name="displayOneArticle")
      */
     public function displayOneArticles(string $slug, int $id)
     {
