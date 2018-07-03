@@ -4,10 +4,10 @@ namespace App\Service;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use Cocur\Slugify\Slugify;
 use PicoFeed\Parser\Item;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
-use Cocur\Slugify\Slugify;
 
 class FeedService
 {

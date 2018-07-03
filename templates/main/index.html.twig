@@ -13,7 +13,7 @@
         {{ pagerfanta(my_pager, 'twitter_bootstrap4', { 'omitFirstPage': true}) }}
         {% for item in my_pager.currentPageResults %}
             <ul>
-                <li><a href="{{ path('displayOneArticle', {'slug': item.slug, 'id': item.id})  }}">{{ item.title }}</a></li>
+                <li><a href="{{ path('displayOneArticle', {'slug': item.slug, 'id': item.id}) }}">{{ item.title }}</a></li>
                 <li>
                     {% with { lng : 200 } %}
                         {% set text = item.content | striptags %}
