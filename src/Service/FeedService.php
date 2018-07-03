@@ -95,6 +95,7 @@ class FeedService
             $article->setInsertDate($item->getUpdatedDate());
             $article->setContent($item->getContent());
             $article->setEnclosureUrl($item->getEnclosureUrl());
+            $article->setSlug($this->slug->slugify($item->getTitle()));
         }
 
         return $article;
