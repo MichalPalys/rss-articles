@@ -5,6 +5,7 @@ parameters:
         - http://www.rmf24.pl/sport/feed
         - http://www.komputerswiat.pl/rss-feeds/komputer-swiat-feed.aspx
         - http://xmoon.pl/rss/rss.xml
+    locale: 'en'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -33,4 +34,11 @@ services:
             $logger: '@monolog.logger.rss'
             $rssLinkArray: '%rss_link_array%'
 
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
+
     PicoFeed\Reader\Reader: ~
+
+    Cocur\Slugify\Slugify: ~

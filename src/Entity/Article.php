@@ -41,6 +41,16 @@ class Article
      */
     private $insertDate;
 
+    /**
+     * @ORM\Column(type="string", length=512)
+     */
+    private $enclosureUrl;
+
+    /**
+     * @ORM\Column(type="string", length=512)
+     */
+    private $slug;
+
     public function getId()
     {
         return $this->id;
@@ -102,6 +112,30 @@ class Article
     public function setInsertDate(\DateTimeInterface $insertDate): self
     {
         $this->insertDate = $insertDate;
+
+        return $this;
+    }
+
+    public function getEnclosureUrl(): ?string
+    {
+        return $this->enclosureUrl;
+    }
+
+    public function setEnclosureUrl(string $enclosureUrl): self
+    {
+        $this->enclosureUrl = $enclosureUrl;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

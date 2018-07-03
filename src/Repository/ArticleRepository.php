@@ -29,6 +29,14 @@ class ArticleRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
+    public function findAllQueryBuilder()
+    {
+        return $this->createQueryBuilder('article')
+            ->orderBy('article.pubDate', 'DESC')
+            ->getQuery()
+            ;
+    }
+
 //    /**
 //     * @return Article[] Returns an array of Article objects
 //     */
