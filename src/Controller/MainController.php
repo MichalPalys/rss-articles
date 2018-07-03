@@ -22,7 +22,7 @@ class MainController extends Controller
     /**
      * @Route("/main", name="main")
      */
-    public function index(Request $request)
+    public function displayAllArticle(Request $request)
     {
         $page = $request->query->get('page', 1);
 
