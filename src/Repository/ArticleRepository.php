@@ -32,10 +32,8 @@ class ArticleRepository extends ServiceEntityRepository
     public function findAllQueryBuilder()
     {
         return $this->createQueryBuilder('article')
-            ->select()  // czy przy sortowaniu całej tatabeli potrzebne jest select? i czy przy wybieraniu wszystkich kolumn pozostawiamy puste nawiasy czy tak jak w zapytaniach wstawiamy select('*') ?
             ->orderBy('article.pubDate', 'DESC')
             ->getQuery()
-            //->getResult()     jak miałem to odkomentowane to rzucało błędem że przekazuje tablice zamiast obiektu
             ;
     }
 
