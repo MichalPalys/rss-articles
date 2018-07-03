@@ -40,11 +40,11 @@ class MainController extends Controller
     }
 
     /**
-     * @Route("/article/{externalId}", name="displayOneArticle")
+     * @Route("/article/{slug-id}", name="displayOneArticle")
      */
-    public function displayOneArticles(string $externalId)
+    public function displayOneArticles(string $slug, int $id)
     {
-        $singleArticle = $this->articleRepository->findOneBy(['externalId' => $externalId]);
+        $singleArticle = $this->articleRepository->findOneBy(['slug' => $slug], ['id' => $id]);
 
         return $this->render('main/article.html.twig', [
             'singleArticle' => $singleArticle,
