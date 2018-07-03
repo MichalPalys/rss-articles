@@ -42,7 +42,7 @@ class MainController extends Controller
     /**
      * @Route("/article/{externalId}", name="displayOneArticle")
      */
-    public function displayOneArticle(string $externalId)
+    public function displayOneArticles(string $externalId)
     {
         $singleArticle = $this->articleRepository->findOneBy(['externalId' => $externalId]);
 
