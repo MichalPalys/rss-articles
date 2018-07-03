@@ -7,6 +7,7 @@ use App\Repository\ArticleRepository;
 use PicoFeed\Parser\Item;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Cocur\Slugify\Slugify;
 
 class FeedService
 {
@@ -20,18 +21,22 @@ class FeedService
 
     private $rssLinkArray;
 
+    private $slug;
+
     public function __construct(
         LoggerInterface $logger,
         ResponseCodeFromFeedService $respCodeFromFeed,
         ArticleRepository $articleRepository,
         FeedReader $feedReader,
-        array $rssLinkArray
+        array $rssLinkArray,
+        Slugify $slug
     ) {
         $this->logger = $logger;
         $this->respCodeFromFeed = $respCodeFromFeed;
         $this->articleRepository = $articleRepository;
         $this->feedReader = $feedReader;
         $this->rssLinkArray = $rssLinkArray;
+        $this->slug = $slug;
     }
 
     public function setFeedToDataBase()
