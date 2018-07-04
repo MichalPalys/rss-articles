@@ -38,7 +38,7 @@ class ArticleModel
      * @param int $id
      * @return Article
      */
-    public function displayOneArticles(string $slug, int $id): Article
+    public function displayOneArticles(string $slug, int $id): ?Article
     {
         $singleArticle = $this->articleRepository->findOneBy(['slug' => $slug, 'id' => $id]);
 

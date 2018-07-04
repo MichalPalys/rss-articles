@@ -7,6 +7,7 @@ use App\Model\ArticleModel;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\TwigBundle\Controller\ExceptionController;
 
 class MainController extends Controller
 {
@@ -38,6 +39,10 @@ class MainController extends Controller
     public function displayOneArticles(string $slug, int $id)
     {
         $singleArticle = $this->articleModel->displayOneArticles($slug, $id);
+
+        if (!$singleArticle) {
+            throw $this->createNotFoundException('Article not found!');
+        }
 
         return $this->render('main/article.html.twig', [
             'singleArticle' => $singleArticle,
