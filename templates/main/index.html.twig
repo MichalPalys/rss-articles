@@ -17,7 +17,7 @@
                 <li>
                     {{ item.content | striptags | raw |truncate(50, true) }}
                 </li>
-                <li>{{ item.pubDate|date("l jS \of F Y G:i:s") }}</li>
+                <li>{{ item.pubDate|date("jS F Y G:i:s") }}</li>
                 <li><img src="{{ item.enclosureUrl | default('no_image.png')}}"/></li>
             </ul>
         {% endfor %}
