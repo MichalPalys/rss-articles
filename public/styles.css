@@ -1,0 +1,19 @@
+.example-wrapper {
+    margin: 1em auto;
+    max-width: 800px;
+    width: 42%;
+    font: 18px/1.5 sans-serif;
+}
+
+.style-ul {
+    list-style-type: none;
+    text-align: center;
+    line-height: 2em;
+    margin-bottom: 40px;
+    padding: 20px;
+    border-style: outset;
+}
+
+.style-ul:hover {
+    border-style: inset;
+}
