@@ -17,3 +17,9 @@
 .style-ul:hover {
     border-style: inset;
 }
+
+.article-image-list {
+    height: 300px;
+    width: 400px;
+    object-fit: fill;
+}
