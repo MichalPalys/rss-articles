@@ -8,6 +8,7 @@
         "cocur/slugify": "^3.1",
         "easycorp/easy-log-handler": "^1.0.2",
         "miniflux/picofeed": "@stable",
+        "symfony/asset": "^4.1",
         "symfony/console": "^4.1",
         "symfony/debug-bundle": "^3.3|^4.0",
         "symfony/flex": "^1.0",
