@@ -30,7 +30,7 @@
             </tr>
             <tr>
                 <th scope="col">zdjęcie</th>
-                <td scope="row"><img src="{{ singleArticle.enclosureUrl | default('no_image.png') }}"/></td>
+                <td scope="row"><img src="{{ singleArticle.enclosureUrl | default(asset('no_image.png')) }}"/></td>
             </tr>
             <tr>
                 <td>
