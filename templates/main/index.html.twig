@@ -8,20 +8,27 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <div class="pagerfanta">
-        {{ pagerfanta(my_pager, 'twitter_bootstrap4', { 'omitFirstPage': true}) }}
-        {% for item in my_pager.currentPageResults %}
-            <ul>
-                <li><a href="{{ path('displayOneArticle', {'slug': item.slug, 'id': item.id}) }}">{{ item.title }}</a></li>
-                <li>
-                    {{ item.content | striptags | raw |truncate(50, true) }}
-                </li>
-                <li>{{ item.pubDate|date("d-m-Y G:i:s") }}</li>
-                <li><img src="{{ item.enclosureUrl | default('no_image.png')}}"/></li>
-            </ul>
-        {% endfor %}
-        {{ pagerfanta(my_pager, 'twitter_bootstrap4', { 'omitFirstPage': true}) }}
+{% if my_pager.NbResults > 0 %}
+    <div class="example-wrapper">
+        <div class="pagerfanta">
+            {{ pagerfanta(my_pager, 'twitter_bootstrap4', { 'omitFirstPage': true}) }}
+            {% for item in my_pager.currentPageResults %}
+                <ul>
+                    <li><a href="{{ path('displayOneArticle', {'slug': item.slug, 'id': item.id}) }}">{{ item.title }}</a></li>
+                    <li>
+                        {{ item.content | striptags | raw |truncate(50, true) }}
+                    </li>
+                    <li>{{ item.pubDate|date("d-m-Y G:i:s") }}</li>
+                    <li><img src="{{ item.enclosureUrl | default('no_image.png')}}"/></li>
+                </ul>
+            {% endfor %}
+            {{ pagerfanta(my_pager, 'twitter_bootstrap4', { 'omitFirstPage': true}) }}
+        </div>
     </div>
-</div>
+{% else %}
+    <div>
+        <p style="position: absolute; top: 50%; margin: 0 45%; width: 15%;">W bazie nie ma artykułów.</p>
+    </div>
+{% endif %}
+
 {% endblock %}
