@@ -5,6 +5,7 @@
 /var/
 /vendor/
 /.idea/
+/docker/.env
 ###< symfony/framework-bundle ###
 
 ###> symfony/webpack-encore-pack ###

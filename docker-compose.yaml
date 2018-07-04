@@ -1,0 +1,36 @@
+version: '3.3'
+
+services:
+  db:
+    image: mysql:5.7.20
+    hostname: db
+    volumes:
+      - db_data:/var/lib/mysql
+    env_file:
+      - ./docker/.env
+  nginx:
+    build:
+      context: ./docker/dev/nginx
+    hostname: nginx
+    volumes:
+      - "./:/var/www/dev"
+    ports:
+      - 80:80
+    depends_on:
+      - php
+  php:
+    build:
+      context: ./docker/dev/php
+    hostname: php
+    volumes:
+      - "./:/var/www/dev"
+    env_file:
+      - ./docker/.env
+    depends_on:
+      - db
+  pma:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8080:80
+volumes:
+  db_data:
