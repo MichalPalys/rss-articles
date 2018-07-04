@@ -34,7 +34,7 @@
             </tr>
             <tr>
                 <td>
-                    <a href="/main" class="btn btn-success btn-block">Powrót</a>
+                    <a href="{{ app.request.headers.get('referer') }}" class="btn btn-success btn-block">Powrót</a>
                 </td>
             </tr>
             </tbody>
