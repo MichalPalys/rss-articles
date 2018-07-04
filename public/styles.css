@@ -1,0 +1,12 @@
+.style-ul {
+    list-style-type: none;
+    text-align: center;
+    line-height: 2em;
+    margin-bottom: 40px;
+    padding: 20px;
+    border-style: outset;
+}
+
+.style-ul:hover {
+    border-style: inset;
+}
