@@ -9,11 +9,11 @@
 </style>
 
 {% if my_pager.NbResults > 0 %}
-    <div class="example-wrapper">
+    <div class="example-wrapper" style="width: 42%;">
         <div class="pagerfanta">
             {{ pagerfanta(my_pager, 'twitter_bootstrap4', { 'omitFirstPage': true}) }}
             {% for item in my_pager.currentPageResults %}
-                <ul>
+                <ul style="list-style-type: none; text-align: center; line-height: 2em; margin-bottom: 40px; padding: 20px; border-style: outset;">
                     <li><a href="{{ path('displayOneArticle', {'slug': item.slug, 'id': item.id}) }}">{{ item.title }}</a></li>
                     <li>
                         {{ item.content | striptags | raw |truncate(50, true) }}
