@@ -18,8 +18,8 @@ class Article
 
     /**
      * One Article has One Photo.
-     * @OneToOne(targetEntity="Photo")
-     * @JoinColumn(name="photo_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="Photo")
+     * @ORM\JoinColumn(name="photo_id", referencedColumnName="id")
      */
     private $photo;
 
