@@ -8,7 +8,7 @@
 </style>
 
 {% if my_pager.NbResults > 0 %}
-    <div class="example-wrapper" style="width: 42%;">
+    <div class="example-wrapper">
         <div class="pagerfanta">
             {{ pagerfanta(my_pager, 'twitter_bootstrap4', { 'omitFirstPage': true}) }}
             {% for item in my_pager.currentPageResults %}
@@ -18,7 +18,7 @@
                         {{ item.content | striptags | raw |truncate(50, true) }}
                     </li>
                     <li>{{ item.pubDate|date("d-m-Y G:i:s") }}</li>
-                    <li><img src="{{ item.enclosureUrl | default('no_image.png')}}"/></li>
+                    <li><img class="article-image-list" src="{{ item.enclosureUrl | default('no_image.png')}}"/></li>
                 </ul>
             {% endfor %}
             {{ pagerfanta(my_pager, 'twitter_bootstrap4', { 'omitFirstPage': true}) }}

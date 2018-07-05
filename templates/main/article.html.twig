@@ -4,8 +4,7 @@
 
 {% block body %}
     <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+
     </style>
 
     <div class="example-wrapper">
@@ -30,11 +29,11 @@
             </tr>
             <tr>
                 <th scope="col">zdjęcie</th>
-                <td scope="row"><img src="{{ singleArticle.enclosureUrl | default(asset('no_image.png')) }}"/></td>
+                <td scope="row"><img class="article-image-list" src="{{ singleArticle.enclosureUrl | default(asset('no_image.png')) }}"/></td>
             </tr>
             <tr>
                 <td>
-                    <a href="/main" class="btn btn-success btn-block">Powrót</a>
+                    <a href="{{ app.request.headers.get('referer') }}" class="btn btn-success btn-block">Powrót</a>
                 </td>
             </tr>
             </tbody>
