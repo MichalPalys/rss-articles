@@ -3,11 +3,14 @@
 namespace App\Service;
 
 use App\Entity\Article;
+use App\Entity\Photo;
 use App\Repository\ArticleRepository;
 use Cocur\Slugify\Slugify;
 use PicoFeed\Parser\Item;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use League\Flysystem\Filesystem;
+use League\Flysystem\Adapter\Local;
 
 class FeedService
 {
@@ -84,20 +87,46 @@ class FeedService
         $existingArticle = $this->articleRepository->findOneBy(['externalId' => $externalId]);
 
         if (!$existingArticle) {
+
             $article = new Article();
 
             //logowanie dodania pojedyńczego artykułu
             $this->logger->info('Dodanie atrykułu z id: ' . $item->getId());
+
+            $photo = new Photo();
+
+            $url = $item->getEnclosureUrl();
+            $adapter = new Local(__DIR__.'/../../public/photo');
+            $local = new Filesystem($adapter);
+
+
+            If (isset($url)) {
+                $fileContent = file_get_contents($url);
+                $filePath = $this->articleProfilePicture($item);
+                $local->write($filePath,  $fileContent);
+                $photo->setName($filePath);
+                $photo->setPath('/public/photo/');
+            }
+//            else {
+////                $photo = null;
+//            }
 
             $article->setExternalId($item->getId());
             $article->setTitle($item->getTitle());
             $article->setPubDate($item->getPublishedDate());
             $article->setInsertDate($item->getUpdatedDate());
             $article->setContent($item->getContent());
-            $article->setEnclosureUrl($item->getEnclosureUrl());
+            $article->setPhoto($photo);
             $article->setSlug($this->slug->slugify($item->getTitle()));
         }
 
         return $article;
+    }
+
+    public function articleProfilePicture($feedItem): string
+    {
+        $filePath = strrchr($feedItem->getEnclosureUrl(), "/");
+
+        return $filePath;
     }
 }

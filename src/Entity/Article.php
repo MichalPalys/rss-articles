@@ -146,4 +146,11 @@ class Article
 
         return $this;
     }
+
+    public function setPhoto(Photo $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
 }
