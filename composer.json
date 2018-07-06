@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "cocur/slugify": "^3.1",
         "easycorp/easy-log-handler": "^1.0.2",
+        "league/flysystem": "^1.0",
         "miniflux/picofeed": "@stable",
         "symfony/asset": "^4.1",
         "symfony/console": "^4.1",

@@ -17,6 +17,13 @@ class Article
     private $id;
 
     /**
+     * One Article has One Photo.
+     * @ORM\OneToOne(targetEntity="Photo")
+     * @ORM\JoinColumn(name="photo_id", referencedColumnName="id")
+     */
+    private $photo;
+
+    /**
      * @ORM\Column(type="string", length=64)
      */
     private $externalId;
