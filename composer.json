@@ -9,6 +9,7 @@
         "easycorp/easy-log-handler": "^1.0.2",
         "league/flysystem": "^1.0",
         "miniflux/picofeed": "@stable",
+        "oneup/flysystem-bundle": "^3.0",
         "symfony/asset": "^4.1",
         "symfony/console": "^4.1",
         "symfony/debug-bundle": "^3.3|^4.0",
