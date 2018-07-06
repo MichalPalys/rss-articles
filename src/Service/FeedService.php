@@ -97,19 +97,21 @@ class FeedService
 
             $url = $item->getEnclosureUrl();
             $adapter = new Local(__DIR__.'/../../public/photo');
-            $local = new Filesystem($adapter);
+            $localAdapter = new Filesystem($adapter);
 
 
             If (isset($url)) {
                 $fileContent = file_get_contents($url);
                 $filePath = $this->articleProfilePicture($item);
-                $local->write($filePath,  $fileContent);
+                $localAdapter->put($filePath,  $fileContent);
                 $photo->setName($filePath);
                 $photo->setPath('/public/photo/');
+                $photo->setHeight(100);
+                $photo->setWidth(100);
             }
-//            else {
-////                $photo = null;
-//            }
+            else {
+                $photo = null;
+            }
 
             $article->setExternalId($item->getId());
             $article->setTitle($item->getTitle());

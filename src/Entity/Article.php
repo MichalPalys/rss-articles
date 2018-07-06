@@ -18,7 +18,7 @@ class Article
 
     /**
      * One Article has One Photo.
-     * @ORM\OneToOne(targetEntity="Photo")
+     * @ORM\OneToOne(targetEntity="Photo", cascade={"persist"})
      * @ORM\JoinColumn(name="photo_id", referencedColumnName="id")
      */
     private $photo;
@@ -47,11 +47,6 @@ class Article
      * @ORM\Column(type="datetime")
      */
     private $insertDate;
-
-    /**
-     * @ORM\Column(type="string", length=512)
-     */
-    private $enclosureUrl;
 
     /**
      * @ORM\Column(type="string", length=512)
@@ -123,18 +118,6 @@ class Article
         return $this;
     }
 
-    public function getEnclosureUrl(): ?string
-    {
-        return $this->enclosureUrl;
-    }
-
-    public function setEnclosureUrl(string $enclosureUrl): self
-    {
-        $this->enclosureUrl = $enclosureUrl;
-
-        return $this;
-    }
-
     public function getSlug(): ?string
     {
         return $this->slug;
@@ -147,10 +130,8 @@ class Article
         return $this;
     }
 
-    public function setPhoto(Photo $photo): self
+    public function setPhoto(Photo $photo)
     {
         $this->photo = $photo;
-
-        return $this;
     }
 }
