@@ -26,11 +26,14 @@ class FeedService
 
     private $slug;
 
+    private $fileSystem;
+
     public function __construct(
         LoggerInterface $logger,
         ResponseCodeFromFeedService $respCodeFromFeed,
         ArticleRepository $articleRepository,
         FeedReader $feedReader,
+        Filesystem $filesystem,
         array $rssLinkArray,
         Slugify $slug
     ) {
@@ -39,6 +42,7 @@ class FeedService
         $this->articleRepository = $articleRepository;
         $this->feedReader = $feedReader;
         $this->rssLinkArray = $rssLinkArray;
+        $this->fileSystem = $filesystem;
         $this->slug = $slug;
     }
 
@@ -97,24 +101,28 @@ class FeedService
 
             $url = $item->getEnclosureUrl();
 
-            $fileDir = $this->fileDir();
+//            $fileDir = $this->fileDir();
 
-            $adapter = new Local(__DIR__ . '/../../' . $fileDir);
-            $localAdapter = new Filesystem($adapter);
+//            $adapter = new Local(__DIR__ . '/../../' . $fileDir);
+//            $localAdapter = new Filesystem($adapter);
 
 
             If (isset($url)) {
                 $fileInfo = new \SplFileInfo($url);
 
+                $uniqueFilename = uniqid('', true);
+
+                $fileSize = getimagesize($item->getEnclosureUrl());
                 $fileContent = file_get_contents($url);
-                $localAdapter->put($fileInfo->getFilename(),  $fileContent);
-                $photo->setName($fileInfo->getFilename());
-                $photo->setPath($fileDir);
+                $this->fileSystem->put($uniqueFilename . image_type_to_extension($fileSize[2]),  $fileContent);
 
                 // Pobieranie szerokości i wysokości obrazu
-                $fileSize = getimagesize($item->getEnclosureUrl());
+
                 $photo->setHeight($fileSize[0]);
                 $photo->setWidth($fileSize[1]);
+
+                $photo->setName($fileInfo->getFilename());
+                $photo->setPath($uniqueFilename . image_type_to_extension($fileSize[2]));
 
                 // dla celów testowych
                 echo image_type_to_extension($fileSize[2]) . PHP_EOL;
