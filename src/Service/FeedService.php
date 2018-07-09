@@ -100,7 +100,6 @@ class FeedService
             $url = $item->getEnclosureUrl();
 
             If (isset($url)) {
-//                $photo = new Photo();
                 $fileInfo = new \SplFileInfo($url);
 
                 $uniqueFilename = uniqid('', true);
@@ -111,12 +110,6 @@ class FeedService
 
                 // Pobieranie szerokości i wysokości obrazu
                 $photo = $this->setDataPhoto($imgWidth, $imgHeight, $fileInfo->getFilename(), $uniqueFilename . image_type_to_extension($imgType));
-
-//                $photo->setWidth($imgWidth);
-//                $photo->setHeight($imgHeight);
-//
-//                $photo->setName($fileInfo->getFilename());
-//                $photo->setPath($uniqueFilename . image_type_to_extension($imgType));
             }
             else {
                 $photo = null;
