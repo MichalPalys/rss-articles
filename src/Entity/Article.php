@@ -134,4 +134,9 @@ class Article
     {
         $this->photo = $photo;
     }
+
+    public function getPhoto(): ?Photo
+    {
+        return $this->photo;
+    }
 }
