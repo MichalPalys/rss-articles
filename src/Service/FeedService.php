@@ -97,11 +97,10 @@ class FeedService
             //logowanie dodania pojedyńczego artykułu
             $this->logger->info('Dodanie atrykułu z id: ' . $item->getId());
 
-            $photo = new Photo();
-
             $url = $item->getEnclosureUrl();
 
             If (isset($url)) {
+//                $photo = new Photo();
                 $fileInfo = new \SplFileInfo($url);
 
                 $uniqueFilename = uniqid('', true);
@@ -111,12 +110,13 @@ class FeedService
                 $this->fileSystem->put($uniqueFilename . image_type_to_extension($imgType),  $fileContent);
 
                 // Pobieranie szerokości i wysokości obrazu
+                $photo = $this->setDataPhoto($imgWidth, $imgHeight, $fileInfo->getFilename(), $uniqueFilename . image_type_to_extension($imgType));
 
-                $photo->setHeight($imgWidth);
-                $photo->setWidth($imgHeight);
-
-                $photo->setName($fileInfo->getFilename());
-                $photo->setPath($uniqueFilename . image_type_to_extension($imgType));
+//                $photo->setWidth($imgWidth);
+//                $photo->setHeight($imgHeight);
+//
+//                $photo->setName($fileInfo->getFilename());
+//                $photo->setPath($uniqueFilename . image_type_to_extension($imgType));
             }
             else {
                 $photo = null;
@@ -132,6 +132,19 @@ class FeedService
         }
 
         return $article;
+    }
+
+    public function setDataPhoto(int $imgWidth, int $imgHeight, string $filename, string $uniqueFilename): Photo
+    {
+        $photo = new Photo();
+
+        $photo->setWidth($imgWidth);
+        $photo->setHeight($imgHeight);
+
+        $photo->setName($filename);
+        $photo->setPath($uniqueFilename);
+
+        return $photo;
     }
 
 }
