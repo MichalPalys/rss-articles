@@ -106,8 +106,15 @@ class FeedService
                 $localAdapter->put($filePath,  $fileContent);
                 $photo->setName($filePath);
                 $photo->setPath('/public/photo/');
-                $photo->setHeight(100);
-                $photo->setWidth(100);
+
+                // Pobieranie szerokości i wysokości obrazu
+                $fileInfo = getimagesize($item->getEnclosureUrl());
+                $photo->setHeight($fileInfo[0]);
+                $photo->setWidth($fileInfo[1]);
+
+                // dla celów testowych
+                echo image_type_to_extension($fileInfo[2]) . PHP_EOL;
+                echo $fileInfo['mime']. PHP_EOL;
             }
             else {
                 $photo = null;
