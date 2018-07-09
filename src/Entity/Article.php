@@ -130,7 +130,7 @@ class Article
         return $this;
     }
 
-    public function setPhoto(Photo $photo)
+    public function setPhoto(?Photo $photo)
     {
         $this->photo = $photo;
     }

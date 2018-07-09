@@ -112,7 +112,7 @@ class FeedService
                 $photo = $this->setDataPhoto($imgWidth, $imgHeight, $fileInfo->getFilename(), $uniqueFilename . image_type_to_extension($imgType));
             }
             else {
-                $photo = new Photo();
+                $photo = null;
             }
 
             $article->setExternalId($item->getId());
