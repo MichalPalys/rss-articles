@@ -18,7 +18,7 @@
                         {{ item.content | striptags | raw |truncate(50, true) }}
                     </li>
                     <li>{{ item.pubDate|date("d-m-Y G:i:s") }}</li>
-                    <li><img class="article-image-list" src="{{ item.enclosureUrl | default('no_image.png')}}"/></li>
+                    <li><img class="article-image-list" src="{{ asset(item.photo.path, 'photos') | default('no_image.png')}}"/></li>
                 </ul>
             {% endfor %}
             {{ pagerfanta(my_pager, 'twitter_bootstrap4', { 'omitFirstPage': true}) }}

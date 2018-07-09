@@ -29,7 +29,7 @@
             </tr>
             <tr>
                 <th scope="col">zdjęcie</th>
-                <td scope="row"><img class="article-image-list" src="{{ singleArticle.enclosureUrl | default(asset('no_image.png')) }}"/></td>
+                <td scope="row"><img class="article-image-list" src="{{ asset(singleArticle.photo.path, 'photos') | default(asset('no_image.png')) }}"/></td>
             </tr>
             <tr>
                 <td>
