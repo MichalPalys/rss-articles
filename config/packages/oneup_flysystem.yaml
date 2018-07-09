@@ -3,7 +3,7 @@ oneup_flysystem:
     adapters:
         my_adapter:
             local:
-                directory: '%kernel.cache_dir%/../public/photo'
+                directory: '%kernel.project_dir%/public/photo'
                 lazy: ~ # boolean (default "false")
                 writeFlags: ~
                 linkHandling: ~
