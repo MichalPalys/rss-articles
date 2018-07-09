@@ -106,17 +106,17 @@ class FeedService
 
                 $uniqueFilename = uniqid('', true);
 
-                $fileSize = getimagesize($item->getEnclosureUrl());
+                list($imgWidth, $imgHeight, $imgType) = getimagesize($item->getEnclosureUrl());
                 $fileContent = file_get_contents($url);
-                $this->fileSystem->put($uniqueFilename . image_type_to_extension($fileSize[2]),  $fileContent);
+                $this->fileSystem->put($uniqueFilename . image_type_to_extension($imgType),  $fileContent);
 
                 // Pobieranie szerokości i wysokości obrazu
 
-                $photo->setHeight($fileSize[0]);
-                $photo->setWidth($fileSize[1]);
+                $photo->setHeight($imgWidth);
+                $photo->setWidth($imgHeight);
 
                 $photo->setName($fileInfo->getFilename());
-                $photo->setPath($uniqueFilename . image_type_to_extension($fileSize[2]));
+                $photo->setPath($uniqueFilename . image_type_to_extension($imgType));
             }
             else {
                 $photo = null;
