@@ -101,20 +101,23 @@ class FeedService
 
 
             If (isset($url)) {
+                $fileInfo = new \SplFileInfo($url);
+
                 $fileContent = file_get_contents($url);
-                $filePath = $this->articleProfilePicture($item);
-                $localAdapter->put($filePath,  $fileContent);
-                $photo->setName($filePath);
+                $localAdapter->put($fileInfo->getFilename(),  $fileContent);
+                $photo->setName($fileInfo->getFilename());
                 $photo->setPath('/public/photo/');
 
                 // Pobieranie szerokości i wysokości obrazu
-                $fileInfo = getimagesize($item->getEnclosureUrl());
-                $photo->setHeight($fileInfo[0]);
-                $photo->setWidth($fileInfo[1]);
+                $fileSize = getimagesize($item->getEnclosureUrl());
+                $photo->setHeight($fileSize[0]);
+                $photo->setWidth($fileSize[1]);
 
                 // dla celów testowych
-                echo image_type_to_extension($fileInfo[2]) . PHP_EOL;
-                echo $fileInfo['mime']. PHP_EOL;
+                echo image_type_to_extension($fileSize[2]) . PHP_EOL;
+                echo $fileSize['mime']. PHP_EOL;
+                echo $fileInfo->getPath() . PHP_EOL;
+                echo $fileInfo->getFilename() . PHP_EOL;
             }
             else {
                 $photo = null;
@@ -132,10 +135,4 @@ class FeedService
         return $article;
     }
 
-    public function articleProfilePicture($feedItem): string
-    {
-        $filePath = strrchr($feedItem->getEnclosureUrl(), "/");
-
-        return $filePath;
-    }
 }
