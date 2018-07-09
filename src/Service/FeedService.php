@@ -99,7 +99,7 @@ class FeedService
 
             $url = $item->getEnclosureUrl();
 
-            If (isset($url)) {
+            If (!empty($url)) {
                 $fileInfo = new \SplFileInfo($url);
 
                 $uniqueFilename = uniqid('', true);
@@ -112,7 +112,7 @@ class FeedService
                 $photo = $this->setDataPhoto($imgWidth, $imgHeight, $fileInfo->getFilename(), $uniqueFilename . image_type_to_extension($imgType));
             }
             else {
-                $photo = null;
+                $photo = new Photo();
             }
 
             $article->setExternalId($item->getId());
