@@ -96,7 +96,10 @@ class FeedService
             $photo = new Photo();
 
             $url = $item->getEnclosureUrl();
-            $adapter = new Local(__DIR__.'/../../public/photo');
+
+            $fileDir = $this->fileDir();
+
+            $adapter = new Local(__DIR__ . '/../../' . $fileDir);
             $localAdapter = new Filesystem($adapter);
 
 
@@ -106,7 +109,7 @@ class FeedService
                 $fileContent = file_get_contents($url);
                 $localAdapter->put($fileInfo->getFilename(),  $fileContent);
                 $photo->setName($fileInfo->getFilename());
-                $photo->setPath('/public/photo/');
+                $photo->setPath($fileDir);
 
                 // Pobieranie szerokości i wysokości obrazu
                 $fileSize = getimagesize($item->getEnclosureUrl());
@@ -135,4 +138,8 @@ class FeedService
         return $article;
     }
 
+    public function fileDir(): string
+    {
+        return '/public/photo/' . date('Y_m_d') . "/";
+    }
 }
