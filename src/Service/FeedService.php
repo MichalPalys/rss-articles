@@ -117,12 +117,6 @@ class FeedService
 
                 $photo->setName($fileInfo->getFilename());
                 $photo->setPath($uniqueFilename . image_type_to_extension($fileSize[2]));
-
-                // dla celów testowych
-                echo image_type_to_extension($fileSize[2]) . PHP_EOL;
-                echo $fileSize['mime']. PHP_EOL;
-                echo $fileInfo->getPath() . PHP_EOL;
-                echo $fileInfo->getFilename() . PHP_EOL;
             }
             else {
                 $photo = null;
