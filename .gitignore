@@ -1,7 +1,7 @@
 
 ###> symfony/framework-bundle ###
 /.env
-/public/photo/
+/public/photos/
 /public/bundles/
 /var/
 /vendor/
