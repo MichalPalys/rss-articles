@@ -101,12 +101,6 @@ class FeedService
 
             $url = $item->getEnclosureUrl();
 
-//            $fileDir = $this->fileDir();
-
-//            $adapter = new Local(__DIR__ . '/../../' . $fileDir);
-//            $localAdapter = new Filesystem($adapter);
-
-
             If (isset($url)) {
                 $fileInfo = new \SplFileInfo($url);
 
@@ -146,8 +140,4 @@ class FeedService
         return $article;
     }
 
-    public function fileDir(): string
-    {
-        return '/public/photo/' . date('Y_m_d') . "/";
-    }
 }
