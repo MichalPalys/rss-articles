@@ -99,17 +99,10 @@ class FeedService
 
             $url = $item->getEnclosureUrl();
 
-            If (!empty($url)) {
-                $fileInfo = new \SplFileInfo($url);
-
-                $uniqueFilename = uniqid('', true);
-
-                list($imgWidth, $imgHeight, $imgType) = getimagesize($item->getEnclosureUrl());
+            If ($url) {
                 $fileContent = file_get_contents($url);
-                $this->fileSystem->put($uniqueFilename . image_type_to_extension($imgType),  $fileContent);
-
-                // Pobieranie szerokości i wysokości obrazu
-                $photo = $this->setDataPhoto($imgWidth, $imgHeight, $fileInfo->getFilename(), $uniqueFilename . image_type_to_extension($imgType));
+                $photo = $this->setDataPhoto($url);
+                $this->fileSystem->put($photo->getPath(),  $fileContent);
             }
             else {
                 $photo = null;
@@ -127,15 +120,18 @@ class FeedService
         return $article;
     }
 
-    public function setDataPhoto(int $imgWidth, int $imgHeight, string $filename, string $uniqueFilename): Photo
+    public function setDataPhoto(string $url): Photo
     {
+        $fileInfo = new \SplFileInfo($url);
         $photo = new Photo();
+
+        list($imgWidth, $imgHeight, $imgType) = getimagesize($url);
+        $uniqueFilename = uniqid('', true);
 
         $photo->setWidth($imgWidth);
         $photo->setHeight($imgHeight);
-
-        $photo->setName($filename);
-        $photo->setPath($uniqueFilename);
+        $photo->setName($fileInfo->getFilename());
+        $photo->setPath($uniqueFilename . image_type_to_extension($imgType));
 
         return $photo;
     }
