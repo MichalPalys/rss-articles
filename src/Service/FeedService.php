@@ -92,6 +92,8 @@ class FeedService
         if (!$existingArticle) {
             $article = new Article();
 
+            $photo = null;
+
             //logowanie dodania pojedyńczego artykułu
             $this->logger->info('Dodanie atrykułu z id: ' . $item->getId());
 
@@ -101,8 +103,6 @@ class FeedService
                 $fileContent = file_get_contents($url);
                 $photo = $this->setDataPhoto($url);
                 $this->fileSystem->put($photo->getPath(), $fileContent);
-            } else {
-                $photo = null;
             }
 
             $article->setExternalId($item->getId());
