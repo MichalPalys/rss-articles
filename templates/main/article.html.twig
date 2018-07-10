@@ -30,8 +30,8 @@
             <tr>
                 <th scope="col">zdjęcie</th>
                 <td scope="row">
-                    {% if item.photo.path is defined %}
-                        <img class="article-image-list" src="{{ asset(item.photo.path, 'photos') | default('no_image.png')}}"/>
+                    {% if singleArticle.photo.path is defined %}
+                        <img class="article-image-list" src="{{ asset(singleArticle.photo.path, 'photos') | default('no_image.png')}}"/>
                     {% else %}
                         <img class="article-image-list" src="{{ asset('no_image.png')}}"/>
                     {% endif %}
