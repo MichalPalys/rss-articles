@@ -33,3 +33,6 @@ framework:
         packages:
             photos:
                 base_path: '%env(PHOTO_DIR)%'
+
+    templating:
+        engines: twig
