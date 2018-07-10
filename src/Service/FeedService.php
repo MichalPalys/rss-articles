@@ -6,11 +6,10 @@ use App\Entity\Article;
 use App\Entity\Photo;
 use App\Repository\ArticleRepository;
 use Cocur\Slugify\Slugify;
+use League\Flysystem\Filesystem;
 use PicoFeed\Parser\Item;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
-use League\Flysystem\Filesystem;
-use League\Flysystem\Adapter\Local;
 
 class FeedService
 {
@@ -91,7 +90,6 @@ class FeedService
         $existingArticle = $this->articleRepository->findOneBy(['externalId' => $externalId]);
 
         if (!$existingArticle) {
-
             $article = new Article();
 
             //logowanie dodania pojedyńczego artykułu
@@ -99,12 +97,11 @@ class FeedService
 
             $url = $item->getEnclosureUrl();
 
-            If ($url) {
+            if ($url) {
                 $fileContent = file_get_contents($url);
                 $photo = $this->setDataPhoto($url);
-                $this->fileSystem->put($photo->getPath(),  $fileContent);
-            }
-            else {
+                $this->fileSystem->put($photo->getPath(), $fileContent);
+            } else {
                 $photo = null;
             }
 
@@ -135,5 +132,4 @@ class FeedService
 
         return $photo;
     }
-
 }
