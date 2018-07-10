@@ -29,7 +29,13 @@
             </tr>
             <tr>
                 <th scope="col">zdjęcie</th>
-                <td scope="row"><img class="article-image-list" src="{{ singleArticle.enclosureUrl | default(asset('no_image.png')) }}"/></td>
+                <td scope="row">
+                    {% if item.photo.path is defined %}
+                        <img class="article-image-list" src="{{ asset(item.photo.path, 'photos') | default('no_image.png')}}"/>
+                    {% else %}
+                        <img class="article-image-list" src="{{ asset('no_image.png')}}"/>
+                    {% endif %}
+                </td>
             </tr>
             <tr>
                 <td>

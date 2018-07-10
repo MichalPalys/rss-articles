@@ -3,8 +3,10 @@
 namespace App\Service;
 
 use App\Entity\Article;
+use App\Entity\Photo;
 use App\Repository\ArticleRepository;
 use Cocur\Slugify\Slugify;
+use League\Flysystem\Filesystem;
 use PicoFeed\Parser\Item;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -23,11 +25,14 @@ class FeedService
 
     private $slug;
 
+    private $fileSystem;
+
     public function __construct(
         LoggerInterface $logger,
         ResponseCodeFromFeedService $respCodeFromFeed,
         ArticleRepository $articleRepository,
         FeedReader $feedReader,
+        Filesystem $filesystem,
         array $rssLinkArray,
         Slugify $slug
     ) {
@@ -36,6 +41,7 @@ class FeedService
         $this->articleRepository = $articleRepository;
         $this->feedReader = $feedReader;
         $this->rssLinkArray = $rssLinkArray;
+        $this->fileSystem = $filesystem;
         $this->slug = $slug;
     }
 
@@ -86,18 +92,44 @@ class FeedService
         if (!$existingArticle) {
             $article = new Article();
 
+            $photo = null;
+
             //logowanie dodania pojedyńczego artykułu
             $this->logger->info('Dodanie atrykułu z id: ' . $item->getId());
+
+            $url = $item->getEnclosureUrl();
+
+            if ($url) {
+                $fileContent = file_get_contents($url);
+                $photo = $this->setDataPhoto($url);
+                $this->fileSystem->put($photo->getPath(), $fileContent);
+            }
 
             $article->setExternalId($item->getId());
             $article->setTitle($item->getTitle());
             $article->setPubDate($item->getPublishedDate());
             $article->setInsertDate($item->getUpdatedDate());
             $article->setContent($item->getContent());
-            $article->setEnclosureUrl($item->getEnclosureUrl());
+            $article->setPhoto($photo);
             $article->setSlug($this->slug->slugify($item->getTitle()));
         }
 
         return $article;
+    }
+
+    public function setDataPhoto(string $url): Photo
+    {
+        $fileInfo = new \SplFileInfo($url);
+        $photo = new Photo();
+
+        list($imgWidth, $imgHeight, $imgType) = getimagesize($url);
+        $uniqueFilename = uniqid('', true);
+
+        $photo->setWidth($imgWidth);
+        $photo->setHeight($imgHeight);
+        $photo->setName($fileInfo->getFilename());
+        $photo->setPath($uniqueFilename . image_type_to_extension($imgType));
+
+        return $photo;
     }
 }

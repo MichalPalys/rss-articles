@@ -1,0 +1,16 @@
+# Read the documentation: https://github.com/1up-lab/OneupFlysystemBundle/tree/master/Resources/doc/index.md
+oneup_flysystem:
+    adapters:
+        my_adapter:
+            local:
+                directory: '%kernel.project_dir%/public%env(PHOTO_DIR)%'
+                lazy: ~ # boolean (default "false")
+                writeFlags: ~
+                linkHandling: ~
+                permissions: ~
+    filesystems:
+        my_filesystem:
+            adapter: my_adapter
+            alias: League\Flysystem\Filesystem
+            cache: ~
+            mount: ~
