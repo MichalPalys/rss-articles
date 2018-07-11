@@ -12,16 +12,14 @@
     <body class="text-center">
     <div class="container h-100">
         <div class="row h-100 justify-content-center align-items-center">
-        <div>
+        <div style="position: absolute; top: 0;">
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
                 <a href="{{ path('fos_user_security_logout') }}">
                     {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
                 </a>
             {% else %}
-            <button class="btn btn-lg btn-primary btn-block">
-                <a class="text-white" href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
-            </button>
+                <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
             {% endif %}
         </div>
 
@@ -35,7 +33,7 @@
             {% endfor %}
         {% endif %}
 
-        <div>
+        <div class="w-25">
             {% block fos_user_content %}
             {% endblock fos_user_content %}
         </div>
