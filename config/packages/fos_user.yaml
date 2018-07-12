@@ -5,3 +5,6 @@ fos_user:
     from_email:
         address: "lachim20pl@wp.pl"
         sender_name: "lachim20pl"
+    registration:
+        form:
+            type: App\Form\MyRegistrationFormType
