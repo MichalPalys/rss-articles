@@ -8,6 +8,8 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
+use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
+use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
 
 class MyRegistrationFormType extends AbstractType
 {
@@ -19,7 +21,9 @@ class MyRegistrationFormType extends AbstractType
                     'message'=>'Nie zaakceptowałeś Regulaminu!'
                 ])
             ]])
-            ->add('captcha', null, ['mapped'=>false])
+            ->add('captcha', EWZRecaptchaType::class, ['mapped'=>false, 'constraints'=>[
+                new RecaptchaTrue()
+            ]])
         ;
     }
 
