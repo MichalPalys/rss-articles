@@ -6,7 +6,9 @@
 
 <div class="form-group">
     {{ form_label(form.username, null, {'label_attr': {'class': 'my-2'}}) }}
+    <div style="color: red;">
     {{ form_errors(form.username, {'attr': {'class': 'text-danger'}}) }}
+    </div>
     {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
 </div>
 
@@ -30,8 +32,8 @@
 
 <div class="form-group">
     {{ form_label(form.statuteCheckbox, null, {'label_attr': {'class': 'my-2'}}) }}
-    {{ form_errors(form.statuteCheckbox) }}
     {{ form_widget(form.statuteCheckbox, {'attr': {'class': 'ml-2'}}) }}
+    {{ form_errors(form.statuteCheckbox) }}
 </div>
 
 <div class="form-group">
