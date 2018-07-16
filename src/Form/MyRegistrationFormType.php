@@ -10,15 +10,23 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class MyRegistrationFormType extends AbstractType
 {
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('statuteCheckbox', CheckboxType::class, ['mapped' => false, 'constraints' => [
                 new IsTrue([
-                    'message' => 'You did not accept the rules of the website!'
+                    'message' => $this->translator->trans('statue_error')
                 ])
             ]])
             ->add('captcha', EWZRecaptchaType::class, ['mapped' => false, 'constraints' => [
