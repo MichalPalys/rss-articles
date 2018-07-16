@@ -18,7 +18,7 @@ class MyRegistrationFormType extends AbstractType
         $builder
             ->add('statuteCheckbox', CheckboxType::class, ['mapped' => false, 'constraints' => [
                 new IsTrue([
-                    'message' => 'Nie zaakceptowałeś Regulaminu!'
+                    'message' => 'You did not accept the rules of the website!'
                 ])
             ]])
             ->add('captcha', EWZRecaptchaType::class, ['mapped' => false, 'constraints' => [

@@ -3,6 +3,16 @@ body {
     height: 100%;
 }
 
+.warning {
+    color: red;
+    font-size: 0.7em;
+}
+
+.list-style-clear {
+    list-style-type: none;
+    padding: 0;
+}
+
 /**
  * stylowanie stron z artykułami
  */
