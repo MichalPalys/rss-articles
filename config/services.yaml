@@ -5,6 +5,7 @@ parameters:
         - http://www.rmf24.pl/sport/feed
         - http://www.komputerswiat.pl/rss-feeds/komputer-swiat-feed.aspx
         - http://xmoon.pl/rss/rss.xml
+    google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     locale: 'en'
 services:
     # default configuration for services in *this* file
