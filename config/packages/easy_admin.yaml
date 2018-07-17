@@ -1,5 +1,7 @@
 easy_admin:
     entities:
+        Photo:
+            class: App\Entity\Photo
         Article:
             class: App\Entity\Article
             list:
@@ -10,6 +12,9 @@ easy_admin:
                     - { property: 'Pub date', type: 'datetime', label: 'Data Publikacji'}
                     - { property: 'Insert date', type: 'datetime', label: 'Data dodania'}
                     - { property: 'photo.path', type: 'image', base_path: '/photos/', label: 'Zdjęcie'}
+            form:
+                fields:
+                    - { property: 'photo', type: 'easyadmin_autocomplete', type_options: { class: 'App\Entity\Photo' }, base_path: '/photos/', label: 'Zdjęcie'}
 #        - App\Entity\Article
 #        - App\Entity\Photo
 #        - App\Entity\User
