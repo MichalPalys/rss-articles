@@ -1,6 +1,15 @@
-#easy_admin:
-#    entities:
-#        # List the entity class name you want to manage
-#        - App\Entity\Product
-#        - App\Entity\Category
+easy_admin:
+    entities:
+        Article:
+            class: App\Entity\Article
+            list:
+                fields:
+                    - { property: 'id'}
+                    - { property: 'external id', type: 'string', label: 'Zewnętrzne ID'}
+                    - { property: 'Title', type: 'string', label: 'Tytuł'}
+                    - { property: 'Pub date', type: 'datetime', label: 'Data Publikacji'}
+                    - { property: 'Insert date', type: 'datetime', label: 'Data dodania'}
+                    - { property: 'photo.path', type: 'image', base_path: '/photos/', label: 'Zdjęcie'}
+#        - App\Entity\Article
+#        - App\Entity\Photo
 #        - App\Entity\User
