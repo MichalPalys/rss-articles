@@ -23,19 +23,21 @@
             {% endif %}
         </div>
 
-        {% if app.request.hasPreviousSession %}
-            {% for type, messages in app.session.flashbag.all() %}
-                {% for message in messages %}
-                    <div class="flash-{{ type }}">
-                        {{ message }}
-                    </div>
+        <div>
+            {% if app.request.hasPreviousSession %}
+                {% for type, messages in app.session.flashbag.all() %}
+                    {% for message in messages %}
+                        <div class="flash-{{ type }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
-        {% endif %}
+            {% endif %}
 
-        <div class="w-50">
-            {% block fos_user_content %}
-            {% endblock fos_user_content %}
+            <div class="">
+                {% block fos_user_content %}
+                {% endblock fos_user_content %}
+            </div>
         </div>
     </div>
     </div>
