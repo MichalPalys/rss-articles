@@ -3,8 +3,10 @@ fos_user:
     firewall_name: main
     user_class: App\Entity\User
     from_email:
-        address: "lachim20pl@wp.pl"
-        sender_name: "lachim20pl"
+        address: "%env(MAILER_ADDRESS)%"
+        sender_name: "%env(MAILER_SENDER_NAME)%"
     registration:
+        confirmation:
+            enabled: true
         form:
             type: App\Form\MyRegistrationFormType
