@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
@@ -30,21 +31,29 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=256)
+     * @Assert\NotBlank(message="article.title.not_blank")
+     * @Assert\Length(min=3)
+     * @Assert\Length(max=256)
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="article.content.not_blank")
+     * @Assert\Length(min=3)
+     * @Assert\Length(max=2000)
      */
     private $content;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\IsTrue(message="article.pub_date.is_set")
      */
     private $pubDate;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\IsTrue(message="article.insert_date.is_set")
      */
     private $insertDate;
 
