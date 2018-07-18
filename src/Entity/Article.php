@@ -21,7 +21,6 @@ class Article
      * One Article has One Photo.
      * @ORM\OneToOne(targetEntity="Photo", cascade={"persist"})
      * @ORM\JoinColumn(name="photo_id", referencedColumnName="id")
-     * @Assert\Photo(groups={"admin"})
      */
     private $photo;
 
@@ -48,13 +47,12 @@ class Article
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\IsTrue(message="article.pub_date.is_set", groups={"admin"})
+     * @Assert\NotBlank(message="article.pub_date.not_blank", groups={"admin"})
      */
     private $pubDate;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\IsTrue(message="article.insert_date.is_set")
      */
     private $insertDate;
 
@@ -85,7 +83,7 @@ class Article
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
@@ -97,7 +95,7 @@ class Article
         return $this->content;
     }
 
-    public function setContent(string $content): self
+    public function setContent(?string $content): self
     {
         $this->content = $content;
 
@@ -109,7 +107,7 @@ class Article
         return $this->pubDate;
     }
 
-    public function setPubDate(\DateTimeInterface $pubDate): self
+    public function setPubDate(?\DateTimeInterface $pubDate): self
     {
         $this->pubDate = $pubDate;
 
@@ -121,7 +119,7 @@ class Article
         return $this->insertDate;
     }
 
-    public function setInsertDate(\DateTimeInterface $insertDate): self
+    public function setInsertDate(?\DateTimeInterface $insertDate): self
     {
         $this->insertDate = $insertDate;
 
