@@ -7,20 +7,28 @@ easy_admin:
             list:
                 fields:
                     - { property: 'id'}
-                    - { property: 'external id', type: 'string', label: 'Zewnętrzne ID'}
-                    - { property: 'Title', type: 'string', label: 'Tytuł'}
-                    - { property: 'Content', label: 'Treść'}
-                    - { property: 'Pub date', type: 'datetime', label: 'Data Publikacji'}
-                    - { property: 'Insert date', type: 'datetime', label: 'Data dodania'}
-                    - { property: 'photo.path', type: 'image', base_path: '/photos/', label: 'Zdjęcie'}
-            form:
+                    - { property: 'external id', type: 'string', label: 'article.external_id'}
+                    - { property: 'Title', type: 'string', label: 'article.title'}
+                    - { property: 'Content', label: 'article.content'}
+                    - { property: 'Pub date', type: 'datetime', label: 'article.publication_date'}
+                    - { property: 'Insert date', type: 'datetime', label: 'article.insert_date'}
+                    - { property: 'photo.path', type: 'image', base_path: '/photos/', label: 'article.photo'}
+            new:
+                form_options: { validation_groups: ['admin'] }
                 fields:
-                    - { property: 'external_id', label: 'Zewnętrzne ID'}
-                    - { property: 'Title', label: 'Tytuł'}
-                    - { property: 'Content', label: 'Treść'}
-                    - { property: 'Pub_date', type: 'datetime', label: 'Data Publikacji'}
-                    - { property: 'Insert_date', type: 'datetime', label: 'Data dodania'}
-                    - { property: 'photo', data_class: 'App\Entity\Photo', type_options: {  by_reference: true }, base_path: '%env(PHOTO_DIR)%', label: 'Zdjęcie'}
+                    - { property: 'Title', label: 'article.title'}
+                    - { property: 'Content', label: 'article.content'}
+                    - { property: 'Pub_date', type: 'datetime', label: 'article.publication_date'}
+                    - { property: 'Insert_date', type: 'datetime', label: 'article.insert_date'}
+                    - { property: 'photo', data_class: 'App\Entity\Photo', type_options: {  by_reference: true }, base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
+            edit:
+                form_options: { validation_groups: ['admin'] }
+                fields:
+                    - { property: 'Title', label: 'article.title'}
+                    - { property: 'Content', label: 'article.content'}
+                    - { property: 'Pub_date', type: 'datetime', label: 'article.publication_date'}
+                    - { property: 'Insert_date', type: 'datetime', label: 'article.insert_date'}
+#                    - { property: 'photo', data_class: 'App\Entity\Photo', type_options: {  by_reference: true }, base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
 #        - App\Entity\Article
 #        - App\Entity\Photo
 #        - App\Entity\User
