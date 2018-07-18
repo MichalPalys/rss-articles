@@ -12,7 +12,7 @@ easy_admin:
                     - { property: 'Content', label: 'article.content'}
                     - { property: 'Pub date', type: 'datetime', label: 'article.publication_date'}
                     - { property: 'Insert date', type: 'datetime', label: 'article.insert_date'}
-                    - { property: 'photo.path', type: 'image', base_path: '/photos/', label: 'article.photo'}
+                    - { property: 'photo.path', type: 'image', base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
             new:
                 form_options: { validation_groups: ['admin'] }
                 fields:
