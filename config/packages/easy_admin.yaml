@@ -15,7 +15,7 @@ easy_admin:
                     - { property: 'photo.path', type: 'image', base_path: '/photos/', label: 'Zdjęcie'}
             form:
                 fields:
-                    - { property: 'id'}
+#                    - { property: 'id'}
                     - { property: 'external_id', label: 'Zewnętrzne ID'}
                     - { property: 'Title', label: 'Tytuł'}
                     - { property: 'Content', label: 'Treść'}
