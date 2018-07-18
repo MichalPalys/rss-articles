@@ -20,7 +20,7 @@ easy_admin:
                     - { property: 'Content', label: 'Treść'}
                     - { property: 'Pub_date', type: 'datetime', label: 'Data Publikacji'}
                     - { property: 'Insert_date', type: 'datetime', label: 'Data dodania'}
-                    - { property: 'photo', data_class: 'App\Entity\Photo', type: 'easyadmin_autocomplete', type_options: {  by_reference: true }, base_path: '%env(PHOTO_DIR)%', label: 'Zdjęcie'}
+                    - { property: 'photo', data_class: 'App\Entity\Photo', type_options: {  by_reference: true }, base_path: '%env(PHOTO_DIR)%', label: 'Zdjęcie'}
 #        - App\Entity\Article
 #        - App\Entity\Photo
 #        - App\Entity\User
