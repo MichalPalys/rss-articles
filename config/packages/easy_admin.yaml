@@ -20,7 +20,7 @@ easy_admin:
                     - { property: 'Content', label: 'article.content'}
                     - { property: 'Pub_date', type: 'datetime', label: 'article.publication_date'}
                     - { property: 'Insert_date', type: 'datetime', label: 'article.insert_date'}
-                    - { property: 'photo', data_class: 'App\Entity\Photo', type_options: {  by_reference: true }, base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
+                    - { property: 'photoFile', type: 'file', base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
             edit:
                 form_options: { validation_groups: ['admin'] }
                 fields:
