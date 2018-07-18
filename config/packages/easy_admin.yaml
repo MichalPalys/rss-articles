@@ -1,0 +1,34 @@
+easy_admin:
+    entities:
+        Photo:
+            class: App\Entity\Photo
+        Article:
+            class: App\Entity\Article
+            list:
+                fields:
+                    - { property: 'id'}
+                    - { property: 'external id', type: 'string', label: 'article.external_id'}
+                    - { property: 'Title', type: 'string', label: 'article.title'}
+                    - { property: 'Content', label: 'article.content'}
+                    - { property: 'Pub date', type: 'datetime', label: 'article.publication_date'}
+                    - { property: 'Insert date', type: 'datetime', label: 'article.insert_date'}
+                    - { property: 'photo.path', type: 'image', base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
+            new:
+                form_options: { validation_groups: ['admin'] }
+                fields:
+                    - { property: 'Title', label: 'article.title'}
+                    - { property: 'Content', label: 'article.content'}
+                    - { property: 'Pub_date', type: 'datetime', label: 'article.publication_date'}
+                    - { property: 'Insert_date', type: 'datetime', label: 'article.insert_date'}
+                    - { property: 'photo', data_class: 'App\Entity\Photo', type_options: {  by_reference: true }, base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
+            edit:
+                form_options: { validation_groups: ['admin'] }
+                fields:
+                    - { property: 'Title', label: 'article.title'}
+                    - { property: 'Content', label: 'article.content'}
+                    - { property: 'Pub_date', type: 'datetime', label: 'article.publication_date'}
+                    - { property: 'Insert_date', type: 'datetime', label: 'article.insert_date'}
+#                    - { property: 'photo', data_class: 'App\Entity\Photo', type_options: {  by_reference: true }, base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
+#        - App\Entity\Article
+#        - App\Entity\Photo
+#        - App\Entity\User

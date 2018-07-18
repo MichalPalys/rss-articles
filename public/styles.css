@@ -13,6 +13,10 @@ body {
     padding: 0;
 }
 
+.pagerfanta ul.pagination {
+    justify-content: center;
+}
+
 /**
  * stylowanie stron z artykułami
  */

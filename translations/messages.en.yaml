@@ -1,1 +1,6 @@
-statue_error: You did not accept the rules of the website!
+article.external_id: External identifier
+article.title: Title
+article.content: Content
+article.publication_date: Publication date
+article.insert_date: Addition date
+article.photo: Photo
