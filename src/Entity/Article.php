@@ -21,6 +21,7 @@ class Article
      * One Article has One Photo.
      * @ORM\OneToOne(targetEntity="Photo", cascade={"persist"})
      * @ORM\JoinColumn(name="photo_id", referencedColumnName="id")
+     * @Assert\Photo(groups={"admin"})
      */
     private $photo;
 
@@ -31,23 +32,23 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=256)
-     * @Assert\NotBlank(message="article.title.not_blank")
-     * @Assert\Length(min=3)
-     * @Assert\Length(max=256)
+     * @Assert\NotBlank(message="article.title.not_blank", groups={"admin"})
+     * @Assert\Length(min=3, groups={"admin"})
+     * @Assert\Length(max=256, groups={"admin"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="article.content.not_blank")
-     * @Assert\Length(min=3)
-     * @Assert\Length(max=2000)
+     * @Assert\NotBlank(message="article.content.not_blank", groups={"admin"})
+     * @Assert\Length(min=3, groups={"admin"})
+     * @Assert\Length(max=2000, groups={"admin"})
      */
     private $content;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\IsTrue(message="article.pub_date.is_set")
+     * @Assert\IsTrue(message="article.pub_date.is_set", groups={"admin"})
      */
     private $pubDate;
 
