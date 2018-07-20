@@ -12,6 +12,7 @@
         "friendsofsymfony/user-bundle": "^2.1",
         "miniflux/picofeed": "@stable",
         "oneup/flysystem-bundle": "^3.0",
+        "oneup/uploader-bundle": "^2.0",
         "symfony/asset": "^4.1",
         "symfony/console": "^4.1",
         "symfony/debug-bundle": "^3.3|^4.0",
