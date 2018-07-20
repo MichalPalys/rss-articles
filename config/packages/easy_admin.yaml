@@ -1,7 +1,11 @@
 easy_admin:
     entities:
         Photo:
+            controller: App\Controller\PhotoController
             class: App\Entity\Photo
+            form:
+                fields:
+                    - { property: 'pathFile', type: 'file', base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
         Article:
             class: App\Entity\Article
             list:
