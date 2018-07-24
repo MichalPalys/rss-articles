@@ -31,6 +31,11 @@ class Photo
 
     /**
      * @var File
+     * @Assert\Image(
+     *     maxSize = "1024k",
+     *     mimeTypes = {"image/*"},
+     *     mimeTypesMessage = "Please upload a valid Image file"
+     * )
      */
     private $pathFile;
 
@@ -76,7 +81,7 @@ class Photo
     /**
      * @return File
      */
-    public function getPathFile(): File
+    public function getPathFile(): ?File
     {
         return $this->pathFile;
     }

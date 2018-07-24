@@ -19,6 +19,16 @@ class PhotoRepository extends ServiceEntityRepository
         parent::__construct($registry, Photo::class);
     }
 
+    public function persist(Photo $photo)
+    {
+        $this->_em->persist($photo);
+    }
+
+    public function flush()
+    {
+        $this->_em->flush();
+    }
+
 //    /**
 //     * @return Photo[] Returns an array of Photo objects
 //     */

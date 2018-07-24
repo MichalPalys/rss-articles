@@ -5,7 +5,7 @@ easy_admin:
             class: App\Entity\Photo
             form:
                 fields:
-                    - { property: 'pathFile', type: 'file', base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
+                    - { property: 'pathFile', type: 'file', data_class: App\Form\EditPhotoEntityFormType, type_options: {  mapped: false }, base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
         Article:
             class: App\Entity\Article
             list:
