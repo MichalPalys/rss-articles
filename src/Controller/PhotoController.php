@@ -39,9 +39,6 @@ class PhotoController extends BaseAdminController
             $url = $file->getPathname();
             $tmpPhoto = FeedService::setDataPhoto($url);
 
-            $fileName = $tmpPhoto->getPath();
-
-
             // updates the 'brochure' property to store the img file name
             // instead of its contents
             $photo->setName($file->getClientOriginalName());
