@@ -34,7 +34,7 @@ class Photo
      * @Assert\Image(
      *     maxSize = "2048k",
      *     mimeTypes = {"image/*"},
-     *     mimeTypesMessage = "photo.max_file_size"
+     *     mimeTypesMessage = "photo.invalid_img_file"
      * )
      */
     private $pathFile;
