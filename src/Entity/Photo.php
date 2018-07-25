@@ -32,7 +32,7 @@ class Photo
     /**
      * @var File
      * @Assert\Image(
-     *     maxSize = "1024k",
+     *     maxSize = "2048k",
      *     mimeTypes = {"image/*"},
      *     mimeTypesMessage = "Please upload a valid Image file"
      * )
