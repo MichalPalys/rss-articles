@@ -21,9 +21,7 @@ class PhotoController extends BaseAdminController
     ) {
         $this->photoRepository = $photoRepository;
     }
-//    /**
-//     * @Route("/product/new", name="app_product_new")
-//     */
+
     public function newAction()
     {
         $photo = new Photo();
