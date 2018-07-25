@@ -3,9 +3,6 @@ easy_admin:
         Photo:
             controller: App\Controller\PhotoController
             class: App\Entity\Photo
-            form:
-                fields:
-                    - { property: 'pathFile', type: 'file', data_class: App\Form\EditPhotoEntityFormType, type_options: {  mapped: false }, base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
         Article:
             class: App\Entity\Article
             list:
@@ -32,7 +29,7 @@ easy_admin:
                     - { property: 'Content', label: 'article.content'}
                     - { property: 'Pub_date', type: 'datetime', label: 'article.publication_date'}
                     - { property: 'Insert_date', type: 'datetime', label: 'article.insert_date'}
-#                    - { property: 'photo', data_class: 'App\Entity\Photo', type_options: {  by_reference: true }, base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
+#                    - { property: 'photo', data_class: 'App\Entity\Photo', type_options: {  by_reference: true, mapped: false }, base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
 #        - App\Entity\Article
 #        - App\Entity\Photo
 #        - App\Entity\User
