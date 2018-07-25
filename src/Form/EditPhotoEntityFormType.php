@@ -17,7 +17,7 @@ class EditPhotoEntityFormType extends AbstractType
         $builder
             // ...
             ->add('pathFile', FileType::class, array('label' => 'article.photo'))
-            ->add('submit_photo', SubmitType::class, array('label' => 'Zapisz'))
+            ->add('submit_photo', SubmitType::class, array('label' => ' Submit photo', 'attr' => ['class' => 'fa fa-save btn btn-primary action-save']))
             // ...
         ;
     }
