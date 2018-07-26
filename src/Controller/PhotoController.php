@@ -11,15 +11,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Photo;
 use App\Repository\PhotoRepository;
 use App\Form\EditPhotoEntityFormType;
+use App\Service\DataPhotoService;
 
 class PhotoController extends BaseAdminController
 {
     private $photoRepository;
+    private $dataPhotoService;
 
     public function __construct(
-        PhotoRepository $photoRepository
+        PhotoRepository $photoRepository,
+        DataPhotoService $dataPhotoService
     ) {
         $this->photoRepository = $photoRepository;
+        $this->dataPhotoService = $dataPhotoService;
     }
 
     public function newAction()
@@ -35,7 +39,8 @@ class PhotoController extends BaseAdminController
             // $file stores the uploaded img file
             $file = $photo->getPathFile();
             $url = $file->getPathname();
-            $tmpPhoto = FeedService::setDataPhoto($url);
+//            $tmpPhoto = FeedService::setDataPhoto($url);
+            $tmpPhoto = $this->dataPhotoService->setDataPhoto($url);
 
             // updates the 'brochure' property to store the img file name
             // instead of its contents

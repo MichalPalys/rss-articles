@@ -27,6 +27,8 @@ class FeedService
 
     private $fileSystem;
 
+    private $dataPhotoService;
+
     public function __construct(
         LoggerInterface $logger,
         ResponseCodeFromFeedService $respCodeFromFeed,
@@ -34,7 +36,8 @@ class FeedService
         FeedReader $feedReader,
         Filesystem $filesystem,
         array $rssLinkArray,
-        Slugify $slug
+        Slugify $slug,
+        DataPhotoService $dataPhotoService
     ) {
         $this->logger = $logger;
         $this->respCodeFromFeed = $respCodeFromFeed;
@@ -43,6 +46,7 @@ class FeedService
         $this->rssLinkArray = $rssLinkArray;
         $this->fileSystem = $filesystem;
         $this->slug = $slug;
+        $this->dataPhotoService = $dataPhotoService;
     }
 
     public function setFeedToDataBase()
@@ -101,7 +105,8 @@ class FeedService
 
             if ($url) {
                 $fileContent = file_get_contents($url);
-                $photo = $this->setDataPhoto($url);
+//                $photo = $this->setDataPhoto($url);
+                $photo = $this->dataPhotoService->setDataPhoto($url);
                 $this->fileSystem->put($photo->getPath(), $fileContent);
             }
 
@@ -117,19 +122,19 @@ class FeedService
         return $article;
     }
 
-    public function setDataPhoto(string $url): Photo
-    {
-        $fileInfo = new \SplFileInfo($url);
-        $photo = new Photo();
-
-        list($imgWidth, $imgHeight, $imgType) = getimagesize($url);
-        $uniqueFilename = uniqid('', true);
-
-        $photo->setWidth($imgWidth);
-        $photo->setHeight($imgHeight);
-        $photo->setName($fileInfo->getFilename());
-        $photo->setPath($uniqueFilename . image_type_to_extension($imgType));
-
-        return $photo;
-    }
+//    public function setDataPhoto(string $url): Photo
+//    {
+//        $fileInfo = new \SplFileInfo($url);
+//        $photo = new Photo();
+//
+//        list($imgWidth, $imgHeight, $imgType) = getimagesize($url);
+//        $uniqueFilename = uniqid('', true);
+//
+//        $photo->setWidth($imgWidth);
+//        $photo->setHeight($imgHeight);
+//        $photo->setName($fileInfo->getFilename());
+//        $photo->setPath($uniqueFilename . image_type_to_extension($imgType));
+//
+//        return $photo;
+//    }
 }
