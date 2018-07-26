@@ -36,14 +36,11 @@ class PhotoController extends BaseAdminController
             // $file stores the uploaded img file
             $file = $photo->getPathFile();
             $url = $file->getPathname();
-            $tmpPhoto = $this->dataPhotoService->setDataPhoto($url);
+            $photo = $this->dataPhotoService->setDataPhoto($url);
 
             // updates the 'brochure' property to store the img file name
             // instead of its contents
             $photo->setName($file->getClientOriginalName());
-            $photo->setPath($tmpPhoto->getPath());
-            $photo->setWidth($tmpPhoto->getWidth());
-            $photo->setHeight($tmpPhoto->getHeight());
 
             // moves the file to the directory where brochures are stored
             $file->move(
