@@ -33,6 +33,8 @@ class Photo
      * @var File
      * @Assert\Image(
      *     maxSize = "2048k",
+     *     maxWidth = 500,
+     *     maxHeight = 500,
      *     mimeTypes = {"image/*"},
      *     mimeTypesMessage = "photo.invalid_img_file"
      * )
