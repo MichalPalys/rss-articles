@@ -2,12 +2,9 @@
 
 namespace App\Controller;
 
-use App\Service\FeedService;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Photo;
 use App\Repository\PhotoRepository;
 use App\Form\EditPhotoEntityFormType;
@@ -39,7 +36,6 @@ class PhotoController extends BaseAdminController
             // $file stores the uploaded img file
             $file = $photo->getPathFile();
             $url = $file->getPathname();
-//            $tmpPhoto = FeedService::setDataPhoto($url);
             $tmpPhoto = $this->dataPhotoService->setDataPhoto($url);
 
             // updates the 'brochure' property to store the img file name
