@@ -2,3 +2,4 @@ statue_error: You did not accept the rules of the website!
 article.pub_date.not_blank: The date of publication of the article must be set!
 article.title.not_blank: This field can not be empty!
 article.content.not_blank: This field can not be empty!
+photo.invalid_img_file: Please upload a valid Image file!

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PhotoRepository")
@@ -25,6 +27,19 @@ class Photo
      * @ORM\Column(type="string", length=512)
      */
     private $path;
+
+
+    /**
+     * @var File
+     * @Assert\Image(
+     *     maxSize = "2048k",
+     *     maxWidth = 500,
+     *     maxHeight = 500,
+     *     mimeTypes = {"image/*"},
+     *     mimeTypesMessage = "photo.invalid_img_file"
+     * )
+     */
+    private $pathFile;
 
     /**
      * @ORM\Column(type="integer")
@@ -63,6 +78,22 @@ class Photo
         $this->path = $path;
 
         return $this;
+    }
+
+    /**
+     * @return File
+     */
+    public function getPathFile(): ?File
+    {
+        return $this->pathFile;
+    }
+
+    /**
+     * @param File $pathFile
+     */
+    public function setPathFile(File $pathFile): void
+    {
+        $this->pathFile = $pathFile;
     }
 
     public function getWidth(): ?int
