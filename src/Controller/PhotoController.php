@@ -79,28 +79,31 @@ class PhotoController extends BaseAdminController
         $editForm = $this->createForm(EditPhotoEntityFormType::class, $entity);
         $deleteForm = $this->createDeleteForm($this->entity['name'], $id);
 
-        $editForm->handleRequest($this->request);
+        $flag =$this->request->files->get('edit_photo_entity_form');
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->executeDynamicMethod('preUpdate<EntityName>Entity', array($entity, true));
+        if ($flag['pathFile']) {
+            $editForm->handleRequest($this->request);
 
-            $file = $entity->getPathFile();
-            $url = $file->getPathname();
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
+                $this->executeDynamicMethod('preUpdate<EntityName>Entity', array($entity, true));
 
-            $fileContent = file_get_contents($url);
-            $this->fileSystem->put($entity->getPath(), $fileContent);
+                $file = $entity->getPathFile();
+                $url = $file->getPathname();
 
-            $photo = $this->dataPhotoService->setDataPhoto($url);
+                $fileContent = file_get_contents($url);
+                $this->fileSystem->put($entity->getPath(), $fileContent);
 
-            $entity->setName($file->getClientOriginalName());
-            $entity->setWidth($photo->getWidth());
-            $entity->setHeight($photo->getHeight());
+                $photo = $this->dataPhotoService->setDataPhoto($url);
 
-            $this->executeDynamicMethod('update<EntityName>Entity', array($entity));
+                $entity->setName($file->getClientOriginalName());
+                $entity->setWidth($photo->getWidth());
+                $entity->setHeight($photo->getHeight());
 
-            return $this->redirectToReferrer();
+                $this->executeDynamicMethod('update<EntityName>Entity', array($entity));
+
+                return $this->redirectToReferrer();
+            }
         }
-
         $parameters = array(
             'form' => $editForm->createView(),
             'entity_fields' => $fields,
