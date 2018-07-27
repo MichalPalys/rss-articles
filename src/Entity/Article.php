@@ -20,7 +20,7 @@ class Article
     /**
      * One Article has One Photo.
      * @ORM\OneToOne(targetEntity="Photo", cascade={"persist"})
-     * @ORM\JoinColumn(name="photo_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="photo_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $photo;
 
