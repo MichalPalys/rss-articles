@@ -9,18 +9,22 @@ use App\Entity\Photo;
 use App\Repository\PhotoRepository;
 use App\Form\EditPhotoEntityFormType;
 use App\Service\DataPhotoService;
+use League\Flysystem\Filesystem;
 
 class PhotoController extends BaseAdminController
 {
     private $photoRepository;
     private $dataPhotoService;
+    private $fileSystem;
 
     public function __construct(
         PhotoRepository $photoRepository,
-        DataPhotoService $dataPhotoService
+        DataPhotoService $dataPhotoService,
+        Filesystem $filesystem
     ) {
         $this->photoRepository = $photoRepository;
         $this->dataPhotoService = $dataPhotoService;
+        $this->fileSystem = $filesystem;
     }
 
     public function newAction()
@@ -63,4 +67,53 @@ class PhotoController extends BaseAdminController
 
         return $this->render('@EasyAdmin/default/new.html.twig', $parameters);
     }
+
+    public function editAction()
+    {
+        $id = $this->request->query->get('id');
+        $easyadmin = $this->request->attributes->get('easyadmin');
+        $entity = $easyadmin['item'];
+
+        $fields = $this->entity['new']['fields'];
+
+        $editForm = $this->createForm(EditPhotoEntityFormType::class, $entity);
+        $deleteForm = $this->createDeleteForm($this->entity['name'], $id);
+
+        $editForm->handleRequest($this->request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $this->executeDynamicMethod('preUpdate<EntityName>Entity', array($entity, true));
+            $this->executeDynamicMethod('update<EntityName>Entity', array($entity));
+
+            return $this->redirectToReferrer();
+        }
+
+        $parameters = array(
+            'form' => $editForm->createView(),
+            'entity_fields' => $fields,
+            'entity' => $entity,
+            'delete_form' => $deleteForm->createView(),
+        );
+
+        return $this->executeDynamicMethod('render<EntityName>Template', array('edit', $this->entity['templates']['edit'], $parameters));
+    }
+
+    public function updateEntity($entity)
+    {
+        $file = $entity->getPathFile();
+        $url = $file->getPathname();
+
+        $fileContent = file_get_contents($url);
+        $this->fileSystem->put($entity->getPath(), $fileContent);
+
+        $photo = $this->dataPhotoService->setDataPhoto($url);
+
+        $entity->setName($file->getClientOriginalName());
+        $entity->setWidth($photo->getWidth());
+        $entity->setHeight($photo->getHeight());
+
+        parent::updateEntity($entity);
+    }
+
+
 }
