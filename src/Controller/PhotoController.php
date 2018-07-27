@@ -115,5 +115,11 @@ class PhotoController extends BaseAdminController
         parent::updateEntity($entity);
     }
 
+    protected function removeEntity($entity)
+    {
+        $this->fileSystem->delete($entity->getPath());
+
+        parent::removeEntity($entity);
+    }
 
 }
