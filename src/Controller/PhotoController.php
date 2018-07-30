@@ -86,19 +86,6 @@ class PhotoController extends BaseAdminController
 
             if ($editForm->isSubmitted() && $editForm->isValid()) {
                 $this->executeDynamicMethod('preUpdate<EntityName>Entity', array($entity, true));
-
-                $file = $entity->getPathFile();
-                $url = $file->getPathname();
-
-                $fileContent = file_get_contents($url);
-                $this->fileSystem->put($entity->getPath(), $fileContent);
-
-                $photo = $this->dataPhotoService->setDataPhoto($url);
-
-                $entity->setName($file->getClientOriginalName());
-                $entity->setWidth($photo->getWidth());
-                $entity->setHeight($photo->getHeight());
-
                 $this->executeDynamicMethod('update<EntityName>Entity', array($entity));
 
                 return $this->redirectToReferrer();
@@ -112,6 +99,23 @@ class PhotoController extends BaseAdminController
         );
 
         return $this->executeDynamicMethod('render<EntityName>Template', array('edit', $this->entity['templates']['edit'], $parameters));
+    }
+
+    public function updateEntity($entity)
+    {
+        $file = $entity->getPathFile();
+        $url = $file->getPathname();
+
+        $fileContent = file_get_contents($url);
+        $this->fileSystem->put($entity->getPath(), $fileContent);
+
+        list($imgWidth, $imgHeight) = getimagesize($url);
+
+        $entity->setName($file->getClientOriginalName());
+        $entity->setWidth($imgWidth);
+        $entity->setHeight($imgHeight);
+
+        parent::updateEntity($entity);
     }
 
     protected function removeEntity($entity)
