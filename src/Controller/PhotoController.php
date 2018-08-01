@@ -10,6 +10,8 @@ use App\Repository\PhotoRepository;
 use App\Form\EditPhotoEntityFormType;
 use App\Service\DataPhotoService;
 use League\Flysystem\Filesystem;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use EasyCorp\Bundle\EasyAdminBundle\Form\Util\LegacyFormHelper;
 
 class PhotoController extends BaseAdminController
 {
@@ -68,37 +70,48 @@ class PhotoController extends BaseAdminController
         return $this->render('@EasyAdmin/default/new.html.twig', $parameters);
     }
 
-    public function editAction()
+//    public function editAction()
+//    {
+//        $id = $this->request->query->get('id');
+//        $easyadmin = $this->request->attributes->get('easyadmin');
+//        $entity = $easyadmin['item'];
+//
+//        $fields = $this->entity['edit']['fields'];
+//
+//        $editForm = $this->createForm(EditPhotoEntityFormType::class, $entity);
+//        $deleteForm = $this->createDeleteForm($this->entity['name'], $id);
+//
+//        $flag =$this->request->files->get('edit_photo_entity_form');
+//
+//        if ($flag['pathFile']) {
+//            $editForm->handleRequest($this->request);
+//
+//            if ($editForm->isSubmitted() && $editForm->isValid()) {
+//                $this->executeDynamicMethod('preUpdate<EntityName>Entity', array($entity, true));
+//                $this->executeDynamicMethod('update<EntityName>Entity', array($entity));
+//
+//                return $this->redirectToReferrer();
+//            }
+//        }
+//        $parameters = array(
+//            'form' => $editForm->createView(),
+//            'entity_fields' => $fields,
+//            'entity' => $entity,
+//            'delete_form' => $deleteForm->createView(),
+////            'easyadmin' => $easyadmin,
+//        );
+//
+//        return $this->executeDynamicMethod('render<EntityName>Template', array('edit', $this->entity['templates']['edit'], $parameters));
+//    }
+
+    protected function createEntityFormBuilder($entity, $view)
     {
-        $id = $this->request->query->get('id');
-        $easyadmin = $this->request->attributes->get('easyadmin');
-        $entity = $easyadmin['item'];
+        $formOptions = $this->executeDynamicMethod('get<EntityName>EntityFormOptions', array($entity, $view));
 
-        $fields = $this->entity['new']['fields'];
+        $formBuilder = $this->get('form.factory')->createNamedBuilder(mb_strtolower($this->entity['name']), LegacyFormHelper::getType('easyadmin'), $entity, $formOptions);
+        $formBuilder->add('pathFile', FileType::class, array('required' => false, 'label' => 'article.photo', 'attr' => ['novalidate'=> 'novalidate']));
 
-        $editForm = $this->createForm(EditPhotoEntityFormType::class, $entity);
-        $deleteForm = $this->createDeleteForm($this->entity['name'], $id);
-
-        $flag =$this->request->files->get('edit_photo_entity_form');
-
-        if ($flag['pathFile']) {
-            $editForm->handleRequest($this->request);
-
-            if ($editForm->isSubmitted() && $editForm->isValid()) {
-                $this->executeDynamicMethod('preUpdate<EntityName>Entity', array($entity, true));
-                $this->executeDynamicMethod('update<EntityName>Entity', array($entity));
-
-                return $this->redirectToReferrer();
-            }
-        }
-        $parameters = array(
-            'form' => $editForm->createView(),
-            'entity_fields' => $fields,
-            'entity' => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-
-        return $this->executeDynamicMethod('render<EntityName>Template', array('edit', $this->entity['templates']['edit'], $parameters));
+        return $formBuilder;
     }
 
     public function updateEntity($entity)
