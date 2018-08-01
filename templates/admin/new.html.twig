@@ -1,0 +1,13 @@
+{% extends '@EasyAdmin/default/new.html.twig' %}
+
+{% block main %}
+    {% block entity_form %}
+        {{ form_start(form) }}
+        {% do form.name.setRendered() %}
+        {% do form.path.setRendered() %}
+        {% do form.width.setRendered() %}
+        {% do form.height.setRendered() %}
+        {{ form_row(form.pathFile) }}
+        {{ form_end(form) }}
+    {% endblock entity_form %}
+{% endblock %}

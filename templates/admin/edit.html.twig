@@ -1,0 +1,24 @@
+{% extends '@EasyAdmin/default/edit.html.twig' %}
+
+{% block main %}
+    {% block entity_form %}
+        {{ form_start(form) }}
+        {#{% do form.name.setRendered() %}#}
+        {#{% do form.path.setRendered() %}#}
+        {#{% do form.width.setRendered() %}#}
+        {#{% do form.height.setRendered() %}#}
+        {{ form_row(form.pathFile) }}
+        {{ form_end(form) }}
+    {% endblock entity_form %}
+
+    {% block delete_form %}
+        {{ include('@EasyAdmin/default/includes/_delete_form.html.twig', {
+            view: 'edit',
+            referer: app.request.query.get('referer', ''),
+            delete_form: delete_form,
+            _translation_domain: _entity_config.translation_domain,
+            _trans_parameters: _trans_parameters,
+            _entity_config: _entity_config,
+        }, with_context = false) }}
+    {% endblock delete_form %}
+{% endblock %}
