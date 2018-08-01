@@ -9,9 +9,6 @@ easy_admin:
                 edit: 'admin/edit.html.twig'
             controller: App\Controller\PhotoController
             class: App\Entity\Photo
-            edit:
-                fields:
-                    - { property: 'name', type_options: { disabled: true } }
         Article:
             class: App\Entity\Article
             list:

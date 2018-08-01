@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use App\Repository\PhotoRepository;
 use App\Service\DataPhotoService;
 use League\Flysystem\Filesystem;
