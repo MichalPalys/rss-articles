@@ -4,10 +4,14 @@ easy_admin:
 #            - 'form/action.html.twig'
     entities:
         Photo:
+            templates:
+                new: 'admin/edit.html.twig'
+                edit: 'admin/edit.html.twig'
             controller: App\Controller\PhotoController
             class: App\Entity\Photo
-#            templates:
-#                edit: 'admin/edit.html.twig'
+#            form:
+#                fields:
+#                    - { type: 'section', label: 'form.form.section_caption.upload_photo' }
         Article:
             class: App\Entity\Article
             list:
