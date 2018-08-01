@@ -1,8 +1,13 @@
 easy_admin:
+#    design:
+#        form_theme:
+#            - 'form/action.html.twig'
     entities:
         Photo:
             controller: App\Controller\PhotoController
             class: App\Entity\Photo
+#            templates:
+#                edit: 'admin/edit.html.twig'
         Article:
             class: App\Entity\Article
             list:
