@@ -82,15 +82,15 @@ class PhotoController extends BaseAdminController
         return $this->executeDynamicMethod('render<EntityName>Template', array('edit', $this->entity['templates']['edit'], $parameters));
     }
 
-    protected function createEntityFormBuilder($entity, $view)
-    {
-        $formOptions = $this->executeDynamicMethod('get<EntityName>EntityFormOptions', array($entity, $view));
-
-        $formBuilder = $this->get('form.factory')->createNamedBuilder(mb_strtolower($this->entity['name']), LegacyFormHelper::getType('easyadmin'), $entity, $formOptions);
-        $formBuilder->add('pathFile', FileType::class, array('required' => false, 'label' => 'article.photo', 'attr' => ['novalidate'=> 'novalidate']));
-
-        return $formBuilder;
-    }
+//    protected function createEntityFormBuilder($entity, $view)
+//    {
+//        $formOptions = $this->executeDynamicMethod('get<EntityName>EntityFormOptions', array($entity, $view));
+//
+//        $formBuilder = $this->get('form.factory')->createNamedBuilder(mb_strtolower($this->entity['name']), LegacyFormHelper::getType('easyadmin'), $entity, $formOptions);
+//        $formBuilder->add('pathFile', FileType::class, array('required' => false, 'label' => 'article.photo', 'attr' => ['novalidate'=> 'novalidate']));
+//
+//        return $formBuilder;
+//    }
 
     protected function persistEntity($entity)
     {
