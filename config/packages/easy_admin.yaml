@@ -24,7 +24,6 @@ easy_admin:
             list:
                 fields:
                     - { property: 'id'}
-                    - { property: 'external id', type: 'string', label: 'article.external_id'}
                     - { property: 'Title', type: 'string', label: 'article.title'}
                     - { property: 'Content', label: 'article.content'}
                     - { property: 'Pub date', type: 'datetime', label: 'article.publication_date'}
