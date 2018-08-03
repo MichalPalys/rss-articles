@@ -7,9 +7,6 @@ easy_admin:
             css: ['easy_admin_css.css']
     entities:
         Photo:
-#            templates:
-#                new: 'admin/new.html.twig'
-#                edit: 'admin/edit.html.twig'
             controller: App\Controller\PhotoController
             class: App\Entity\Photo
             form:
