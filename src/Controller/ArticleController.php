@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use App\Repository\ArticleRepository;
 use Cocur\Slugify\Slugify;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 
 class ArticleController extends BaseAdminController
 {

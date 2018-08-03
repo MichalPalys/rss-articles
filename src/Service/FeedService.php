@@ -119,5 +119,4 @@ class FeedService
 
         return $article;
     }
-
 }

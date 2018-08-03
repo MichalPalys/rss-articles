@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use App\Repository\PhotoRepository;
 use App\Service\DataPhotoService;
-use League\Flysystem\Filesystem;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use League\Flysystem\Filesystem;
 
 class PhotoController extends BaseAdminController
 {
@@ -49,20 +49,20 @@ class PhotoController extends BaseAdminController
 
         $fields = $this->entity['edit']['fields'];
 
-        $editForm = $this->executeDynamicMethod('create<EntityName>EditForm', array($entity, $fields));
+        $editForm = $this->executeDynamicMethod('create<EntityName>EditForm', [$entity, $fields]);
         $deleteForm = $this->createDeleteForm($this->entity['name'], $id);
 
         $flag = $this->request->files->get('photo');
 
         if ($flag['pathFile']) {
-        $editForm->handleRequest($this->request);
+            $editForm->handleRequest($this->request);
             if ($editForm->isSubmitted() && $editForm->isValid()) {
-                $this->dispatch(EasyAdminEvents::PRE_UPDATE, array('entity' => $entity));
+                $this->dispatch(EasyAdminEvents::PRE_UPDATE, ['entity' => $entity]);
 
-                $this->executeDynamicMethod('preUpdate<EntityName>Entity', array($entity, true));
-                $this->executeDynamicMethod('update<EntityName>Entity', array($entity));
+                $this->executeDynamicMethod('preUpdate<EntityName>Entity', [$entity, true]);
+                $this->executeDynamicMethod('update<EntityName>Entity', [$entity]);
 
-                $this->dispatch(EasyAdminEvents::POST_UPDATE, array('entity' => $entity));
+                $this->dispatch(EasyAdminEvents::POST_UPDATE, ['entity' => $entity]);
 
                 return $this->redirectToReferrer();
             }
@@ -70,14 +70,14 @@ class PhotoController extends BaseAdminController
 
         $this->dispatch(EasyAdminEvents::POST_EDIT);
 
-        $parameters = array(
+        $parameters = [
             'form' => $editForm->createView(),
             'entity_fields' => $fields,
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
-        );
+        ];
 
-        return $this->executeDynamicMethod('render<EntityName>Template', array('edit', $this->entity['templates']['edit'], $parameters));
+        return $this->executeDynamicMethod('render<EntityName>Template', ['edit', $this->entity['templates']['edit'], $parameters]);
     }
 
     protected function persistEntity($entity)
@@ -122,5 +122,4 @@ class PhotoController extends BaseAdminController
 
         parent::removeEntity($entity);
     }
-
 }
