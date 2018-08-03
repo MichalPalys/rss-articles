@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
+ * @Vich\Uploadable
  */
 class Article
 {
@@ -25,7 +28,7 @@ class Article
     private $photo;
 
     /**
-     * @ORM\Column(type="string", length=64, nullable=true)
+     * @ORM\Column(type="string", length=64)
      */
     private $externalId;
 
@@ -146,5 +149,23 @@ class Article
     public function getPhoto(): ?Photo
     {
         return $this->photo;
+    }
+
+    public function setPhotoFile(File $image = null)
+    {
+        $this->photoFile = $image;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($image) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->insertDate = new \DateTime('now');
+        }
+    }
+
+    public function getPhotoFile()
+    {
+        return $this->photoFile;
     }
 }
