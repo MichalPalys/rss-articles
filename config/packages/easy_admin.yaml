@@ -16,6 +16,7 @@ easy_admin:
                 fields:
                     - { property: 'pathFile', type: 'file', type_options: { mapped: true } }
         Article:
+            controller: App\Controller\ArticleController
             templates:
                 new: 'admin/article/new.html.twig'
                 edit: 'admin/article/edit.html.twig'
