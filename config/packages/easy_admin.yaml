@@ -1,14 +1,26 @@
 easy_admin:
+    design:
+        form_theme:
+            - 'horizontal'
+            - 'form/choose_photo_field.html.twig'
+        assets:
+            css: ['easy_admin_css.css']
     entities:
         Photo:
             controller: App\Controller\PhotoController
             class: App\Entity\Photo
+            form:
+                fields:
+                    - { property: 'pathFile', type: 'file', type_options: { mapped: true } }
         Article:
+            controller: App\Controller\ArticleController
+            templates:
+                new: 'admin/article/new.html.twig'
+                edit: 'admin/article/edit.html.twig'
             class: App\Entity\Article
             list:
                 fields:
                     - { property: 'id'}
-                    - { property: 'external id', type: 'string', label: 'article.external_id'}
                     - { property: 'Title', type: 'string', label: 'article.title'}
                     - { property: 'Content', label: 'article.content'}
                     - { property: 'Pub date', type: 'datetime', label: 'article.publication_date'}
@@ -21,7 +33,7 @@ easy_admin:
                     - { property: 'Content', label: 'article.content'}
                     - { property: 'Pub_date', type: 'datetime', label: 'article.publication_date'}
                     - { property: 'Insert_date', type: 'datetime', label: 'article.insert_date'}
-                    - { property: 'photoFile', type: 'file', base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
+                    - { property: 'photo', base_path: '%env(PHOTO_DIR)%', label: 'article.photo' }
             edit:
                 form_options: { validation_groups: ['admin'] }
                 fields:
@@ -29,7 +41,7 @@ easy_admin:
                     - { property: 'Content', label: 'article.content'}
                     - { property: 'Pub_date', type: 'datetime', label: 'article.publication_date'}
                     - { property: 'Insert_date', type: 'datetime', label: 'article.insert_date'}
-#                    - { property: 'photo', data_class: 'App\Entity\Photo', type_options: {  by_reference: true, mapped: false }, base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
+                    - { property: 'photo', base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
 #        - App\Entity\Article
 #        - App\Entity\Photo
 #        - App\Entity\User

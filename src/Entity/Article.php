@@ -21,17 +21,11 @@ class Article
     private $id;
 
     /**
-     * One Article has One Photo.
-     * @ORM\OneToOne(targetEntity="Photo", cascade={"persist"})
-     * @ORM\JoinColumn(name="photo_id", referencedColumnName="id")
+     * Many Article has One Photo.
+     * @ORM\ManyToOne(targetEntity="Photo", cascade={"persist"})
+     * @ORM\JoinColumn(name="photo_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $photo;
-
-    /**
-     * @Vich\UploadableField(mapping="article_image", fileNameProperty="photo")
-     * @var File
-     */
-    private $photoFile;
 
     /**
      * @ORM\Column(type="string", length=64)

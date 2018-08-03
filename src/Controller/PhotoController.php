@@ -2,13 +2,10 @@
 
 namespace App\Controller;
 
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Photo;
 use App\Repository\PhotoRepository;
-use App\Form\EditPhotoEntityFormType;
 use App\Service\DataPhotoService;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
+use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use League\Flysystem\Filesystem;
 
 class PhotoController extends BaseAdminController
@@ -27,75 +24,79 @@ class PhotoController extends BaseAdminController
         $this->fileSystem = $filesystem;
     }
 
-    public function newAction()
+
+    protected function editAction()
     {
-        $photo = new Photo();
+        $this->dispatch(EasyAdminEvents::PRE_EDIT);
 
-        $fields = $this->entity['new']['fields'];
-
-        $form = $this->createForm(EditPhotoEntityFormType::class, $photo);
-        $form->handleRequest($this->request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // $file stores the uploaded img file
-            $file = $photo->getPathFile();
-            $url = $file->getPathname();
-            $photo = $this->dataPhotoService->setDataPhoto($url);
-
-            // updates the 'brochure' property to store the img file name
-            // instead of its contents
-            $photo->setName($file->getClientOriginalName());
-
-            // moves the file to the directory where brochures are stored
-            $file->move(
-                $this->getParameter('photo_directory'),
-                $photo->getPath()
-            );
-
-            // ... persist the $product variable or any other work
-            $this->photoRepository->persist($photo);
-            $this->photoRepository->flush();
-
-            return $this->redirectToReferrer();
-        }
-
-        $parameters = array(
-            'form' => $form->createView(),
-            'entity_fields' => $fields,
-            'entity' => $photo,
-        );
-
-        return $this->render('@EasyAdmin/default/new.html.twig', $parameters);
-    }
-
-    public function editAction()
-    {
         $id = $this->request->query->get('id');
         $easyadmin = $this->request->attributes->get('easyadmin');
         $entity = $easyadmin['item'];
 
-        $fields = $this->entity['new']['fields'];
+        if ($this->request->isXmlHttpRequest() && $property = $this->request->query->get('property')) {
+            $newValue = 'true' === mb_strtolower($this->request->query->get('newValue'));
+            $fieldsMetadata = $this->entity['list']['fields'];
 
-        $editForm = $this->createForm(EditPhotoEntityFormType::class, $entity);
-        $deleteForm = $this->createDeleteForm($this->entity['name'], $id);
+            if (!isset($fieldsMetadata[$property]) || 'toggle' !== $fieldsMetadata[$property]['dataType']) {
+                throw new \RuntimeException(sprintf('The type of the "%s" property is not "toggle".', $property));
+            }
 
-        $editForm->handleRequest($this->request);
+            $this->updateEntityProperty($entity, $property, $newValue);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->executeDynamicMethod('preUpdate<EntityName>Entity', array($entity, true));
-            $this->executeDynamicMethod('update<EntityName>Entity', array($entity));
-
-            return $this->redirectToReferrer();
+            // cast to integer instead of string to avoid sending empty responses for 'false'
+            return new Response((int)$newValue);
         }
 
-        $parameters = array(
+        $fields = $this->entity['edit']['fields'];
+
+        $editForm = $this->executeDynamicMethod('create<EntityName>EditForm', [$entity, $fields]);
+        $deleteForm = $this->createDeleteForm($this->entity['name'], $id);
+
+        $flag = $this->request->files->get('photo');
+
+        if ($flag['pathFile']) {
+            $editForm->handleRequest($this->request);
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
+                $this->dispatch(EasyAdminEvents::PRE_UPDATE, ['entity' => $entity]);
+
+                $this->executeDynamicMethod('preUpdate<EntityName>Entity', [$entity, true]);
+                $this->executeDynamicMethod('update<EntityName>Entity', [$entity]);
+
+                $this->dispatch(EasyAdminEvents::POST_UPDATE, ['entity' => $entity]);
+
+                return $this->redirectToReferrer();
+            }
+        }
+
+        $this->dispatch(EasyAdminEvents::POST_EDIT);
+
+        $parameters = [
             'form' => $editForm->createView(),
             'entity_fields' => $fields,
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
+        ];
+
+        return $this->executeDynamicMethod('render<EntityName>Template', ['edit', $this->entity['templates']['edit'], $parameters]);
+    }
+
+    protected function persistEntity($entity)
+    {
+        $file = $entity->getPathFile();
+        $url = $file->getPathname();
+        $entity = $this->dataPhotoService->setDataPhoto($url);
+
+        // updates the 'brochure' property to store the img file name
+        // instead of its contents
+        $entity->setName($file->getClientOriginalName());
+
+        // moves the file to the directory where brochures are stored
+        $file->move(
+            $this->getParameter('photo_directory'),
+            $entity->getPath()
         );
 
-        return $this->executeDynamicMethod('render<EntityName>Template', array('edit', $this->entity['templates']['edit'], $parameters));
+        parent::persistEntity($entity);
     }
 
     public function updateEntity($entity)
@@ -106,11 +107,11 @@ class PhotoController extends BaseAdminController
         $fileContent = file_get_contents($url);
         $this->fileSystem->put($entity->getPath(), $fileContent);
 
-        $photo = $this->dataPhotoService->setDataPhoto($url);
+        list($imgWidth, $imgHeight) = getimagesize($url);
 
         $entity->setName($file->getClientOriginalName());
-        $entity->setWidth($photo->getWidth());
-        $entity->setHeight($photo->getHeight());
+        $entity->setWidth($imgWidth);
+        $entity->setHeight($imgHeight);
 
         parent::updateEntity($entity);
     }
@@ -121,5 +122,4 @@ class PhotoController extends BaseAdminController
 
         parent::removeEntity($entity);
     }
-
 }

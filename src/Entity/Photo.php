@@ -38,6 +38,7 @@ class Photo
      *     mimeTypes = {"image/*"},
      *     mimeTypesMessage = "photo.invalid_img_file"
      * )
+     * @Assert\NotBlank()
      */
     private $pathFile;
 
