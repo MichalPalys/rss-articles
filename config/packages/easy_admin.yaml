@@ -1,7 +1,10 @@
 easy_admin:
-#    design:
-#        form_theme:
-#            - 'form/action.html.twig'
+    design:
+        form_theme:
+            - 'horizontal'
+            - 'form/choose_photo_field.html.twig'
+        assets:
+            css: ['easy_admin_css.css']
     entities:
         Photo:
 #            templates:
@@ -13,6 +16,9 @@ easy_admin:
                 fields:
                     - { property: 'pathFile', type: 'file', type_options: { mapped: true } }
         Article:
+            templates:
+                new: 'admin/article/new.html.twig'
+                edit: 'admin/article/edit.html.twig'
             class: App\Entity\Article
             list:
                 fields:
@@ -30,7 +36,7 @@ easy_admin:
                     - { property: 'Content', label: 'article.content'}
                     - { property: 'Pub_date', type: 'datetime', label: 'article.publication_date'}
                     - { property: 'Insert_date', type: 'datetime', label: 'article.insert_date'}
-                    - { property: 'photo', data_class: 'App\Entity\Photo', type_options: {  by_reference: true }, base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
+                    - { property: 'photo', base_path: '%env(PHOTO_DIR)%', label: 'article.photo' }
             edit:
                 form_options: { validation_groups: ['admin'] }
                 fields:
@@ -38,7 +44,7 @@ easy_admin:
                     - { property: 'Content', label: 'article.content'}
                     - { property: 'Pub_date', type: 'datetime', label: 'article.publication_date'}
                     - { property: 'Insert_date', type: 'datetime', label: 'article.insert_date'}
-#                    - { property: 'photo', data_class: 'App\Entity\Photo', type_options: {  by_reference: true, mapped: false }, base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
+                    - { property: 'photo', base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
 #        - App\Entity\Article
 #        - App\Entity\Photo
 #        - App\Entity\User
