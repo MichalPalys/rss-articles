@@ -18,8 +18,8 @@ class Article
     private $id;
 
     /**
-     * One Article has One Photo.
-     * @ORM\OneToOne(targetEntity="Photo", cascade={"persist"})
+     * Many Article has One Photo.
+     * @ORM\ManyToOne(targetEntity="Photo", cascade={"persist"})
      * @ORM\JoinColumn(name="photo_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $photo;
