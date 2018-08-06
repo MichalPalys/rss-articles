@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
@@ -22,12 +23,15 @@ class Comment
     private $createDate;
 
     /**
-     * @ORM\Column(type="string", length=128)
+     * Many Comments has One User.
+     * @ORM\ManyToOne(targetEntity="User", cascade={"persist"})
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $maker;
 
     /**
      * @ORM\Column(type="string", length=512)
+     * @Assert\Length(max=200)
      */
     private $content;
 
@@ -54,12 +58,12 @@ class Comment
         return $this;
     }
 
-    public function getMaker(): ?string
+    public function getMaker(): ?User
     {
         return $this->maker;
     }
 
-    public function setMaker(string $maker): self
+    public function setMaker(?User $maker): self
     {
         $this->maker = $maker;
 
