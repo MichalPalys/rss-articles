@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Entity\Article;
+use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use Cocur\Slugify\Slugify;
 use League\Flysystem\Filesystem;
@@ -28,6 +30,8 @@ class FeedService
 
     private $dataPhotoService;
 
+    private $userRepository;
+
     public function __construct(
         LoggerInterface $logger,
         ResponseCodeFromFeedService $respCodeFromFeed,
@@ -36,7 +40,8 @@ class FeedService
         Filesystem $filesystem,
         array $rssLinkArray,
         Slugify $slug,
-        DataPhotoService $dataPhotoService
+        DataPhotoService $dataPhotoService,
+        UserRepository $userRepository
     ) {
         $this->logger = $logger;
         $this->respCodeFromFeed = $respCodeFromFeed;
@@ -46,6 +51,7 @@ class FeedService
         $this->fileSystem = $filesystem;
         $this->slug = $slug;
         $this->dataPhotoService = $dataPhotoService;
+        $this->userRepository = $userRepository;
     }
 
     public function setFeedToDataBase()
@@ -115,6 +121,9 @@ class FeedService
             $article->setContent($item->getContent());
             $article->setPhoto($photo);
             $article->setSlug($this->slug->slugify($item->getTitle()));
+
+            $existingAdmin = $this->userRepository->findOneBy(['username' => 'admin']);
+            $article->setAuthor($existingAdmin);
         }
 
         return $article;
