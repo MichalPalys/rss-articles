@@ -6,6 +6,20 @@ easy_admin:
         assets:
             css: ['easy_admin_css.css']
     entities:
+        Comment:
+            class: App\Entity\Comment
+            list:
+                fields:
+                    - { property: 'article' }
+                    - { property: 'create_date', type: 'datetime' }
+                    - { property: 'maker'}
+                    - { property: 'content' }
+            form:
+                fields:
+                    - { property: 'create_date', type: 'datetime' }
+                    - { property: 'maker'}
+                    - { property: 'content' }
+                    - { property: 'article' }
         User:
             class: App\Entity\User
             list:
