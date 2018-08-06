@@ -30,7 +30,7 @@ class Comment
     private $maker;
 
     /**
-     * @ORM\Column(type="string", length=512)
+     * @ORM\Column(type="text")
      * @Assert\Length(max=200)
      */
     private $content;
