@@ -6,6 +6,20 @@ easy_admin:
         assets:
             css: ['easy_admin_css.css']
     entities:
+        User:
+            class: App\Entity\User
+            list:
+                fields:
+                    - { property: 'username', type: 'text' }
+                    - { property: 'email', type: 'email' }
+                    - { property: 'enabled', type: 'toggle' }
+                    - { property: 'last_login', type: 'datetime' }
+            form:
+                fields:
+                    - { property: 'username', type: 'text' }
+                    - { property: 'email', type: 'email' }
+                    - { property: 'enabled', type: 'checkbox' }
+                    - { property: 'last_login', type: 'datetime' }
         Photo:
             controller: App\Controller\PhotoController
             class: App\Entity\Photo
@@ -23,6 +37,7 @@ easy_admin:
                     - { property: 'id'}
                     - { property: 'Title', type: 'string', label: 'article.title'}
                     - { property: 'Content', label: 'article.content'}
+                    - { property: 'author.username', label: 'article.author' }
                     - { property: 'Pub date', type: 'datetime', label: 'article.publication_date'}
                     - { property: 'Insert date', type: 'datetime', label: 'article.insert_date'}
                     - { property: 'photo.path', type: 'image', base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
@@ -31,6 +46,7 @@ easy_admin:
                 fields:
                     - { property: 'Title', label: 'article.title'}
                     - { property: 'Content', label: 'article.content'}
+                    - { property: 'author', label: 'article.author' }
                     - { property: 'Pub_date', type: 'datetime', label: 'article.publication_date'}
                     - { property: 'Insert_date', type: 'datetime', label: 'article.insert_date'}
                     - { property: 'photo', base_path: '%env(PHOTO_DIR)%', label: 'article.photo' }
@@ -39,6 +55,7 @@ easy_admin:
                 fields:
                     - { property: 'Title', label: 'article.title'}
                     - { property: 'Content', label: 'article.content'}
+                    - { property: 'author', label: 'article.author' }
                     - { property: 'Pub_date', type: 'datetime', label: 'article.publication_date'}
                     - { property: 'Insert_date', type: 'datetime', label: 'article.insert_date'}
                     - { property: 'photo', base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}

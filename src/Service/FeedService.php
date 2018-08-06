@@ -3,6 +3,9 @@
 namespace App\Service;
 
 use App\Entity\Article;
+use App\Repository\UserRepository;
+use App\Entity\User;
+//use FOS\UserBundle\Model\User as BaseUser;
 use App\Repository\ArticleRepository;
 use Cocur\Slugify\Slugify;
 use League\Flysystem\Filesystem;
@@ -28,6 +31,11 @@ class FeedService
 
     private $dataPhotoService;
 
+    private $userRepository;
+
+    private $existingAdmin;
+
+
     public function __construct(
         LoggerInterface $logger,
         ResponseCodeFromFeedService $respCodeFromFeed,
@@ -36,7 +44,8 @@ class FeedService
         Filesystem $filesystem,
         array $rssLinkArray,
         Slugify $slug,
-        DataPhotoService $dataPhotoService
+        DataPhotoService $dataPhotoService,
+        UserRepository $userRepository
     ) {
         $this->logger = $logger;
         $this->respCodeFromFeed = $respCodeFromFeed;
@@ -46,12 +55,15 @@ class FeedService
         $this->fileSystem = $filesystem;
         $this->slug = $slug;
         $this->dataPhotoService = $dataPhotoService;
+        $this->userRepository = $userRepository;
     }
 
     public function setFeedToDataBase()
     {
         // You can now use your logger
         $this->logger->info('Rozpoczęcie wykonywania skryptu.');
+
+        $this->existingAdmin = $this->getExistingAdmin();
 
         foreach ($this->rssLinkArray as $rssLinkArrayValue) {
             try {
@@ -85,6 +97,16 @@ class FeedService
         $this->logger->info('Zakończenie wykonywania skryptu.');
     }
 
+    public function getExistingAdmin(string $username = 'admin')
+    {
+        $admin = $this->userRepository->findOneBy(['username' => $username]);
+        if (!$admin) {
+            throw new \DomainException(sprintf('Admin %s does not exist! Maybe You should create one.', $username));
+        }
+
+        return $admin;
+    }
+
     public function getArticleToPersist(Item $item): ?Article
     {
         $article = null;
@@ -115,6 +137,9 @@ class FeedService
             $article->setContent($item->getContent());
             $article->setPhoto($photo);
             $article->setSlug($this->slug->slugify($item->getTitle()));
+
+
+            $article->setAuthor($this->existingAdmin);
         }
 
         return $article;
