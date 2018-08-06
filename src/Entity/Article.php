@@ -61,6 +61,13 @@ class Article
      */
     private $slug;
 
+    /**
+     * Many Article has One User.
+     * @ORM\ManyToOne(targetEntity="User", cascade={"persist"})
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $author;
+
     public function getId()
     {
         return $this->id;
@@ -146,5 +153,17 @@ class Article
     public function getPhoto(): ?Photo
     {
         return $this->photo;
+    }
+
+    public function getAuthor(): ?string
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?string $author): self
+    {
+        $this->author = $author;
+
+        return $this;
     }
 }
