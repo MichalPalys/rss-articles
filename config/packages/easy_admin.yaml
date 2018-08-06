@@ -6,6 +6,20 @@ easy_admin:
         assets:
             css: ['easy_admin_css.css']
     entities:
+        User:
+            class: App\Entity\User
+            list:
+                fields:
+                    - { property: 'username', type: 'text' }
+                    - { property: 'email', type: 'email' }
+                    - { property: 'enabled', type: 'toggle' }
+                    - { property: 'last_login', type: 'datetime' }
+            form:
+                fields:
+                    - { property: 'username', type: 'text' }
+                    - { property: 'email', type: 'email' }
+                    - { property: 'enabled', type: 'checkbox' }
+                    - { property: 'last_login', type: 'datetime' }
         Photo:
             controller: App\Controller\PhotoController
             class: App\Entity\Photo
