@@ -155,12 +155,12 @@ class Article
         return $this->photo;
     }
 
-    public function getAuthor(): ?string
+    public function getAuthor(): ?User
     {
         return $this->author;
     }
 
-    public function setAuthor(?string $author): self
+    public function setAuthor(?User $author): self
     {
         $this->author = $author;
 
