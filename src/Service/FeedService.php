@@ -3,8 +3,9 @@
 namespace App\Service;
 
 use App\Entity\Article;
-use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Entity\User;
+//use FOS\UserBundle\Model\User as BaseUser;
 use App\Repository\ArticleRepository;
 use Cocur\Slugify\Slugify;
 use League\Flysystem\Filesystem;
@@ -32,6 +33,9 @@ class FeedService
 
     private $userRepository;
 
+    private $existingAdmin;
+
+
     public function __construct(
         LoggerInterface $logger,
         ResponseCodeFromFeedService $respCodeFromFeed,
@@ -58,6 +62,8 @@ class FeedService
     {
         // You can now use your logger
         $this->logger->info('Rozpoczęcie wykonywania skryptu.');
+
+        $this->existingAdmin = $this->getExistingAdmin();
 
         foreach ($this->rssLinkArray as $rssLinkArrayValue) {
             try {
@@ -91,6 +97,16 @@ class FeedService
         $this->logger->info('Zakończenie wykonywania skryptu.');
     }
 
+    public function getExistingAdmin(string $username = 'admin')
+    {
+        $admin = $this->userRepository->findOneBy(['username' => $username]);
+        if (!$admin) {
+            throw new \DomainException(sprintf('Admin %s does not exist! Maybe You should create one.', $username));
+        }
+
+        return $admin;
+    }
+
     public function getArticleToPersist(Item $item): ?Article
     {
         $article = null;
@@ -122,8 +138,8 @@ class FeedService
             $article->setPhoto($photo);
             $article->setSlug($this->slug->slugify($item->getTitle()));
 
-            $existingAdmin = $this->userRepository->findOneBy(['username' => 'admin']);
-            $article->setAuthor($existingAdmin);
+
+            $article->setAuthor($this->existingAdmin);
         }
 
         return $article;
