@@ -37,7 +37,7 @@ easy_admin:
                     - { property: 'id'}
                     - { property: 'Title', type: 'string', label: 'article.title'}
                     - { property: 'Content', label: 'article.content'}
-                    - { property: 'author.username' }
+                    - { property: 'author.username', label: 'article.author' }
                     - { property: 'Pub date', type: 'datetime', label: 'article.publication_date'}
                     - { property: 'Insert date', type: 'datetime', label: 'article.insert_date'}
                     - { property: 'photo.path', type: 'image', base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
@@ -46,6 +46,7 @@ easy_admin:
                 fields:
                     - { property: 'Title', label: 'article.title'}
                     - { property: 'Content', label: 'article.content'}
+                    - { property: 'author', label: 'article.author' }
                     - { property: 'Pub_date', type: 'datetime', label: 'article.publication_date'}
                     - { property: 'Insert_date', type: 'datetime', label: 'article.insert_date'}
                     - { property: 'photo', base_path: '%env(PHOTO_DIR)%', label: 'article.photo' }
@@ -54,7 +55,7 @@ easy_admin:
                 fields:
                     - { property: 'Title', label: 'article.title'}
                     - { property: 'Content', label: 'article.content'}
-                    - { property: 'author' }
+                    - { property: 'author', label: 'article.author' }
                     - { property: 'Pub_date', type: 'datetime', label: 'article.publication_date'}
                     - { property: 'Insert_date', type: 'datetime', label: 'article.insert_date'}
                     - { property: 'photo', base_path: '%env(PHOTO_DIR)%', label: 'article.photo'}
