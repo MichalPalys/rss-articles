@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Article;
+use App\Entity\Comment;
+use App\Form\CommentType;
 use App\Model\ArticleModel;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,8 +44,13 @@ class MainController extends Controller
             throw $this->createNotFoundException('Article not found!');
         }
 
+        $comment = new Comment();
+        $comment->setCreateDate(date_create('now'));
+        $comment->setArticle($singleArticle);
+        $commentForm = $this->createForm(CommentType::class, $comment);
+
         return $this->render('main/article.html.twig', [
-            'singleArticle' => $singleArticle,
+            'singleArticle' => $singleArticle, 'commentForm' => $commentForm->createView()
         ]);
     }
 }
