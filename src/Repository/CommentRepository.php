@@ -28,6 +28,11 @@ class CommentRepository extends ServiceEntityRepository
     {
         $this->_em->flush();
     }
+
+    public function findAllByArticle(int $articleId)
+    {
+        return $this->findBy(array('article' => $articleId), ['createDate' => 'DESC']);
+    }
 //    /**
 //     * @return Comment[] Returns an array of Comment objects
 //     */

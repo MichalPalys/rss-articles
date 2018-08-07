@@ -1,7 +1,13 @@
 {{ form_start(commentForm) }}
     {{ form_row(commentForm.content) }}
 {{ form_end(commentForm) }}
+{% for comment in commentsList %}
 <ol class="">
-
+<li>
+    <p>Treść komentarza: {{ comment.content }}</p>
+    <p>Dodana przez: {{ comment.maker.username }}</p>
+    <p>Dnia: {{ comment.createDate.date }}</p>
+</li>
 
 </ol>
+{% endfor %}

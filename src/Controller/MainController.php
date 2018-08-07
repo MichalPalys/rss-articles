@@ -57,6 +57,10 @@ class MainController extends BaseAdminController
 
         $commentForm = $this->createForm(CommentType::class, $comment);
 
+        $articleId = $singleArticle->getId();
+
+        $articleComments = $this->commentRepository->findAllByArticle($articleId);
+
         $commentForm->handleRequest($request);
         if ($commentForm->isSubmitted() && $commentForm->isValid()) {
 
@@ -73,10 +77,14 @@ class MainController extends BaseAdminController
                 'controller_name' => 'MainController',
                 'my_pager' => $allArticles,
             ]);
+
+//            return $this->redirectToRoute('main');
         }
 
         return $this->render('main/article.html.twig', [
-            'singleArticle' => $singleArticle, 'commentForm' => $commentForm->createView()
+            'singleArticle' => $singleArticle,
+            'commentForm' => $commentForm->createView(),
+            'commentsList' => $articleComments,
         ]);
     }
 }
