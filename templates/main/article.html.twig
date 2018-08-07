@@ -6,6 +6,18 @@
     <style>
 
     </style>
+    <div class="row justify-content-right align-items-right">
+    <div style="position: absolute; left: 90%;">
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+            <a href="{{ path('fos_user_security_logout') }}">
+                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+            </a>
+        {% else %}
+            <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+        {% endif %}
+    </div>
+    </div>
 
     <div class="example-wrapper">
         <h2 class="page-header">Szczegóły artykułu</h2>
@@ -44,5 +56,13 @@
             </tr>
             </tbody>
         </table>
+        <h3>Komentarze:</h3>
+        {% if app.user %}
+            {% include "main/comment.html.twig" %}
+        {% else %}
+            <p><a href="{{ path('fos_user_security_login') }}">Zaloguj się</a> aby dodawać komentarze.</p>
+        {% endif %}
+
     </div>
+
 {% endblock %}
