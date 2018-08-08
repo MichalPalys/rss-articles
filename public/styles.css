@@ -107,3 +107,31 @@ label.required:before {
     color: red;
     content: "* ";
 }
+
+/**
+ * stylizacja kontenera komentarzy i jego elementów
+ */
+.comment_contener {
+    margin: 20px 0;
+}
+
+.comment_wraper {
+    margin: 10px 0 50px 0;
+}
+
+.comment_content_wraper{
+    border-style: inset;
+}
+
+.comment_head {
+    border-style: outset;
+    background-color: #e8e8e8;
+}
+
+/**
+ * stylizacja kontenera formularza dodajacego komentarz
+ */
+.comment_form_contener {
+    padding: 5px;
+    background-color: dodgerblue;
+}

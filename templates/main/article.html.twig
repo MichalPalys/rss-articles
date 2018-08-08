@@ -56,11 +56,22 @@
             </tr>
             </tbody>
         </table>
-        <h3>Komentarze:</h3>
-        {% if app.user %}
+        {% if not app.user %}
+            <p><a href="{{ path('fos_user_security_login') }}">Zaloguj się</a> aby dodawać komentarze.</p>
             {% include "main/comment.html.twig" %}
         {% else %}
-            <p><a href="{{ path('fos_user_security_login') }}">Zaloguj się</a> aby dodawać komentarze.</p>
+            <div class="comment_form_contener">
+                {{ form_start(commentForm) }}
+                <div style="text-align: center; font-weight: bolder">
+                    {{ form_label(commentForm.content, 'Dodaj komentarz') }}
+                </div>
+                {{ form_errors(commentForm.content) }}
+                {{ form_widget(commentForm.content, { 'attr': {'style' : 'width:100%;', 'rows' : '5'} }) }}
+                {{ form_widget(commentForm.submit, { 'attr': {'style' : 'width:100%;', 'rows' : '5', 'class' : 'btn btn-block btn-lg btn-primary'} }) }}
+                {{ form_end(commentForm) }}
+            </div>
+            <br>
+            {% include "main/comment.html.twig" %}
         {% endif %}
 
     </div>

@@ -1,13 +1,13 @@
-{{ form_start(commentForm) }}
-    {{ form_row(commentForm.content) }}
-{{ form_end(commentForm) }}
+<h3>Komentarze:</h3>
+<div class="comment_contener">
 {% for comment in commentsList %}
-<ol class="">
-<li>
-    <p>Treść komentarza: {{ comment.content | raw }}</p>
-    <p>Dodana przez: {{ comment.maker.username }}</p>
-    <p>Dnia: {{ comment.createDate.date }}</p>
-</li>
-
-</ol>
+        <div class="comment_wraper">
+            <p class="comment_head">Dodana przez: <b>{{ comment.maker.username }}</b> Dnia: <i>{{ comment.createDate.date }}</i></p>
+            <div class="comment_content_wraper">
+                <p>Treść komentarza:</p>
+                {{ comment.content | raw }}
+            </div>
+            <hr>
+        </div>
 {% endfor %}
+</div>
