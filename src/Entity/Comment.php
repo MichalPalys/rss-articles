@@ -31,6 +31,7 @@ class Comment
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="article.title.not_blank")
      * @Assert\Length(max=200)
      */
     private $content;
