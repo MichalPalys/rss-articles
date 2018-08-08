@@ -9,6 +9,7 @@
         "easycorp/easy-log-handler": "^1.0.2",
         "easycorp/easyadmin-bundle": "^1.17",
         "excelwebzone/recaptcha-bundle": "^1.5",
+        "friendsofsymfony/ckeditor-bundle": "^1.1",
         "friendsofsymfony/user-bundle": "^2.1",
         "miniflux/picofeed": "@stable",
         "oneup/flysystem-bundle": "^3.0",
