@@ -59,7 +59,7 @@ easy_admin:
                 form_options: { validation_groups: ['admin'] }
                 fields:
                     - { property: 'Title', label: 'article.title'}
-                    - { property: 'Content', label: 'article.content'}
+                    - { property: 'Content', type: 'FOS\CKEditorBundle\Form\Type\CKEditorType', label: 'article.content'}
                     - { property: 'author', label: 'article.author' }
                     - { property: 'Pub_date', type: 'datetime', label: 'article.publication_date'}
                     - { property: 'Insert_date', type: 'datetime', label: 'article.insert_date'}
@@ -68,7 +68,7 @@ easy_admin:
                 form_options: { validation_groups: ['admin'] }
                 fields:
                     - { property: 'Title', label: 'article.title'}
-                    - { property: 'Content', label: 'article.content'}
+                    - { property: 'Content', type: 'FOS\CKEditorBundle\Form\Type\CKEditorType', label: 'article.content'}
                     - { property: 'author', label: 'article.author' }
                     - { property: 'Pub_date', type: 'datetime', label: 'article.publication_date'}
                     - { property: 'Insert_date', type: 'datetime', label: 'article.insert_date'}
