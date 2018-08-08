@@ -1,0 +1,4 @@
+fos_ck_editor:
+    configs:
+        my_config:
+            uiColor: "#76aae23d"
