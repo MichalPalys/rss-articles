@@ -4,7 +4,7 @@
 {% for comment in commentsList %}
 <ol class="">
 <li>
-    <p>Treść komentarza: {{ comment.content }}</p>
+    <p>Treść komentarza: {{ comment.content | raw }}</p>
     <p>Dodana przez: {{ comment.maker.username }}</p>
     <p>Dnia: {{ comment.createDate.date }}</p>
 </li>
