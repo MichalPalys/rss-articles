@@ -14,11 +14,13 @@ class Comment
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @var integer
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime")
+     * @var \DateTime
      */
     private $createDate;
 
@@ -26,6 +28,7 @@ class Comment
      * Many Comments has One User.
      * @ORM\ManyToOne(targetEntity="User", cascade={"persist"})
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
+     * var User
      */
     private $maker;
 
@@ -33,12 +36,14 @@ class Comment
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="article.title.not_blank")
      * @Assert\Length(max=200)
+     * @var string
      */
     private $content;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Article", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="article_id", referencedColumnName="id", onDelete="SET NULL")
+     * @var Article
      */
     private $article;
 
