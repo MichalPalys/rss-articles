@@ -11,40 +11,45 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Comment
 {
     /**
+     * @var integer
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @var integer
      */
     private $id;
 
     /**
-     * @ORM\Column(type="datetime")
      * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
      */
     private $createDate;
 
     /**
+     * @var User
+     *
      * Many Comments has One User.
      * @ORM\ManyToOne(targetEntity="User", cascade={"persist"})
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
-     * var User
      */
     private $maker;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="article.title.not_blank", groups={"user"})
-//     * @Assert\Length(max=200)
+     * @Assert\Length(max=200)
      * @Assert\Length(max=1, maxMessage="Dostałeś Bana", groups={"ban"})
-     * @var string
      */
     private $content;
 
     /**
+     * @var Article
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Article", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="article_id", referencedColumnName="id", onDelete="SET NULL")
-     * @var Article
      */
     private $article;
 
