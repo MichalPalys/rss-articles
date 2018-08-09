@@ -24,6 +24,13 @@ class CommentType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Comment::class,
+            'attr' => [
+                'novalidate' => 'novalidate',
+            ],
+            'validation_groups' => function($variable) {
+                $user = ['user'];
+                return $user;
+            },
         ]);
     }
 }

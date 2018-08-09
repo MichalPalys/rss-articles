@@ -34,8 +34,9 @@ class Comment
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="article.title.not_blank")
-     * @Assert\Length(max=200)
+     * @Assert\NotBlank(message="article.title.not_blank", groups={"user"})
+//     * @Assert\Length(max=200)
+     * @Assert\Length(max=1, maxMessage="Dostałeś Bana", groups={"ban"})
      * @var string
      */
     private $content;
