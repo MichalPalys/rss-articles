@@ -63,7 +63,7 @@
             <div class="comment_form_contener">
                 {{ form_start(commentForm) }}
                 <div style="text-align: center; font-weight: bolder">
-                    {{ form_label(commentForm.content, 'Dodaj komentarz') }}
+                    {{ form_label(commentForm.content, 'add_comment') }}
                 </div>
                 {{ form_errors(commentForm.content) }}
                 {{ form_widget(commentForm.content, { 'attr': {'style' : 'width:100%;', 'rows' : '5'} }) }}
