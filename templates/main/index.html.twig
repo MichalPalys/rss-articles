@@ -15,7 +15,7 @@
 
                 {% for label, messages in app.flashes %}
                     {% for message in messages %}
-                        <div class="flash-{{ label }} alert-success">
+                        <div class="flash-{{ label }} alert-{{ label }}">
                             {{ message }}
                         {% endfor %}
                     </div>
