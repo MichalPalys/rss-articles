@@ -27,10 +27,7 @@ class CommentType extends AbstractType
             'attr' => [
                 'novalidate' => 'novalidate',
             ],
-            'validation_groups' => function($variable) {
-                $user = ['user'];
-                return $user;
-            },
+            'validation_groups' => 'user',
         ]);
     }
 }
