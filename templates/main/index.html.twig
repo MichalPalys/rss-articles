@@ -13,8 +13,8 @@
             {{ pagerfanta(my_pager, 'twitter_bootstrap4', { 'omitFirstPage': true}) }}
             {% for item in my_pager.currentPageResults %}
 
-                {% for message in app.flashes('notice') %}
-                    <div class="flash-notice">
+                {% for message in app.flashes('add_comment_success') %}
+                    <div class="alert-success flash-notice">
                         {{ message }}
                     </div>
                 {% endfor %}

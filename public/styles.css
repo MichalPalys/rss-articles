@@ -139,6 +139,4 @@ label.required:before {
 .flash-notice {
     text-align: center;
     padding: 20px 0;
-    color: green;
-    font-size: xx-large;
 }
