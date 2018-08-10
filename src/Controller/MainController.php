@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use App\Repository\CommentRepository;
+use Symfony\Component\Translation\TranslatorInterface;
 use App\Entity\User;
 use FOS\UserBundle\Model\User as BaseUser;
 
@@ -20,10 +21,13 @@ class MainController extends BaseAdminController
 
     private $commentRepository;
 
-    public function __construct(ArticleModel $articleModel, CommentRepository $commentRepository)
+    private $translator;
+
+    public function __construct(ArticleModel $articleModel, CommentRepository $commentRepository, TranslatorInterface $translator)
     {
         $this->articleModel = $articleModel;
         $this->commentRepository = $commentRepository;
+        $this->translator = $translator;
     }
 
     /**
@@ -72,7 +76,7 @@ class MainController extends BaseAdminController
 
             $this->addFlash(
                 'notice',
-                'Your changes were saved!'
+                $this->translator->trans('saved_changes_message')
             );
 
             return $this->redirectToRoute('main');
