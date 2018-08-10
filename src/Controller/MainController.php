@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -69,16 +70,7 @@ class MainController extends BaseAdminController
             $this->commentRepository->persist($comment);
             $this->commentRepository->flush();
 
-            $page = $request->query->get('page', 1);
-
-            $allArticles = $this->articleModel->displayAllArticles($page, 10);
-
-            return $this->render('main/index.html.twig', [
-                'controller_name' => 'MainController',
-                'my_pager' => $allArticles,
-            ]);
-
-//            return $this->redirectToRoute('main');
+            return $this->redirectToRoute('main');
         }
 
         return $this->render('main/article.html.twig', [

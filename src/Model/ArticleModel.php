@@ -18,11 +18,11 @@ class ArticleModel
 
 
     /**
-     * @param int $page
+     * @param string|int $page
      * @param int $maxPerPage
      * @return Pagerfanta
      */
-    public function displayAllArticles(int $page, int $maxPerPage): Pagerfanta
+    public function displayAllArticles( $page, int $maxPerPage): Pagerfanta
     {
         $qb = $this->articleRepository->findAllQueryBuilder();
         $adapter = new DoctrineORMAdapter($qb);
