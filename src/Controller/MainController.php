@@ -70,6 +70,11 @@ class MainController extends BaseAdminController
             $this->commentRepository->persist($comment);
             $this->commentRepository->flush();
 
+            $this->addFlash(
+                'notice',
+                'Your changes were saved!'
+            );
+
             return $this->redirectToRoute('main');
         }
 

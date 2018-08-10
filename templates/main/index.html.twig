@@ -12,6 +12,13 @@
         <div class="pagerfanta">
             {{ pagerfanta(my_pager, 'twitter_bootstrap4', { 'omitFirstPage': true}) }}
             {% for item in my_pager.currentPageResults %}
+
+                {% for message in app.flashes('notice') %}
+                    <div class="flash-notice">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
                 <ul class="style-ul">
                     <li><a href="{{ path('displayOneArticle', {'slug': item.slug, 'id': item.id}) }}">{{ item.title }}</a></li>
                     <li>

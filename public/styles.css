@@ -135,3 +135,10 @@ label.required:before {
     padding: 5px;
     background-color: dodgerblue;
 }
+
+.flash-notice {
+    text-align: center;
+    padding: 20px 0;
+    color: green;
+    font-size: xx-large;
+}
