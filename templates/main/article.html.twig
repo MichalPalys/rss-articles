@@ -20,7 +20,7 @@
     </div>
 
     <div class="example-wrapper">
-        <h2 class="page-header">Szczegóły artykułu</h2>
+        <h2 class="page-header">{{ 'article_detail'|trans() }}</h2>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -28,19 +28,19 @@
             </thead>
             <tbody>
             <tr>
-                <th scope="col">Tytuł</th>
+                <th scope="col">{{ 'title'|trans() }}</th>
                 <td scope="row">{{ singleArticle.title }}</td>
             </tr>
             <tr>
-                <th scope="col">Opis</th>
+                <th scope="col">{{ 'description'|trans() }}</th>
                 <td scope="row">{{ singleArticle.content | striptags | raw }}</td>
             </tr>
             <tr>
-                <th scope="col">Data dodania</th>
+                <th scope="col">{{ 'add_date'|trans() }}</th>
                 <td scope="row">{{ singleArticle.pubDate|date("l jS \of F Y G:i:s") }}</td>
             </tr>
             <tr>
-                <th scope="col">zdjęcie</th>
+                <th scope="col">{{ 'photo'|trans() }}</th>
                 <td scope="row">
                     {% if singleArticle.photo.path is defined %}
                         <img class="article-image-list" src="{{ asset(singleArticle.photo.path, 'photos') | default('no_image.png')}}"/>
@@ -51,13 +51,13 @@
             </tr>
             <tr>
                 <td>
-                    <button class="btn btn-success btn-block" onclick="history.back()">Powrót</button>
+                    <button class="btn btn-success btn-block" onclick="history.back()">{{ 'back'|trans() }}</button>
                 </td>
             </tr>
             </tbody>
         </table>
         {% if not app.user %}
-            <p><a href="{{ path('fos_user_security_login') }}">Zaloguj się</a> aby dodawać komentarze.</p>
+            <p><a href="{{ path('fos_user_security_login') }}">{{ 'log_in'|trans() }}</a> {{ 'to_add_comments'|trans() }}</p>
             {% include "main/comment.html.twig" %}
         {% else %}
             <div class="comment_form_contener">

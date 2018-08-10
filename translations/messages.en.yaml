@@ -1,3 +1,14 @@
+add_date: Add date
+added_by: Added by:
+on: on
+back: Back
+comments: Comments:
+comment_content: The content of the comment:
+description: Description
+title: Title
+log_in: Log in
+to_add_comments: to add comments.
+photo: Photo
 article.external_id: External identifier
 article.title: Title
 article.content: Content
@@ -7,3 +18,4 @@ article.photo: Photo
 label.submit: Save changes
 article.author: Author
 add_comment: Add comment
+article_detail: Article detail
