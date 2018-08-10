@@ -35,7 +35,7 @@ class MainController extends BaseAdminController
      */
     public function displayAllArticle(Request $request)
     {
-        $page = $request->query->get('page', 1);
+        $page = $request->query->get('page', '1');
 
         $allArticles = $this->articleModel->displayAllArticles($page, 10);
 
