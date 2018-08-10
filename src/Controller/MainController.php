@@ -75,7 +75,7 @@ class MainController extends BaseAdminController
             $this->commentRepository->flush();
 
             $this->addFlash(
-                'add_comment_success',
+                'success',
                 $this->translator->trans('saved_changes_message')
             );
 

@@ -136,7 +136,7 @@ label.required:before {
     background-color: dodgerblue;
 }
 
-.flash-notice {
+.flash-success {
     text-align: center;
     padding: 20px 0;
 }
