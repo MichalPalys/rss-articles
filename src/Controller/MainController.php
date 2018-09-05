@@ -6,14 +6,11 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Model\ArticleModel;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use App\Repository\CommentRepository;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
-use App\Repository\CommentRepository;
 use Symfony\Component\Translation\TranslatorInterface;
-use App\Entity\User;
-use FOS\UserBundle\Model\User as BaseUser;
 
 class MainController extends BaseAdminController
 {
@@ -68,7 +65,6 @@ class MainController extends BaseAdminController
 
         $commentForm->handleRequest($request);
         if ($commentForm->isSubmitted() && $commentForm->isValid()) {
-
             $comment->setCreateDate(date_create('now'));
 
             $this->commentRepository->persist($comment);

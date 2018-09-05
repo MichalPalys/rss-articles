@@ -3,10 +3,9 @@
 namespace App\Service;
 
 use App\Entity\Article;
-use App\Repository\UserRepository;
-use App\Entity\User;
-//use FOS\UserBundle\Model\User as BaseUser;
 use App\Repository\ArticleRepository;
+//use FOS\UserBundle\Model\User as BaseUser;
+use App\Repository\UserRepository;
 use Cocur\Slugify\Slugify;
 use League\Flysystem\Filesystem;
 use PicoFeed\Parser\Item;
