@@ -13,7 +13,6 @@ easy_admin:
                     - { property: 'article' }
                     - { property: 'create_date', type: 'datetime' }
                     - { property: 'maker'}
-                    - { property: 'content' }
             form:
                 fields:
                     - { property: 'create_date', type: 'datetime' }
