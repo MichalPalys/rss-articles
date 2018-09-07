@@ -48,7 +48,7 @@ class Comment
     /**
      * @var Article
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Article", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Article", cascade={"persist"})
      * @ORM\JoinColumn(name="article_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $article;
