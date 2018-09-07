@@ -39,7 +39,7 @@ class Comment
      * @var string
      *
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="article.title.not_blank", groups={"user"})
+     * @Assert\NotBlank(message="comment.content.not_blank", groups={"user"})
      * @Assert\Length(max=200)
      * @Assert\Length(max=1, maxMessage="Dostałeś Bana", groups={"ban"})
      */
