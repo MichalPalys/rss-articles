@@ -2,7 +2,7 @@
 <div class="comment_contener">
 {% for comment in commentsList %}
         <div class="comment_wraper">
-            <p class="comment_head">{{ 'added_by'|trans() }} <b>{{ comment.maker.username }}</b> {{ 'on'|trans() }} <i>{{ comment.createDate.date }}</i></p>
+            <p class="comment_head">{{ 'added_by'|trans() }} <b>{{ comment.maker.username }}</b> {{ 'on'|trans() }} <i>{{ comment.createDate.date |date("l jS \\of F Y G:i:s") }}</i></p>
             <div class="comment_content_wraper">
                 <p>{{ 'comment_content'|trans() }}</p>
                 {{ comment.content | raw }}
