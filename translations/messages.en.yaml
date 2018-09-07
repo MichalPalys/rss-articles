@@ -19,4 +19,4 @@ label.submit: Save changes
 article.author: Author
 add_comment: Add comment
 article_detail: Article detail
-saved_changes_message: Your changes were saved!
+saved_changes_message: A comment was added successfully!
