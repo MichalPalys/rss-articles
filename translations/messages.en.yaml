@@ -20,3 +20,4 @@ article.author: Author
 add_comment: Add comment
 article_detail: Article detail
 saved_changes_message: A comment was added successfully!
+no_comment_under_article: This article has no comments yet, be the first!

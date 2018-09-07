@@ -57,8 +57,12 @@
             </tbody>
         </table>
         {% if not app.user %}
+            {% if not commentsList %}
+                <p style="text-align: center;">{{ 'no_comment_under_article' | trans() }}</p>
+            {% else %}
+                {% include "main/comment.html.twig" %}
+            {% endif %}
             <p><a href="{{ path('fos_user_security_login') }}">{{ 'log_in'|trans() }}</a> {{ 'to_add_comments'|trans() }}</p>
-            {% include "main/comment.html.twig" %}
         {% else %}
             <div class="comment_form_contener">
                 {{ form_start(commentForm) }}
@@ -71,7 +75,11 @@
                 {{ form_end(commentForm) }}
             </div>
             <br>
-            {% include "main/comment.html.twig" %}
+            {% if not commentsList %}
+                <p style="text-align: center;">{{ 'no_comment_under_article' | trans() }}</p>
+            {% else %}
+                {% include "main/comment.html.twig" %}
+            {% endif %}
         {% endif %}
 
     </div>
